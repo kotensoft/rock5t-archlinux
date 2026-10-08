@@ -93,8 +93,9 @@ CLI/KDE package installation and root-policy audits have completed; the actual
 200/748 package lists and 28/34 passed policy checks are in `evidence/`.
 The CLI disk has passed packaging/verification and its actual firstboot snapshot
 test (27/27 checks). Both variants passed root/board-initramfs/eMMC software gates.
-KDE disk packaging/compression verification is in progress; final compressed-image
-hashes are delivered separately from this frozen source snapshot.
+Both CLI and KDE disk packaging/compression verification completed. Final hashes
+are in `evidence/releases/2026.10.08-landlock1/SHA256SUMS`; the full reports are
+under the same directory. This evidence addendum does not change production code.
 The current scripts preserve the actual staged workflow, but this snapshot is
 not yet a tested one-command full-image rebuild from a fresh machine. A rootfs
 URL containing `latest` and unlocked rolling package resolution are not immutable

@@ -70,3 +70,8 @@ venv/
 /next-version/firstboot-vm-test/runtime/
 /next-version/firstboot-vm-test/*.png
 /next-version/firstboot-vm-test/*.sock
+
+# KDE snapshot runtime is private test state, never repository content.
+/next-version/firstboot-vm-test/kde-smoke/run-*/
+/next-version/firstboot-vm-test/kde-smoke/*.png
+/next-version/firstboot-vm-test/kde-smoke/*.sock

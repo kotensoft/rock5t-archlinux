@@ -1,0 +1,176 @@
+{
+  "result": {
+    "status": "passed",
+    "checks": [
+      "GPT primary and backup CRC/geometry/UUIDs",
+      "protective MBR",
+      "bootloader byte-for-byte SHA256 at 32 KiB",
+      "root partition byte-for-byte SHA256",
+      "read-only forced e2fsck",
+      "FAT32 byte-for-byte SHA256 and read-only fsck.fat",
+      "exact FAT file inventory and hashes",
+      "extlinux PARTUUID and referenced files",
+      "embedded ROCK5T DTB identity"
+    ],
+    "hardware_tested": false
+  },
+  "tool_results": [
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/fdtget -t s $BUILD_ROOT/boot-next-kde/rock5t/6.18.44-current-rockchip64-landlock1/board.dtb / model",
+      "returncode": 0,
+      "stdout": "Radxa ROCK 5T\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/fdtget -t s $BUILD_ROOT/boot-next-kde/rock5t/6.18.44-current-rockchip64-landlock1/board.dtb / compatible",
+      "returncode": 0,
+      "stdout": "radxa,rock-5t rockchip,rk3588\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/e2fsck -f -n $BUILD_ROOT/vm/kde-final.ext4",
+      "returncode": 0,
+      "stdout": "Pass 1: Checking inodes, blocks, and sizes\nInode 29403 extent tree (at level 1) could be shorter.  Optimize? no\n\nPass 2: Checking directory structure\nPass 3: Checking directory connectivity\nPass 4: Checking reference counts\nPass 5: Checking group summary information\nROCK5T_KDE: 213558/524288 files (0.1% non-contiguous), 1568769/2097152 blocks\n",
+      "stderr": "e2fsck 1.47.2 (1-Jan-2025)\n"
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/mkfs.fat --invariant -F 32 -S 512 -g 64/32 -h 32768 -n BOOT -i 69e5bed0 $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat",
+      "returncode": 0,
+      "stdout": "mkfs.fat 4.2 (2021-01-31)\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/mcopy -s -p -m -i $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat $BUILD_ROOT/boot-next-kde/extlinux ::/",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/mcopy -s -p -m -i $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat $BUILD_ROOT/boot-next-kde/rock5t ::/",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/fsck.fat -n -v $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat",
+      "returncode": 0,
+      "stdout": "fsck.fat 4.2 (2021-01-31)\nChecking we can access the last sector of the filesystem\nBoot sector contents:\nSystem ID \"mkfs.fat\"\nMedia byte 0xf8 (hard disk)\n       512 bytes per logical sector\n      4096 bytes per cluster\n        32 reserved sectors\nFirst FAT starts at byte 16384 (sector 32)\n         2 FATs, 32 bit entries\n   1048576 bytes per FAT (= 2048 sectors)\nRoot directory start at cluster 2 (arbitrary size)\nData area starts at byte 2113536 (sector 4128)\n    261628 data clusters (1071628288 bytes)\n32 sectors/track, 64 heads\n     32768 hidden sectors\n   2097152 sectors total\nChecking for unused clusters.\nChecking free cluster summary.\n$BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat: 9 files, 14786/261628 clusters\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/sgdisk --clear --set-alignment=1 --disk-guid=6afdb550-90ee-53de-9360-e40124b15206 --new=1:32768:2129919 --typecode=1:ef00 --change-name=1:BOOT --partition-guid=1:69e5bed0-45c4-5b00-864f-53a09bc214c0 --new=2:2129920:18907135 --typecode=2:8300 --change-name=2:ROOT --partition-guid=2:443d9a15-1853-53ce-a0f8-9ff9723aacdb $BUILD_ROOT/output/2026.10.08-landlock1/archlinux-rock5t-kde-2026.10.08-landlock1.img.partial",
+      "returncode": 0,
+      "stdout": "Creating new GPT entries in memory.\nWarning: The kernel is still using the old partition table.\nThe new table will be used at the next reboot or after you\nrun partprobe(8) or kpartx(8)\nThe operation has completed successfully.\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/sgdisk --verify $BUILD_ROOT/output/2026.10.08-landlock1/archlinux-rock5t-kde-2026.10.08-landlock1.img.partial",
+      "returncode": 0,
+      "stdout": "\nNo problems found. 34749 free sectors (17.0 MiB) available in 2\nsegments, the largest of which is 32734 (16.0 MiB) in size.\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/e2fsck -f -n $BUILD_ROOT/vm/kde-final.ext4",
+      "returncode": 0,
+      "stdout": "Pass 1: Checking inodes, blocks, and sizes\nInode 29403 extent tree (at level 1) could be shorter.  Optimize? no\n\nPass 2: Checking directory structure\nPass 3: Checking directory connectivity\nPass 4: Checking reference counts\nPass 5: Checking group summary information\nROCK5T_KDE: 213558/524288 files (0.1% non-contiguous), 1568769/2097152 blocks\n",
+      "stderr": "e2fsck 1.47.2 (1-Jan-2025)\n"
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/fsck.fat -n -v $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat",
+      "returncode": 0,
+      "stdout": "fsck.fat 4.2 (2021-01-31)\nChecking we can access the last sector of the filesystem\nBoot sector contents:\nSystem ID \"mkfs.fat\"\nMedia byte 0xf8 (hard disk)\n       512 bytes per logical sector\n      4096 bytes per cluster\n        32 reserved sectors\nFirst FAT starts at byte 16384 (sector 32)\n         2 FATs, 32 bit entries\n   1048576 bytes per FAT (= 2048 sectors)\nRoot directory start at cluster 2 (arbitrary size)\nData area starts at byte 2113536 (sector 4128)\n    261628 data clusters (1071628288 bytes)\n32 sectors/track, 64 heads\n     32768 hidden sectors\n   2097152 sectors total\nChecking for unused clusters.\nChecking free cluster summary.\n$BUILD_ROOT/output/2026.10.08-landlock1/rock5t-package-e5pzym8p/boot.fat: 9 files, 14786/261628 clusters\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/mdir -i $BUILD_ROOT/output/2026.10.08-landlock1/archlinux-rock5t-kde-2026.10.08-landlock1.img.partial@@16777216 -/ -b ::/",
+      "returncode": 0,
+      "stdout": "::/extlinux/\n::/rock5t/\n::/extlinux/extlinux.conf\n::/rock5t/6.18.44-current-rockchip64-landlock1/\n::/rock5t/6.18.44-current-rockchip64-landlock1/Image\n::/rock5t/6.18.44-current-rockchip64-landlock1/generation.json\n::/rock5t/6.18.44-current-rockchip64-landlock1/board.dtb\n::/rock5t/6.18.44-current-rockchip64-landlock1/initramfs.img\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/fdtget -t s $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-verify-gkawk5mr/rock5t.dtb / model",
+      "returncode": 0,
+      "stdout": "Radxa ROCK 5T\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/fdtget -t s $BUILD_ROOT/output/2026.10.08-landlock1/rock5t-verify-gkawk5mr/rock5t.dtb / compatible",
+      "returncode": 0,
+      "stdout": "radxa,rock-5t rockchip,rk3588\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/xz --test $BUILD_ROOT/output/2026.10.08-landlock1/archlinux-rock5t-kde-2026.10.08-landlock1.img.xz.partial",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "release_preflight": {
+    "schema": 1,
+    "status": "passed",
+    "version": "2026.10.08-landlock1",
+    "variant": "kde",
+    "kernel_release": "6.18.44-current-rockchip64-landlock1",
+    "original_uboot_sha256": "bde61feff0227b7616f57cce507ee7764290274b41c09499e988f2ff1753e337",
+    "board_initramfs": {
+      "sha256": "a3e3e8b8efd2440421be4053fb8fc2436b5e297b8f27c1f661c3367ae92fc521",
+      "files": 717,
+      "matching_payload_modules": 285,
+      "required_pcie_phy": "kernel/drivers/phy/rockchip/phy-rockchip-snps-pcie3.ko",
+      "mkinitcpio_hooks": [
+        "base",
+        "udev",
+        "modconf",
+        "block",
+        "filesystems",
+        "fsck"
+      ],
+      "hardware_boot_tested": false
+    },
+    "payload_kernel_sha256": "b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7",
+    "payload_dtb_sha256": "faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af",
+    "partition_ids": {
+      "schema": 1,
+      "seed": "archlinux-rock5t-kde-2026.10.08-landlock1",
+      "disk_uuid": "6afdb550-90ee-53de-9360-e40124b15206",
+      "boot_uuid": "69e5bed0-45c4-5b00-864f-53a09bc214c0",
+      "root_uuid": "443d9a15-1853-53ce-a0f8-9ff9723aacdb"
+    },
+    "hardware_tested": false,
+    "output": "$BUILD_ROOT/output/2026.10.08-landlock1/archlinux-rock5t-kde-2026.10.08-landlock1.img"
+  },
+  "preflight_tool_results": [
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/fdtget -t s $BUILD_ROOT/boot-next-kde/rock5t/6.18.44-current-rockchip64-landlock1/board.dtb / model",
+      "returncode": 0,
+      "stdout": "Radxa ROCK 5T\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/bin/fdtget -t s $BUILD_ROOT/boot-next-kde/rock5t/6.18.44-current-rockchip64-landlock1/board.dtb / compatible",
+      "returncode": 0,
+      "stdout": "radxa,rock-5t rockchip,rk3588\n",
+      "stderr": ""
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/debugfs -R 'cat /etc/fstab' $BUILD_ROOT/vm/kde-final.ext4",
+      "returncode": 0,
+      "stdout": "PARTUUID=443d9a15-1853-53ce-a0f8-9ff9723aacdb / ext4 defaults,noatime 0 1\nPARTUUID=69e5bed0-45c4-5b00-864f-53a09bc214c0 /boot vfat defaults,umask=0077 0 2\n",
+      "stderr": "debugfs 1.47.2 (1-Jan-2025)\n"
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/debugfs -R 'cat /etc/rock5t/kernel.json' $BUILD_ROOT/vm/kde-final.ext4",
+      "returncode": 0,
+      "stdout": "{\"cmdline\": \"root=PARTUUID=443d9a15-1853-53ce-a0f8-9ff9723aacdb rootfstype=ext4 rw rootwait console=ttyS2,1500000n8 console=tty1 rt_group_sched=0\"}\n",
+      "stderr": "debugfs 1.47.2 (1-Jan-2025)\n"
+    },
+    {
+      "command": "$BUILD_ROOT/host-tools/root/usr/sbin/debugfs -R 'cat /etc/rock5t/variant' $BUILD_ROOT/vm/kde-final.ext4",
+      "returncode": 0,
+      "stdout": "kde\n",
+      "stderr": "debugfs 1.47.2 (1-Jan-2025)\n"
+    }
+  ],
+  "compressed_roundtrip_sha256": "passed"
+}

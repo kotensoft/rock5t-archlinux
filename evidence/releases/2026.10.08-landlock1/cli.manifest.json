@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "board": "radxa,rock-5t",
+  "disk_bytes": 5386534912,
+  "sector_bytes": 512,
+  "partition_ids": {
+    "schema": 1,
+    "seed": "archlinux-rock5t-cli-2026.10.08-landlock1",
+    "disk_uuid": "b36de021-af28-5811-b7d2-9f8909ce27ed",
+    "boot_uuid": "c95edd32-4d1f-559e-b9d4-04fe825d1deb",
+    "root_uuid": "5ec56659-7fe4-57a5-ac85-6f3706acc9b2"
+  },
+  "root": {
+    "bytes": 4294967296,
+    "block_size": 4096,
+    "filesystem_uuid": "5ec56659-7fe4-57a5-ac85-6f3706acc9b2",
+    "sha256": "02a47f624134ec328332b102817576ec9e215e9dd29cdba8a9ebe0586326a48e"
+  },
+  "bootloader": {
+    "offset": 32768,
+    "bytes": 10082304,
+    "sha256": "bde61feff0227b7616f57cce507ee7764290274b41c09499e988f2ff1753e337"
+  },
+  "boot": {
+    "offset": 16777216,
+    "bytes": 1073741824,
+    "sha256": "e8514338852a7f2e3a05e1748396eae5d7f76ec4bad2860ca8e5fad86180b347",
+    "files": {
+      "extlinux/extlinux.conf": {
+        "bytes": 547,
+        "sha256": "2f1dd7bad50a8fd0027ce81161571088775958f55ce0b2f099b047649150339b"
+      },
+      "rock5t/6.18.44-current-rockchip64-landlock1/Image": {
+        "bytes": 35985920,
+        "sha256": "b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7"
+      },
+      "rock5t/6.18.44-current-rockchip64-landlock1/board.dtb": {
+        "bytes": 191019,
+        "sha256": "faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af"
+      },
+      "rock5t/6.18.44-current-rockchip64-landlock1/generation.json": {
+        "bytes": 508,
+        "sha256": "15ff01b0b4a5c84689712c8ec8a28cca84f59984ce6e6b32f625ba851ab329da"
+      },
+      "rock5t/6.18.44-current-rockchip64-landlock1/initramfs.img": {
+        "bytes": 24121325,
+        "sha256": "95f057dcf7a1438e1e163523c8b7db1f94066d2ecd5fece66993f5cd151e03f4"
+      }
+    }
+  },
+  "validation": {
+    "status": "passed",
+    "checks": [
+      "GPT primary and backup CRC/geometry/UUIDs",
+      "protective MBR",
+      "bootloader byte-for-byte SHA256 at 32 KiB",
+      "root partition byte-for-byte SHA256",
+      "read-only forced e2fsck",
+      "FAT32 byte-for-byte SHA256 and read-only fsck.fat",
+      "exact FAT file inventory and hashes",
+      "extlinux PARTUUID and referenced files",
+      "embedded ROCK5T DTB identity"
+    ],
+    "hardware_tested": false
+  },
+  "image_sha256": "944b3135294b6729c21b5eeac181190ba026a7c3db4f31a9e07e6ebd6bc87837",
+  "compressed_sha256": "f738a7e532bbaaa6e31c3ac42affea5c1628b2376ffbb25d32101da1facf736f",
+  "compressed_bytes": 491991592,
+  "release_preflight": {
+    "schema": 1,
+    "status": "passed",
+    "version": "2026.10.08-landlock1",
+    "variant": "cli",
+    "kernel_release": "6.18.44-current-rockchip64-landlock1",
+    "original_uboot_sha256": "bde61feff0227b7616f57cce507ee7764290274b41c09499e988f2ff1753e337",
+    "board_initramfs": {
+      "sha256": "95f057dcf7a1438e1e163523c8b7db1f94066d2ecd5fece66993f5cd151e03f4",
+      "files": 702,
+      "matching_payload_modules": 285,
+      "required_pcie_phy": "kernel/drivers/phy/rockchip/phy-rockchip-snps-pcie3.ko",
+      "mkinitcpio_hooks": [
+        "base",
+        "udev",
+        "modconf",
+        "block",
+        "filesystems",
+        "fsck"
+      ],
+      "hardware_boot_tested": false
+    },
+    "payload_kernel_sha256": "b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7",
+    "payload_dtb_sha256": "faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af",
+    "partition_ids": {
+      "schema": 1,
+      "seed": "archlinux-rock5t-cli-2026.10.08-landlock1",
+      "disk_uuid": "b36de021-af28-5811-b7d2-9f8909ce27ed",
+      "boot_uuid": "c95edd32-4d1f-559e-b9d4-04fe825d1deb",
+      "root_uuid": "5ec56659-7fe4-57a5-ac85-6f3706acc9b2"
+    },
+    "hardware_tested": false,
+    "output": "$BUILD_ROOT/output/2026.10.08-landlock1/archlinux-rock5t-cli-2026.10.08-landlock1.img"
+  },
+  "compressed_decompressed_sha256_verified": true
+}

@@ -60,7 +60,7 @@ def main():
             if re.search(pattern, text):
                 issues.append(str(rel) + ': ' + label)
         # Only the explicitly documented test fixtures may contain synthetic home paths.
-        if re.search(r'/home/[^\s"\']+', text) and not (str(rel).startswith('overlay-work/tests/') or str(rel) in ('tools/verify-release-tree.py', 'next-version/firstboot-vm-test/verify_guest.py')):
+        if re.search(r'/home/[^\s"\']+', text) and not (str(rel).startswith('overlay-work/tests/') or str(rel) in ('tools/verify-release-tree.py', 'next-version/firstboot-vm-test/verify_guest.py', 'next-version/firstboot-vm-test/kde-smoke/verify_guest.py')):
             issues.append(str(rel) + ': home-directory path requires review')
         for value in re.findall(r'(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?![\w.])', text):
             try:

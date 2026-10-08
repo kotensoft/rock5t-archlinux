@@ -90,4 +90,4 @@ sudo cmp -n "$BYTES" -- "$IMAGE" "$EMMC"
 
 ## 当前发行快照补充
 
-CLI/KDE 的 root-and-boot eMMC 软件 preflight 均已通过，脱敏结果见仓库 evidence/emmc-cli-audit.json 与 evidence/emmc-kde-audit.json。CLI 整盘检查与通用 ARM64 QEMU 首启已通过；KDE 整盘封装/压缩验证仍在进行。以上仍不构成 eMMC 实机启动、写入或电气时序验证。
+CLI/KDE 的 root-and-boot eMMC 软件 preflight 均已通过，脱敏结果见仓库 evidence/emmc-cli-audit.json 与 evidence/emmc-kde-audit.json。CLI 整盘检查与通用 ARM64 QEMU 首启已通过；KDE 整盘封装/压缩与解压回读哈希验证也已完成，合并结果见 evidence/emmc-final-image-validation.json。以上仍不构成 eMMC 实机启动、写入或电气时序验证。

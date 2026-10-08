@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "release": "2026.10.08-landlock1",
+  "variants": {
+    "cli": {
+      "compressed_filename": "archlinux-rock5t-cli-2026.10.08-landlock1.img.xz",
+      "compressed_bytes": 491991592,
+      "compressed_sha256": "f738a7e532bbaaa6e31c3ac42affea5c1628b2376ffbb25d32101da1facf736f",
+      "raw_bytes": 5386534912,
+      "raw_sha256": "944b3135294b6729c21b5eeac181190ba026a7c3db4f31a9e07e6ebd6bc87837",
+      "disk_validation": {
+        "status": "passed",
+        "checks": [
+          "GPT primary and backup CRC/geometry/UUIDs",
+          "protective MBR",
+          "bootloader byte-for-byte SHA256 at 32 KiB",
+          "root partition byte-for-byte SHA256",
+          "read-only forced e2fsck",
+          "FAT32 byte-for-byte SHA256 and read-only fsck.fat",
+          "exact FAT file inventory and hashes",
+          "extlinux PARTUUID and referenced files",
+          "embedded ROCK5T DTB identity"
+        ],
+        "hardware_tested": false
+      },
+      "board_preflight_status": "passed",
+      "compressed_decompressed_sha256_verified": true
+    },
+    "kde": {
+      "compressed_filename": "archlinux-rock5t-kde-2026.10.08-landlock1.img.xz",
+      "compressed_bytes": 1600978892,
+      "compressed_sha256": "cbd1eea9e1e4b77e93cf03ab6ae8c09113b1dd6ac418db15f1f843f16345ac6a",
+      "raw_bytes": 9681502208,
+      "raw_sha256": "fc05165c08764ef8000251d40dc99b2b7fd4cb8cbcdeb592314e2194bb34e195",
+      "disk_validation": {
+        "status": "passed",
+        "checks": [
+          "GPT primary and backup CRC/geometry/UUIDs",
+          "protective MBR",
+          "bootloader byte-for-byte SHA256 at 32 KiB",
+          "root partition byte-for-byte SHA256",
+          "read-only forced e2fsck",
+          "FAT32 byte-for-byte SHA256 and read-only fsck.fat",
+          "exact FAT file inventory and hashes",
+          "extlinux PARTUUID and referenced files",
+          "embedded ROCK5T DTB identity"
+        ],
+        "hardware_tested": false
+      },
+      "board_preflight_status": "passed",
+      "compressed_decompressed_sha256_verified": true
+    }
+  },
+  "package_counts": {
+    "cli": 200,
+    "kde": 748
+  },
+  "root_policy_checks_passed": {
+    "cli": 28,
+    "kde": 34
+  },
+  "cli_firstboot_snapshot": {
+    "checks_passed": 27,
+    "checks_total": 27,
+    "normal_shutdown": true,
+    "snapshot_destroyed": true,
+    "source_image_sha256_before_after": "944b3135294b6729c21b5eeac181190ba026a7c3db4f31a9e07e6ebd6bc87837"
+  },
+  "kde_minimal_snapshot": {
+    "status": "passed",
+    "checks_passed": 31,
+    "checks_total": 31,
+    "plm_login_screen_visible": true,
+    "plm_service_active_running": true,
+    "plm_restart_count": 0,
+    "failed_units_empty": true,
+    "normal_shutdown": true,
+    "snapshot_destroyed": true,
+    "source_image_sha256_before_after": "fc05165c08764ef8000251d40dc99b2b7fd4cb8cbcdeb592314e2194bb34e195",
+    "GUI_desktop_session_tested": false,
+    "detail_report": "kde-minimal-snapshot-summary.json"
+  },
+  "hardware_tested": false,
+  "real_emmc_flashed": false,
+  "KDE_graphical_session_tested": false,
+  "privacy": "Build-root paths recursively replaced with $BUILD_ROOT; no user identities, internal file IDs, runtime credentials or keys included.",
+  "release_evidence_status": "final local artifact and bounded VM checks complete; remote publication availability and source-material assessment are separate"
+}

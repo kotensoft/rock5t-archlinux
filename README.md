@@ -13,8 +13,9 @@ not an official Arch Linux, Arch Linux ARM, Armbian or Radxa image.
 - Root policy audits passed: CLI **28 checks**, KDE **34 checks**.
 - CLI image firstboot under an isolated ARM64 QEMU snapshot: **27/27 checks
   passed**, normal shutdown, destroyed snapshot and unchanged source disk SHA256.
-- CLI image packaging/verification completed. KDE root/board-initramfs/eMMC
-  software gates passed; its disk packaging/compression verification is in progress.
+- Both CLI and KDE completed disk packaging, compression round-trip verification
+  and root/board-initramfs/eMMC software gates. Final artifacts and hashes are
+  recorded in [the release summary](evidence/final-release-summary.json).
 - Final compressed-image hashes are separate release artifacts. No installation
   images, runtime state or upstream source archives are stored in Git.
 - New-version ROCK5T hardware validation: **not performed**. QEMU `virt` results
@@ -51,4 +52,11 @@ media. Flashing overwrites that media.
 Source snapshot: handoff 2, including the CPIO directory-root fix and recursive
 JSON path-redaction delivery fix. Subsequent compressed-image hash reports are
 separate artifacts; users do not need another source download solely for those hashes.
-KDE graphical-session and new-version ROCK5T hardware tests remain unperformed.
+KDE minimal snapshot passed 31/31: firstboot, visible PLM login screen, tty2
+login/password-required sudo and policy checks, with normal shutdown and unchanged
+source image. Full graphical-session and new-version ROCK5T hardware tests remain
+unperformed; emulator DRM/Vulkan warnings are documented.
+
+Final artifact documentation update: [release report](evidence/FINAL-RELEASE.md).
+The small addendum updates evidence and documentation; production source code stays
+at the reviewed handoff-2 snapshot.

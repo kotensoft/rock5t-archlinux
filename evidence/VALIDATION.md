@@ -18,8 +18,10 @@ image checksums are separate release artifacts.
 - The VM powered off normally (exit 0), the snapshot was destroyed and the source
   raw disk SHA256 before/after was identical:
   `944b3135294b6729c21b5eeac181190ba026a7c3db4f31a9e07e6ebd6bc87837`.
-- KDE disk packaging/compression verification is in progress at source freeze.
-  Its graphical session and new-version ROCK5T hardware operation remain untested.
+- Both variants completed disk packaging and compression round-trip verification.
+  Final manifests and recursive-path-sanitized validation reports are in
+  `releases/2026.10.08-landlock1/`. KDE minimal-snapshot results are recorded in
+  `FINAL-RELEASE.md`; no graphical-session or new-version hardware pass is implied.
 
 The sanitized firstboot result is `../next-version/firstboot-vm-test/result-summary.json`.
 Root, board and eMMC audit summaries and actual package lists are in this directory.
@@ -74,3 +76,11 @@ or actual root expansion has been validated. QEMU userspace success does not
 prove board bootloader/DTB/peripheral behavior. Source-material gaps and original
 recipe-provenance uncertainties are separately recorded in the userspace inventory;
 no legal conclusion is inferred merely from a recipe hash mismatch.
+
+## Final bounded KDE snapshot
+
+The minimal KDE snapshot passed 31/31 checks, PLM login-screen visibility, tty2
+login/password sudo, active/running PLM with zero restarts, preserved RT parameter,
+normal poweroff and destroyed snapshot. Source raw SHA256 stayed unchanged.
+See `kde-minimal-snapshot-summary.json`; emulator DRM/Vulkan warnings remain
+documented and no full graphical-session or real-hardware pass is claimed.

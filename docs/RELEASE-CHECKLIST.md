@@ -17,7 +17,8 @@ Do not turn a pending check into a pass without its specific evidence.
 - [x] Install intended CLI/KDE packages and pass 28/34 root-policy checks.
 - [x] Complete CLI disk packaging/verification and actual firstboot snapshot test (27/27).
 - [x] Pass CLI/KDE board-initramfs and eMMC root-and-boot software preflight.
-- [ ] Complete KDE disk packaging/compression verification and publish final image checksums.
+- [x] Complete KDE disk packaging/compression verification and record final image checksums.
+- [ ] Verify remote publication/download availability separately; local checks do not establish upload.
 - [ ] Record final `pacman -Q`, package source origins and signatures, input hashes,
       output hashes and image validation results. Retain package license files.
 - [ ] Verify no default usable accounts, keys, credentials, machine identity,
@@ -40,3 +41,6 @@ Do not turn a pending check into a pass without its specific evidence.
 A successful QEMU run, source publication or checksum does not mark the binary
 image checks complete. The source-fetch instructions are useful for reproduction;
 they are not a claim that an external download host will retain files forever.
+
+- [x] Complete bounded KDE snapshot (31/31), PLM login-screen visibility and safe teardown.
+- [ ] Full graphical-session and physical-hardware acceptance remain outside this test scope.

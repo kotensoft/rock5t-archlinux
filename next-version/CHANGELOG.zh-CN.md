@@ -1,6 +1,6 @@
 # ROCK5T 下一版改动清单（源码快照）
 
-状态：源码实现、内核编译和下述自动测试已完成；pacman 默认沙箱小包下载与签名验证已通过。CLI 200 包、KDE 748 包已实际安装；root 策略审计分别 28/34 项通过。CLI 整盘检查及真实首启 snapshot 27/27 项已通过，原始镜像 SHA256 前后保持一致，VM 正常关闭且 snapshot 已销毁；KDE root/boot/eMMC 软件门禁通过，整盘封装与压缩校验正在完成；Git 不包含安装镜像。新版尚未进行 ROCK5T 实机测试，不能算作实机通过。
+状态：源码实现、内核编译和下述自动测试已完成；pacman 默认沙箱小包下载与签名验证已通过。CLI 200 包、KDE 748 包已实际安装；root 策略审计分别 28/34 项通过。CLI 整盘检查及真实首启 snapshot 27/27 项已通过，原始镜像 SHA256 前后保持一致，VM 正常关闭且 snapshot 已销毁；KDE root/boot/eMMC 软件门禁通过，整盘封装、压缩及解压回读哈希校验也已完成，最终清单见 evidence/final-release-summary.json；Git 不包含安装镜像。新版尚未进行 ROCK5T 实机测试，不能算作实机通过。
 
 ## 1. 基础与内核
 
@@ -100,3 +100,7 @@ aurorae, bluedevil, breeze, breeze-gtk, discover, drkonqi, flatpak-kcm, kactivit
 ## 当前补充：AC 默认策略
 
 KDE 使用 `/etc/xdg/powerdevilrc` 的 `[AC][SuspendAndShutdown] AutoSuspendAction=0`，仅关闭接电状态的闲置自动挂起默认行为，用户可在设置中修改；不修改电池、手动睡眠、息屏或锁屏策略。7 项新增离线回归测试已通过。
+
+## 最终产物与 KDE 最小快照
+
+两版整盘及压缩/解压回读哈希验证完成，最终大小与 SHA256 见 evidence/final-release-summary.json。KDE 最小 snapshot 31/31 项通过，可见 PLM 登录框；tty2 本地登录及密码 sudo 通过，PLM active/running、零重启、无 failed unit，RT 参数保持不变，正常关机后 snapshot 销毁且原始镜像 SHA256 不变。此结果不包含图形桌面会话认证、GPU/codec 或实机验收；模拟器 DRM/Vulkan 警告已如实保留。

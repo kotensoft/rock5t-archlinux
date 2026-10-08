@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "scope": "Generic ARM64 QEMU KDE image firstboot, PLM login-screen visibility, tty2 login/password-required sudo and read-only policy checks; not a graphical desktop-session or physical-hardware test.",
+  "completed_utc": "2026-10-08T16:05:01Z",
+  "checks_passed": 31,
+  "checks_total": 31,
+  "checks": {
+    "administrator_in_wheel": true,
+    "administrator_nonroot": true,
+    "administrator_password_set": true,
+    "alarm_removed": true,
+    "approved_rt_cmdline_preserved": true,
+    "both_package_keyrings_present": true,
+    "expected_kernel": true,
+    "hostname_applied": true,
+    "hosts_applied": true,
+    "kde_variant": true,
+    "machine_id_generated": true,
+    "no_user_authorized_keys": true,
+    "package_secret_key_generated": true,
+    "pending_user_removed": true,
+    "plm_is_display_manager": true,
+    "plm_service_active": true,
+    "provisioned_marker": true,
+    "provisioned_user": true,
+    "root_locked": true,
+    "ssh_choices_off_off": true,
+    "ssh_host_keys_generated_private": true,
+    "ssh_policy_valid": true,
+    "ssh_root_alarm_denied": true,
+    "ssh_service_disabled": true,
+    "ssh_service_inactive": true,
+    "ssh_socket_inactive": true,
+    "sudoers_valid": true,
+    "temporary_network_gate_removed": true,
+    "tty1_firstboot_success": true,
+    "wheel_requires_sudo_password": true,
+    "root_partition_not_expanded": true
+  },
+  "image_filename": "archlinux-rock5t-kde-2026.10.08-landlock1.img",
+  "sha256_before": {
+    "image": "fc05165c08764ef8000251d40dc99b2b7fd4cb8cbcdeb592314e2194bb34e195",
+    "kernel": "b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7",
+    "initrd": "a3e3e8b8efd2440421be4053fb8fc2436b5e297b8f27c1f661c3367ae92fc521"
+  },
+  "image_sha256_after": "fc05165c08764ef8000251d40dc99b2b7fd4cb8cbcdeb592314e2194bb34e195",
+  "base_image_unchanged": true,
+  "snapshot_destroyed": true,
+  "qemu_returncode": 0,
+  "root_partition": {
+    "index": 2,
+    "first_lba": 2129920,
+    "last_lba": 18907135,
+    "sectors": 16777216
+  },
+  "plm_service_state": {
+    "ActiveState": "active",
+    "SubState": "running",
+    "Result": "success",
+    "NRestarts": "0",
+    "ExecMainStatus": "0"
+  },
+  "plm_login_screen_visually_confirmed": true,
+  "empty_failed_units": true,
+  "rt_group_sched_0_preserved": true,
+  "observed_emulator_warnings": [
+    "DRM device-node initialization warnings",
+    "Vulkan ErrorInitializationFailed",
+    "DRM atomic commit permission warning"
+  ],
+  "warning_context": "Recorded in the emulator test evidence collected after switching to tty2; no production change was made to hide them. These checks do not establish graphics performance or desktop-session correctness.",
+  "source_result_sha256": "f088684ea0cac69452edf0336eb60b4ea85174c09e2fabe2d1bd811e126466fd",
+  "privacy": "No raw command line, build paths, transient socket names, account identities, private keys, screenshots or runtime logs included.",
+  "untested": [
+    "GUI session authentication and full Plasma desktop",
+    "GPU performance and codecs",
+    "real Wi-Fi/Ethernet/remote SSH",
+    "physical ROCK5T/eMMC/SD/peripherals"
+  ]
+}
