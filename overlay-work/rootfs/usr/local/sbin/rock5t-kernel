@@ -1,0 +1,356 @@
+#!/usr/bin/python
+"""Immutable ROCK5T kernel generations with commit-last extlinux activation.
+
+Package-owned payload: /usr/lib/rock5t-kernel/RELEASE/{manifest.json,Image,dtbs,modules}
+Runtime generations are intentionally not pacman-owned, so a failed package
+transaction cannot delete the currently bootable generation or its modules.
+"""
+import argparse
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+VERSION = re.compile(r"[A-Za-z0-9][A-Za-z0-9._+\-]{0,127}\Z")
+STATE_PREFIX = "# rock5t-state "
+MODULE_SOURCE = ".rock5t-source-sha256"
+MODULE_FILES = ".rock5t-files.json"
+BOOT_FILES = {"Image", "board.dtb", "initramfs.img"}
+
+
+def check_release(value):
+    if not isinstance(value, str) or not VERSION.fullmatch(value) or ".." in value:
+        raise ValueError("invalid kernel release")
+    return value
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def inventory(directory, exclude=()):
+    if directory.is_symlink() or not directory.is_dir():
+        raise ValueError(f"not a real directory: {directory}")
+    result = {}
+    for p in sorted(directory.rglob("*")):
+        rel = p.relative_to(directory).as_posix()
+        if p.is_symlink():
+            raise ValueError(f"payload symlinks are not permitted: {rel}")
+        if p.is_file() and rel not in exclude:
+            result[rel] = sha256(p)
+        elif not p.is_file() and not p.is_dir():
+            raise ValueError(f"nonregular payload member: {rel}")
+    return result
+
+
+def digest(data):
+    return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def sync_dir(path):
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def sync_tree(directory):
+    for p in directory.rglob("*"):
+        if p.is_file():
+            with p.open("rb") as f:
+                os.fsync(f.fileno())
+    for p in sorted((p for p in directory.rglob("*") if p.is_dir()), reverse=True):
+        sync_dir(p)
+    sync_dir(directory)
+
+
+def durable_mkdir(path):
+    """Persist new directory links, including first-install parent directories."""
+    missing = []
+    parent = path
+    while not parent.exists():
+        missing.append(parent)
+        parent = parent.parent
+    for directory in reversed(missing):
+        directory.mkdir()
+        sync_dir(directory.parent)
+
+
+def atomic_write(path, text):
+    durable_mkdir(path.parent)
+    fd, name = tempfile.mkstemp(prefix="." + path.name + ".", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w") as f:
+            f.write(text)
+            f.flush()
+            os.fchmod(f.fileno(), 0o644)
+            os.fsync(f.fileno())
+        os.replace(name, path)
+        sync_dir(path.parent)
+    finally:
+        if os.path.exists(name):
+            os.unlink(name)
+
+
+def run_command(args):
+    subprocess.run(args, check=True)
+
+
+class KernelManager:
+    def __init__(self, root=Path("/"), runner=run_command, allow_unmounted=False):
+        self.root = Path(root).resolve()
+        self.runner = runner
+        self.allow_unmounted = allow_unmounted
+        self.boot = self.root / "boot"
+        self.generations = self.boot / "rock5t"
+        self.modules = self.root / "usr/lib/modules"
+        self.payloads = self.root / "usr/lib/rock5t-kernel"
+        self.extlinux = self.boot / "extlinux/extlinux.conf"
+        self.config = json.loads((self.root / "etc/rock5t/kernel.json").read_text())
+        if not isinstance(self.config, dict):
+            raise ValueError("kernel.json must contain an object")
+        cmdline = self.config.get("cmdline", "")
+        if not isinstance(cmdline, str) or not cmdline or any(c in cmdline for c in "\r\n\x00"):
+            raise ValueError("kernel.json must contain a single-line cmdline")
+        if not any(x.startswith("root=PARTUUID=") for x in cmdline.split()):
+            raise ValueError("kernel.json cmdline must use root=PARTUUID=...")
+
+    def boot_mounted(self):
+        if not self.allow_unmounted and not os.path.ismount(self.boot):
+            raise RuntimeError("/boot is not mounted; refusing kernel transaction")
+
+    def state(self):
+        if not self.extlinux.exists():
+            return {"current": None, "previous": None}
+        lines = [s for s in self.extlinux.read_text().splitlines() if s.startswith(STATE_PREFIX)]
+        if len(lines) != 1:
+            raise RuntimeError("existing extlinux.conf is not ROCK5T-managed; refusing to overwrite it")
+        data = json.loads(lines[0][len(STATE_PREFIX):])
+        if not isinstance(data, dict) or set(data) != {"current", "previous"} or not data["current"]:
+            raise ValueError("invalid extlinux state")
+        for value in data.values():
+            if value is not None:
+                check_release(value)
+        if data["current"] == data["previous"]:
+            raise ValueError("current and previous must be different releases")
+        return data
+
+    def verify_generation(self, release):
+        check_release(release)
+        base = self.generations / release
+        meta = json.loads((base / "generation.json").read_text())
+        if not isinstance(meta, dict) or meta.get("release") != release:
+            raise ValueError("generation release mismatch")
+        if any(not isinstance(meta.get(key), str) or not re.fullmatch(r"[0-9a-f]{64}", meta[key]) for key in ("source_sha256", "modules_sha256")):
+            raise ValueError("invalid generation digest metadata")
+        if not isinstance(meta.get("boot_files"), dict) or set(meta["boot_files"]) != BOOT_FILES:
+            raise ValueError("generation must retain Image, board.dtb and initramfs.img")
+        if inventory(base, ("generation.json",)) != meta.get("boot_files"):
+            raise ValueError(f"boot generation checksum mismatch: {release}")
+        if any((base / name).stat().st_size == 0 for name in BOOT_FILES):
+            raise ValueError("retained boot files must be nonempty")
+        if digest(inventory(self.modules / release)) != meta.get("modules_sha256"):
+            raise ValueError(f"retained module checksum mismatch: {release}")
+        return meta
+
+    def preflight(self):
+        self.boot_mounted()
+        state = self.state()
+        if self.extlinux.exists() and self.extlinux.read_text() != self.render(state["current"], state["previous"]):
+            raise RuntimeError("managed boot menu or kernel.json changed; reconcile configuration before updating")
+        for release in set(state.values()) - {None}:
+            self.verify_generation(release)
+        return state
+
+    def verify_payload(self, source):
+        release = check_release(source.name)
+        manifest = json.loads((source / "manifest.json").read_text())
+        if not isinstance(manifest, dict) or manifest.get("format") != 1 or manifest.get("release") != release:
+            raise ValueError("invalid payload manifest or release mismatch")
+        actual = inventory(source, ("manifest.json",))
+        if actual != manifest.get("files"):
+            raise ValueError("package payload checksum mismatch")
+        with (source / "Image").open("rb") as image:
+            magic = image.read(60)[56:60]
+        if magic != b"ARM\x64":
+            raise ValueError("Image is not an uncompressed ARM64 Linux image")
+        dtb = manifest.get("dtb", "")
+        if not isinstance(dtb, str) or dtb.startswith("/") or ".." in Path(dtb).parts or dtb != Path(dtb).as_posix():
+            raise ValueError("invalid DTB relative path")
+        if not dtb or (source / "dtbs" / dtb).read_bytes()[:4] != bytes.fromhex("d00dfeed"):
+            raise ValueError("invalid device tree")
+        if not (source / "modules/modules.dep").is_file():
+            raise ValueError("payload needs a depmod-generated modules/modules.dep")
+        if any(p.startswith("modules/.rock5t-") for p in actual):
+            raise ValueError("package payload uses reserved module bookkeeping names")
+        if not any(re.fullmatch(r".+\.ko(?:\.(?:xz|zst|gz))?", Path(p).name) for p in actual if p.startswith("modules/")):
+            raise ValueError("payload contains no loadable kernel modules")
+        return manifest, digest(actual)
+
+    def verify_prepared_modules(self, directory, source_digest):
+        """Validate retry state; a source marker alone is not integrity evidence."""
+        if (directory / MODULE_SOURCE).read_text().strip() != source_digest:
+            raise ValueError("existing modules do not match this unique kernel release")
+        record = json.loads((directory / MODULE_FILES).read_text())
+        actual = inventory(directory, (MODULE_SOURCE, MODULE_FILES))
+        if not isinstance(record, dict) or record.get("source_sha256") != source_digest or record.get("files") != actual:
+            raise ValueError("prepared module checksum mismatch; refusing to reuse interrupted generation")
+
+    def prepare_modules(self, release, source, manifest, source_digest, run_depmod):
+        destination = self.modules / release
+        if destination.exists():
+            self.verify_prepared_modules(destination, source_digest)
+            return destination
+        module_bytes = sum(p.stat().st_size for p in (source / "modules").rglob("*") if p.is_file())
+        if shutil.disk_usage(self.modules).free < module_bytes + 32 * 1024**2:
+            raise RuntimeError("insufficient root filesystem space for retained modules")
+        # depmod must never mutate a published release, even on a retry. Its
+        # alternate root uses lib/modules as required by depmod --basedir.
+        stage_root = Path(tempfile.mkdtemp(prefix=".rock5t-modules-", dir=self.modules))
+        candidate = stage_root / "lib/modules" / release
+        try:
+            shutil.copytree(source / "modules", candidate)
+            expected = {p[len("modules/"):]: value for p, value in manifest["files"].items() if p.startswith("modules/")}
+            if inventory(candidate) != expected:
+                raise ValueError("copied module payload checksum mismatch")
+            if run_depmod:
+                self.runner(["depmod", "-a", "-b", str(stage_root), "-m", "/lib/modules", release])
+            files = inventory(candidate)
+            (candidate / MODULE_SOURCE).write_text(source_digest + "\n")
+            (candidate / MODULE_FILES).write_text(json.dumps({"source_sha256": source_digest, "files": files}, sort_keys=True) + "\n")
+            sync_tree(candidate)
+            os.rename(candidate, destination)
+            sync_dir(self.modules)
+        finally:
+            shutil.rmtree(stage_root)
+        return destination
+
+    def render(self, current, previous):
+        state = {"current": current, "previous": previous}
+        lines = [STATE_PREFIX + json.dumps(state, sort_keys=True), "DEFAULT rock5t", "TIMEOUT 50", "MENU TITLE ROCK5T Arch Linux ARM"]
+        for label, release, title in (("rock5t", current, "Current"), ("rock5t-previous", previous, "Previous kernel (manual recovery)")):
+            if release:
+                lines += ["", "LABEL " + label, f"  MENU LABEL {title}: {release}", f"  LINUX /rock5t/{release}/Image", f"  INITRD /rock5t/{release}/initramfs.img", f"  FDT /rock5t/{release}/board.dtb", "  APPEND " + self.config["cmdline"]]
+        return "\n".join(lines) + "\n"
+
+    def activate(self, release=None, initramfs=None):
+        old = self.preflight()
+        if (self.root / "var/lib/rock5t/firmware-expansion-pending.json").exists():
+            raise RuntimeError("firmware expansion did not finish; rerun rock5t-expand-firmware before activation")
+        if release is None:
+            candidates = sorted(p for p in self.payloads.iterdir() if p.is_dir() and not p.name.startswith("."))
+            if len(candidates) != 1:
+                raise ValueError("expected exactly one installed kernel payload; use --release")
+            release = candidates[0].name
+        check_release(release)
+        if initramfs is None and self.root != Path("/") and self.runner is run_command:
+            raise ValueError("offline --root requires an explicitly supplied --initramfs")
+        source = self.payloads / release
+        manifest, source_digest = self.verify_payload(source)
+        destination = self.generations / release
+        if destination.exists():
+            meta = self.verify_generation(release)
+            if meta["source_sha256"] != source_digest:
+                raise ValueError("kernel release reused for different payload; rebuild with unique uname -r")
+            if meta["boot_files"]["board.dtb"] != manifest["files"]["dtbs/" + manifest["dtb"]]:
+                raise ValueError("kernel release reused with a different selected DTB")
+            if initramfs and sha256(Path(initramfs)) != meta["boot_files"]["initramfs.img"]:
+                raise ValueError("kernel release reused with a different initramfs")
+        else:
+            durable_mkdir(self.generations)
+            durable_mkdir(self.modules)
+            boot_bytes = (source / "Image").stat().st_size + (source / "dtbs" / manifest["dtb"]).stat().st_size
+            # Reserve enough for a generic ARM64 initramfs and filesystem overhead.
+            boot_needed = boot_bytes + (Path(initramfs).stat().st_size if initramfs else 256 * 1024**2) + 32 * 1024**2
+            if shutil.disk_usage(self.boot).free < boot_needed:
+                raise RuntimeError("insufficient /boot space; retained generations were left unchanged")
+            module_dest = self.prepare_modules(release, source, manifest, source_digest, not initramfs)
+            stage = Path(tempfile.mkdtemp(prefix=".staging-", dir=self.generations))
+            try:
+                shutil.copyfile(source / "Image", stage / "Image")
+                shutil.copyfile(source / "dtbs" / manifest["dtb"], stage / "board.dtb")
+                if sha256(stage / "Image") != manifest["files"]["Image"] or sha256(stage / "board.dtb") != manifest["files"]["dtbs/" + manifest["dtb"]]:
+                    raise ValueError("copied boot payload checksum mismatch")
+                if initramfs:
+                    shutil.copyfile(initramfs, stage / "initramfs.img")
+                else:
+                    self.runner(["mkinitcpio", "-k", release, "-c", str(self.root / "etc/rock5t/mkinitcpio.conf"), "-g", str(stage / "initramfs.img")])
+                initrd = stage / "initramfs.img"
+                if not initrd.is_file() or initrd.stat().st_size == 0:
+                    raise RuntimeError("initramfs generation did not produce a nonempty image")
+                self.verify_prepared_modules(module_dest, source_digest)
+                meta = {"release": release, "source_sha256": source_digest, "boot_files": inventory(stage), "modules_sha256": digest(inventory(module_dest))}
+                (stage / "generation.json").write_text(json.dumps(meta, sort_keys=True, indent=2) + "\n")
+                sync_tree(stage)
+                os.rename(stage, destination)
+                sync_dir(self.generations)
+            finally:
+                if stage.exists():
+                    shutil.rmtree(stage)
+        # All retained data is complete and durable before changing the boot menu.
+        self.verify_generation(release)
+        previous = old["current"] if old["current"] != release else old["previous"]
+        if self.extlinux.exists():
+            atomic_write(self.extlinux.with_name("extlinux.conf.previous"), self.extlinux.read_text())
+        atomic_write(self.extlinux, self.render(release, previous))
+        return {"current": release, "previous": previous}
+
+    def select_previous(self):
+        self.boot_mounted()
+        state = self.state()
+        if not state["previous"]:
+            raise ValueError("no previous kernel exists")
+        # Recovery must remain possible when the selected/current generation is
+        # damaged. Never include a known-bad generation in the replacement menu.
+        self.verify_generation(state["previous"])
+        previous = state["current"]
+        try:
+            self.verify_generation(previous)
+        except (OSError, ValueError, RuntimeError):
+            previous = None
+        atomic_write(self.extlinux.with_name("extlinux.conf.previous"), self.extlinux.read_text())
+        atomic_write(self.extlinux, self.render(state["previous"], previous))
+        return self.state()
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("action", choices=("preflight", "activate", "rollback", "status"))
+    p.add_argument("--release")
+    p.add_argument("--root", type=Path, default=Path("/"), help="offline image root; activation requires --initramfs")
+    p.add_argument("--initramfs", type=Path, help="already-generated matching initramfs for offline image assembly")
+    p.add_argument("--allow-unmounted-boot", action="store_true", help="explicit image-assembly override; never used by pacman hooks")
+    args = p.parse_args()
+    if args.root.resolve() == Path("/") and os.geteuid() != 0:
+        p.error("must run as root")
+    manager = KernelManager(args.root, allow_unmounted=args.allow_unmounted_boot)
+    lockdir = args.root / "run/lock"
+    lockdir.mkdir(parents=True, exist_ok=True)
+    with (lockdir / "rock5t-kernel.lock").open("w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        if args.action == "activate":
+            result = manager.activate(args.release, args.initramfs)
+        elif args.action == "rollback":
+            result = manager.select_previous()
+        else:
+            result = manager.preflight()
+        print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as exc:
+        print(f"rock5t-kernel: {exc}; activation did not finish successfully. Check status and extlinux.conf before reboot.", file=sys.stderr)
+        sys.exit(1)

@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "seed": "archlinux-rock5t-kde-2026.10.08-landlock1",
+  "disk_uuid": "6afdb550-90ee-53de-9360-e40124b15206",
+  "boot_uuid": "69e5bed0-45c4-5b00-864f-53a09bc214c0",
+  "root_uuid": "443d9a15-1853-53ce-a0f8-9ff9723aacdb"
+}

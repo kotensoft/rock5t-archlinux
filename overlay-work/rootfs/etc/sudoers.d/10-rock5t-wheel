@@ -1,0 +1,2 @@
+# A password is always required for administrative commands.
+%wheel ALL=(ALL:ALL) ALL

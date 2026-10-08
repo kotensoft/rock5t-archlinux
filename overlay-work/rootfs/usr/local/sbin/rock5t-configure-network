@@ -1,0 +1,178 @@
+#!/usr/bin/python3
+"""Interactive NetworkManager Wi-Fi setup; never handle or log Wi-Fi secrets."""
+import argparse
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+PROVISIONED = Path('/var/lib/rock5t/provisioned')
+NETWORK_READY = Path('/run/rock5t-network-ready')
+
+
+def require_terminal(firstboot=False, provisioned=PROVISIONED, ready=NETWORK_READY):
+    if os.geteuid() != 0:
+        raise RuntimeError('Run this helper with sudo.')
+    if not sys.stdin.isatty() or not sys.stdout.isatty() or not sys.stderr.isatty():
+        raise RuntimeError('An interactive terminal is required; do not redirect setup output.')
+    if firstboot:
+        if os.ttyname(sys.stdin.fileno()) not in ('/dev/tty1', '/dev/ttyS2'):
+            raise RuntimeError('Firstboot setup requires tty1 or ttyS2.')
+        if provisioned.exists() or not ready.is_file():
+            raise RuntimeError('The local firstboot network phase is not ready.')
+    elif not provisioned.is_file():
+        raise RuntimeError('Finish local firstboot setup before using this helper.')
+
+
+def run(args, capture=False):
+    # No shell and no supplied password. nmcli --ask reads its secret directly
+    # from the terminal with echo disabled. Never add --show-secrets here.
+    return subprocess.run(args, text=True, check=False,
+                          stdout=subprocess.PIPE if capture else None,
+                          stderr=subprocess.DEVNULL if capture else None)
+
+
+def escaped_fields(line):
+    """Parse nmcli --terse --escape yes output (colon and backslash escapes)."""
+    fields, buf, escaped = [], [], False
+    for char in line:
+        if escaped:
+            buf.append(char)
+            escaped = False
+        elif char == '\\':
+            escaped = True
+        elif char == ':':
+            fields.append(''.join(buf))
+            buf = []
+        else:
+            buf.append(char)
+    if escaped:
+        buf.append('\\')
+    fields.append(''.join(buf))
+    return fields
+
+
+def wifi_devices(runner=run):
+    result = runner(['nmcli', '--terse', '--escape', 'yes', '--fields',
+                     'DEVICE,TYPE', 'device', 'status'], capture=True)
+    if result.returncode:
+        raise RuntimeError('NetworkManager could not list network devices.')
+    devices = []
+    for line in (result.stdout or '').splitlines():
+        fields = escaped_fields(line)
+        if len(fields) == 2 and fields[1] == 'wifi':
+            devices.append(fields[0])
+    return devices
+
+
+def retry_or_skip(prompt, ask=input):
+    while True:
+        answer = ask(prompt + ' [r]etry / [s]kip for now [s]: ').strip().lower()
+        if answer in ('r', 'retry'):
+            return True
+        if answer in ('', 's', 'skip', 'later'):
+            return False
+        print('Enter r to retry or s to configure later.')
+
+
+def configure(runner=run, ask=input):
+    print('\nNetwork setup uses NetworkManager. Ethernet uses its normal automatic configuration.')
+    print('Wi-Fi passwords are entered only at the hidden nmcli prompt, never in this wizard or command arguments.')
+    print('Connections and their credentials are saved by NetworkManager for this device.')
+    print('For enterprise Wi-Fi, configure a suitable NetworkManager profile after local sign-in.')
+    while True:
+        answer = ask('Configure Wi-Fi now? [y/N]: ').strip().lower()
+        if answer in ('', 'n', 'no', 's', 'skip', 'later'):
+            print('Wi-Fi skipped. Later: sudo rock5t-configure-network')
+            return
+        if answer in ('y', 'yes'):
+            break
+        print('Enter y to configure or n to skip.')
+    while True:
+        if runner(['systemctl', 'start', 'NetworkManager.service']).returncode:
+            if retry_or_skip('NetworkManager could not start.', ask):
+                continue
+            return
+        # Re-enable networking after an interrupted firstboot intentionally shut
+        # it down. The later helper only does this after the user opts in.
+        if runner(['nmcli', '--wait', '15', 'networking', 'on']).returncode:
+            if retry_or_skip('Networking could not be enabled.', ask):
+                continue
+            return
+        if runner(['nmcli', 'radio', 'wifi', 'on']).returncode:
+            if retry_or_skip('Wi-Fi radio could not be enabled; check the hardware switch.', ask):
+                continue
+            return
+        try:
+            devices = wifi_devices(runner)
+        except RuntimeError as exc:
+            if retry_or_skip(str(exc), ask):
+                continue
+            return
+        if not devices:
+            if retry_or_skip('No Wi-Fi device is available. Check its adapter/driver or use Ethernet.', ask):
+                continue
+            return
+        if len(devices) == 1:
+            interface = devices[0]
+        else:
+            print('Wi-Fi devices: ' + ', '.join(devices))
+            interface = ask('Interface (blank to skip): ').strip()
+            if not interface:
+                return
+            if interface not in devices:
+                print('Choose one of the listed Wi-Fi interfaces.')
+                continue
+        action = ask('[s]can networks / [h]idden SSID / [l]ater [s]: ').strip().lower()
+        if action in ('l', 'later', 'skip'):
+            return
+        if action not in ('', 's', 'scan', 'h', 'hidden'):
+            print('Choose scan, hidden, or later.')
+            continue
+        hidden = action in ('h', 'hidden')
+        if not hidden:
+            scan = runner(['nmcli', '--colors', 'no', '--fields', 'SSID,SECURITY,SIGNAL',
+                           'device', 'wifi', 'list', 'ifname', interface, '--rescan', 'yes'])
+            if scan.returncode:
+                if retry_or_skip('Wi-Fi scan failed.', ask):
+                    continue
+                return
+        ssid = ask('Exact SSID (blank to go back): ')
+        if not ssid:
+            continue
+        if len(ssid.encode('utf-8')) > 32 or any(ord(c) < 32 or ord(c) == 127 for c in ssid):
+            print('Enter a Wi-Fi name of 1–32 UTF-8 bytes with no control characters.')
+            continue
+        # SSID and interface are ordinary arguments, never shell expressions.
+        # A password argument or password-file must not be added to this command.
+        connect = runner(['nmcli', '--ask', '--colors', 'no', '--wait', '90',
+                          'device', 'wifi', 'connect', ssid, 'ifname', interface,
+                          'hidden', 'yes' if hidden else 'no'])
+        if not connect.returncode:
+            print('Wi-Fi connection activated. This does not verify Internet access.')
+            return
+        if not retry_or_skip('Wi-Fi connection failed or was cancelled.', ask):
+            print('You can retry later with: sudo rock5t-configure-network')
+            return
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--firstboot', action='store_true')
+    args = parser.parse_args()
+    os.environ['PATH'] = '/usr/bin:/usr/sbin'
+    os.umask(0o077)
+    try:
+        require_terminal(args.firstboot)
+        configure()
+    except (KeyboardInterrupt, EOFError):
+        print('\nNetwork setup interrupted. Run the helper again to resume.', file=sys.stderr)
+        return 130
+    except (RuntimeError, OSError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

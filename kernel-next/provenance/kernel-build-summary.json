@@ -1,0 +1,40 @@
+{
+  "kernel_release": "6.18.44-current-rockchip64-landlock1",
+  "linux_commit": "1efe5d048a391de3ead2804b2e7f86376c356cc5",
+  "armbian_commit": "fd4ebfd1e107d5b89f7a672c7d609789565753b2",
+  "patchset_hash": "d9e569eab50e60b3",
+  "linux": {
+    "version": "6.18.44",
+    "upstream_commit": "1efe5d048a391de3ead2804b2e7f86376c356cc5",
+    "archive_url": "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.44.tar.xz",
+    "archive_sha256": "0f72d938f06828e82c90405174fe572287db7bfe089e2fc46572a99a7f240d43",
+    "signature_valid_fingerprint": "647F28654894E3BD457199BE38DBBDC86092693E",
+    "key_bootstrap": "HTTPS from official kernel.org developer key repository"
+  },
+  "baseline_config_sha256": "df04c47ef19557272ed2a926f44ec2abea82fcffa334b484589bcbb54c9841a3",
+  "configuration_delta": [
+    "-RUSTC_HAS_COERCE_POINTEE y",
+    " LSM \"lockdown,yama,integrity,apparmor\" -> \"landlock,lockdown,yama,integrity,apparmor\"",
+    " RUSTC_LLVM_VERSION 190107 -> 0",
+    " RUSTC_VERSION 108500 -> 0",
+    " SECURITY_LANDLOCK n -> y"
+  ],
+  "rt_policy": {
+    "CONFIG_RT_GROUP_SCHED": "y",
+    "boot_parameter": "rt_group_sched=0",
+    "sched_rt_runtime_us": 950000,
+    "sched_rt_period_us": 1000000
+  },
+  "regression_checks": {
+    "rock5t_dtb_matches_original_exactly": true,
+    "original_module_count": 3577,
+    "new_module_count": 3577,
+    "missing_module_paths": [],
+    "additional_module_paths": []
+  },
+  "compiled_image_sha256": "b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7",
+  "compiled_rock5t_dtb_sha256": "faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af",
+  "evidence_scope": "Recorded kernel build and QEMU validation before installation-image assembly; no new-version board hardware test.",
+  "hardware_tested": false,
+  "installation_image_results": "pending"
+}

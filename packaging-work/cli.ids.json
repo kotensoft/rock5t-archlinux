@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "seed": "archlinux-rock5t-cli-2026-10-07",
+  "disk_uuid": "d5f839eb-269a-50a3-9f3e-86b2dde4035b",
+  "boot_uuid": "fcb2aa2d-3dd6-5022-9604-8c3122791a9d",
+  "root_uuid": "876d03a8-5119-5f0b-96a2-633c0ee15cb8"
+}

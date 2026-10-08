@@ -1,0 +1,13 @@
+# Patch integration dependencies recorded from the successful local environment.
+GitPython==3.2.0
+gitdb==4.0.12
+smmap==5.0.3
+Unidecode==1.4.0
+coloredlogs==15.0.1
+humanfriendly==10.0
+markdown-it-py==4.2.0
+mdurl==0.1.2
+Pygments==2.21.0
+PyYAML==6.0.3
+rich==15.0.0
+unidiff==1.0.1

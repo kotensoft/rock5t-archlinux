@@ -1,0 +1,5 @@
+-RUSTC_HAS_COERCE_POINTEE y
+ LSM "lockdown,yama,integrity,apparmor" -> "landlock,lockdown,yama,integrity,apparmor"
+ RUSTC_LLVM_VERSION 190107 -> 0
+ RUSTC_VERSION 108500 -> 0
+ SECURITY_LANDLOCK n -> y

@@ -1,0 +1,13 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = linux-rock5t
+
+[Action]
+Description = Verify retained ROCK5T boot generation before kernel transaction
+When = PreTransaction
+Exec = /usr/local/sbin/rock5t-kernel preflight
+Depends = python
+AbortOnFail

@@ -1,0 +1,165 @@
+#!/usr/bin/python
+"""Maintain uncompressed .xz/.zst firmware companions; keep package files intact."""
+import argparse
+import fcntl
+import hashlib
+import json
+import lzma
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+
+def signature(p):
+    if p.is_symlink():
+        return "symlink:" + os.readlink(p)
+    if not p.is_file():
+        return None
+    h = hashlib.sha256()
+    with p.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def save_state(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, name = tempfile.mkstemp(prefix=".firmware-state-", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w") as f:
+            json.dump(data, f, sort_keys=True, indent=2)
+            f.write("\n")
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(name, path)
+        fsync_directory(path.parent)
+    finally:
+        if os.path.exists(name):
+            os.unlink(name)
+
+
+def fsync_directory(path):
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def owned_firmware(root):
+    """Read pacman's local file DB without invoking host or target pacman."""
+    owned = set()
+    prefix = "usr/lib/firmware/"
+    for db in (root / "var/lib/pacman/local").glob("*/files"):
+        in_files = False
+        for line in db.read_text().splitlines():
+            if line.startswith("%"):
+                in_files = line == "%FILES%"
+            elif in_files and line.startswith(prefix) and not line.endswith("/"):
+                owned.add(line[len(prefix):])
+    return owned
+
+
+def expand(root, zstd_runner=subprocess.run):
+    root = Path(root).resolve()
+    firmware = root / "usr/lib/firmware"
+    state_path = root / "var/lib/rock5t/firmware-expanded.json"
+    state = json.loads(state_path.read_text()) if state_path.exists() else {}
+    owned = owned_firmware(root)
+    candidates = {}
+    for p in sorted(firmware.rglob("*")):
+        if p.suffix in (".xz", ".zst") and (p.is_file() or p.is_symlink()):
+            output = p.with_suffix("").relative_to(firmware).as_posix()
+            if output in candidates:
+                raise ValueError(f"ambiguous compressed variants for {output}")
+            candidates[output] = p
+    # Regular files first; output aliases can then refer to expanded targets.
+    for output, source in sorted(candidates.items(), key=lambda pair: (pair[1].is_symlink(), pair[0])):
+        if output in owned:
+            # A future package may ship the raw file itself. Package ownership wins.
+            state.pop(output, None)
+            continue
+        destination = firmware / output
+        fd, name = tempfile.mkstemp(prefix=".rock5t-fw-", dir=destination.parent)
+        os.close(fd)
+        temp = Path(name)
+        try:
+            if source.is_symlink():
+                target = os.readlink(source)
+                if Path(target).suffix not in (".xz", ".zst"):
+                    raise ValueError(f"compressed alias has an unrecognized target: {source}")
+                uncompressed = str(Path(target).with_suffix(""))
+                # Preserve both relative and absolute symlink form. Package links
+                # outside the firmware tree are not followed by this helper.
+                if target.startswith("/") and not target.startswith(("/usr/lib/firmware/", "/lib/firmware/")):
+                    raise ValueError(f"firmware symlink leaves the firmware tree: {source}")
+                if not target.startswith("/"):
+                    normalized = os.path.normpath(str(source.parent.relative_to(firmware) / target))
+                    if normalized == ".." or normalized.startswith("../"):
+                        raise ValueError(f"firmware symlink leaves the firmware tree: {source}")
+                temp.unlink()
+                temp.symlink_to(uncompressed)
+            else:
+                with temp.open("wb") as out:
+                    if source.suffix == ".xz":
+                        with lzma.open(source, "rb") as inp:
+                            shutil.copyfileobj(inp, out, length=1024 * 1024)
+                    else:
+                        zstd_runner(["zstd", "--decompress", "--stdout", "--quiet", str(source)], stdout=out, check=True)
+                    out.flush()
+                    os.fsync(out.fileno())
+                temp.chmod(0o644)
+            new_sig = signature(temp)
+            old_sig = signature(destination)
+            record = state.get(output)
+            if old_sig is not None and old_sig != new_sig:
+                if not record or old_sig != record.get("output_signature"):
+                    raise ValueError(f"refusing to overwrite untracked or locally modified firmware: {destination}")
+            if old_sig != new_sig:
+                os.replace(temp, destination)
+                fsync_directory(destination.parent)
+            state[output] = {"source": source.relative_to(firmware).as_posix(), "output_signature": new_sig}
+            save_state(state_path, state)
+        finally:
+            if temp.exists() or temp.is_symlink():
+                temp.unlink()
+    for output in list(state):
+        if output in candidates:
+            continue
+        destination = firmware / output
+        if output not in owned and signature(destination) == state[output]["output_signature"]:
+            destination.unlink()
+            fsync_directory(destination.parent)
+        del state[output]
+        save_state(state_path, state)
+    save_state(state_path, state)
+    return len(state)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=Path("/"))
+    args = parser.parse_args()
+    if args.root.resolve() == Path("/") and os.geteuid() != 0:
+        parser.error("run as root")
+    lockdir = args.root / "run/lock"
+    lockdir.mkdir(parents=True, exist_ok=True)
+    with (lockdir / "rock5t-firmware.lock").open("w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        pending = args.root / "var/lib/rock5t/firmware-expansion-pending.json"
+        save_state(pending, {"status": "expansion has not completed"})
+        count = expand(args.root)
+        pending.unlink()
+        fsync_directory(pending.parent)
+        print(f"Maintained {count} uncompressed firmware companions.")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (OSError, ValueError, lzma.LZMAError, subprocess.CalledProcessError) as e:
+        print(f"Firmware expansion failed: {e}. Original compressed package files were kept.", file=sys.stderr)
+        sys.exit(1)

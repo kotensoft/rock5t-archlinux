@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "scope": "payload-only",
+  "release": "2026.10.08-landlock1",
+  "variant": "cli",
+  "kernel": "6.18.44-current-rockchip64-landlock1",
+  "emmc_hardware_tested": false,
+  "flash_performed": false,
+  "full_disk_verification_performed": false,
+  "final_root_and_boot_preflight_passed": false,
+  "required_logical_sector_bytes": 512,
+  "emmc_node": "/mmc@fe2e0000",
+  "dtb_properties": {
+    "model": "Radxa ROCK 5T",
+    "board_compatible": "radxa,rock-5t rockchip,rk3588",
+    "properties": [
+      "compatible",
+      "reg",
+      "interrupts",
+      "assigned-clocks",
+      "assigned-clock-rates",
+      "clocks",
+      "clock-names",
+      "max-frequency",
+      "pinctrl-0",
+      "pinctrl-names",
+      "resets",
+      "reset-names",
+      "status",
+      "bus-width",
+      "no-sdio",
+      "no-sd",
+      "non-removable",
+      "mmc-hs400-1_8v",
+      "mmc-hs400-enhanced-strobe",
+      "phandle"
+    ],
+    "compatible": "rockchip,rk3588-dwcmshc",
+    "status": "okay",
+    "bus-width": "8"
+  },
+  "builtin_config_checked": [
+    "CONFIG_MMC",
+    "CONFIG_MMC_BLOCK",
+    "CONFIG_MMC_SDHCI",
+    "CONFIG_MMC_SDHCI_PLTFM",
+    "CONFIG_MMC_SDHCI_OF_DWCMSHC",
+    "CONFIG_PINCTRL_ROCKCHIP",
+    "CONFIG_REGULATOR_FIXED_VOLTAGE",
+    "CONFIG_EXT4_FS",
+    "CONFIG_SECURITY_LANDLOCK"
+  ],
+  "sha256": {
+    "kernel": "b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7",
+    "dtb": "faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af",
+    "bootloader": "bde61feff0227b7616f57cce507ee7764290274b41c09499e988f2ff1753e337",
+    "config": "5bbc7571ea440d30b267ff16868f2b3fa4ba00fef33cadf350105ebd52301a0b"
+  },
+  "media_strategy": "Reuse the same verified whole-disk raw image; no eMMC rename/copy",
+  "limits": [
+    "Run release_image.py verify separately on final output.",
+    "This audit does not test eMMC timing, boot ROM, SPI priority or physical media.",
+    "Remove a same-image SD clone before the first eMMC boot."
+  ]
+}

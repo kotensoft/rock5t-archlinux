@@ -1,0 +1,269 @@
+#!/usr/bin/python3
+"""Choose local SSH policy, current service state and future-boot behavior."""
+import argparse
+import json
+import os
+from pathlib import Path
+import pwd
+import re
+import subprocess
+import sys
+import tempfile
+
+USER_RE = re.compile(r'[a-z_][a-z0-9_-]{0,30}\Z')
+
+
+def run(args, capture=False):
+    return subprocess.run(args, check=False, text=True,
+                          stdout=subprocess.PIPE if capture else None,
+                          stderr=subprocess.DEVNULL if capture else None)
+
+
+def write_private(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temp = tempfile.mkstemp(prefix='.rock5t-ssh-', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w') as output:
+            os.fchmod(output.fileno(), 0o600)
+            output.write(text)
+            output.flush()
+            os.fsync(output.fileno())
+        os.replace(temp, path)
+        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+    finally:
+        if os.path.exists(temp):
+            os.unlink(temp)
+
+
+def validate_choices(choices, lookup=pwd.getpwnam):
+    if not isinstance(choices, dict) or set(choices) != {'user', 'start_now', 'enable_boot', 'password_login'}:
+        raise ValueError('Invalid saved SSH choices.')
+    user = choices['user']
+    if not isinstance(user, str) or not USER_RE.fullmatch(user) or user in ('root', 'alarm'):
+        raise ValueError('SSH requires a regular administrator username; root and alarm are forbidden.')
+    if lookup(user).pw_uid == 0:
+        raise ValueError('SSH must not grant access to any UID 0 account.')
+    for key in ('start_now', 'enable_boot', 'password_login'):
+        if type(choices[key]) is not bool:
+            raise ValueError('Invalid boolean in saved SSH choices.')
+    if choices['password_login'] and not (choices['start_now'] or choices['enable_boot']):
+        raise ValueError('Password login cannot be enabled while SSH is left disabled.')
+    return choices
+
+
+def policy(choices):
+    password = choices['password_login']
+    return ('# Managed by rock5t-configure-ssh. No credentials are stored here.\n'
+            '# Remote SSH is limited to the administrator selected in the wizard.\n'
+            'PermitRootLogin no\n'
+            'DenyUsers root alarm\n'
+            f"AllowUsers {choices['user']}\n"
+            f"PasswordAuthentication {'yes' if password else 'no'}\n"
+            'KbdInteractiveAuthentication no\n'
+            'PermitEmptyPasswords no\n'
+            'PubkeyAuthentication yes\n'
+            f"AuthenticationMethods {'publickey password' if password else 'publickey'}\n")
+
+
+def yes_no(question, ask=input):
+    while True:
+        answer = ask(question + ' [y/N]: ').strip().lower()
+        if answer in ('y', 'yes'):
+            return True
+        if answer in ('', 'n', 'no'):
+            return False
+        print('Enter y or n.')
+
+
+def choose(user, ask=input):
+    print(f'\nSSH access will be limited to {user}. Root and alarm remote login are always denied.')
+    print('SSH starts disabled. No shared password, user key, or passwordless sudo rule is installed.')
+    print('Current access and future boots are separate choices. Choosing no for current access stops sshd.')
+    start = yes_no('Start SSH when setup finishes (or now, if already provisioned)?', ask)
+    boot = yes_no('Start SSH automatically on future boots?', ask)
+    password = False
+    if start or boot:
+        print('Public-key login requires your own key in ~/.ssh/authorized_keys; this wizard does not install one.')
+        print('Password login uses the password you set for this account and exposes it to remote login attempts.')
+        password = yes_no(f'Explicitly allow password login over SSH for {user}?', ask)
+        if not password:
+            print('Public-key login only. Add your own public key locally before attempting an SSH login.')
+    return {'user': user, 'start_now': start, 'enable_boot': boot, 'password_login': password}
+
+
+class SSHManager:
+    def __init__(self, root=Path('/'), runner=run, lookup=pwd.getpwnam):
+        self.root = Path(root)
+        if self.root != Path('/') and runner is run:
+            raise ValueError('Offline tests require a mocked command runner; never use host service state.')
+        self.runner = runner
+        self.lookup = lookup
+        self.state = self.root / 'var/lib/rock5t'
+        self.choices_path = self.state / 'ssh-choices.json'
+        self.config = self.root / 'etc/ssh/sshd_config.d/05-rock5t-access.conf'
+        self.provisioned = self.state / 'provisioned'
+
+    def call(self, args, capture=False):
+        result = self.runner(args, capture=capture)
+        if result.returncode:
+            # Commands contain no passwords, but do not reflect arguments or
+            # arbitrary daemon output into logs or firstboot state.
+            raise RuntimeError('SSH configuration/service command failed; review the local configuration and retry.')
+        return result
+
+    def verify_policy(self, choices):
+        self.call(['sshd', '-t'], capture=True)
+        required = {'permitrootlogin': 'no', 'kbdinteractiveauthentication': 'no',
+                    'permitemptypasswords': 'no', 'pubkeyauthentication': 'yes',
+                    'allowusers': choices['user'],
+                    'passwordauthentication': 'yes' if choices['password_login'] else 'no',
+                    'authenticationmethods': 'publickey password' if choices['password_login'] else 'publickey'}
+        for user in (choices['user'], 'root'):
+            result = self.call(['sshd', '-T', '-C', f'user={user},host=rock5t,addr=192.0.2.1'], capture=True)
+            effective = {}
+            for line in (result.stdout or '').splitlines():
+                fields = line.split(None, 1)
+                if len(fields) == 2:
+                    key, value = fields[0].lower(), fields[1]
+                    # OpenSSH -T emits one line per AllowUsers/DenyUsers entry,
+                    # rather than necessarily one space-joined list.
+                    if key in ('allowusers', 'denyusers') and key in effective:
+                        effective[key] += ' ' + value
+                    else:
+                        effective[key] = value
+            if any(effective.get(key) != value for key, value in required.items()):
+                raise RuntimeError('Existing SSH configuration conflicts with the selected secure policy. SSH was not enabled.')
+            if not {'root', 'alarm'}.issubset(set(effective.get('denyusers', '').split())):
+                raise RuntimeError('SSH root/alarm denial could not be verified. SSH was not enabled.')
+
+    def install_policy(self, choices):
+        validate_choices(choices, self.lookup)
+        if self.config.is_symlink():
+            raise RuntimeError('Refusing a symlink in the managed SSH policy path.')
+        original = self.config.read_text() if self.config.exists() else None
+        write_private(self.config, policy(choices))
+        try:
+            self.verify_policy(choices)
+        except BaseException:
+            if original is None:
+                self.config.unlink(missing_ok=True)
+            else:
+                write_private(self.config, original)
+            raise
+
+    def set_boot(self, enabled):
+        # Image preparation removes socket activation. Do not allow a later
+        # socket-enabled server to silently bypass a "disabled" wizard choice.
+        result = self.runner(['systemctl', 'is-enabled', 'sshd.socket'], capture=True)
+        if (result.stdout or '').strip() not in ('', 'disabled', 'not-found', 'masked'):
+            self.call(['systemctl', 'disable', '--now', 'sshd.socket'])
+        active = self.runner(['systemctl', 'is-active', 'sshd.socket'], capture=True)
+        if active.returncode == 0:
+            self.call(['systemctl', 'stop', 'sshd.socket'])
+        self.call(['systemctl', 'enable' if enabled else 'disable', 'sshd.service'])
+
+    def configure(self, choices, staged=False):
+        validate_choices(choices, self.lookup)
+        if staged and self.provisioned.exists():
+            raise RuntimeError('The device is already provisioned; use the normal helper.')
+        if not staged and not self.provisioned.is_file():
+            raise RuntimeError('SSH cannot start before local provisioning is complete.')
+        self.install_policy(choices)
+        self.set_boot(choices['enable_boot'])
+        # Save intent before service changes so a later command can recover from
+        # a service failure. Firstboot enables boot links under the closed SSH
+        # provisioning gate, but never starts the server before its final commit.
+        write_private(self.choices_path, json.dumps(choices, sort_keys=True) + '\n')
+        if not staged:
+            self.set_current(choices)
+
+    def set_current(self, choices):
+        if not self.provisioned.is_file():
+            raise RuntimeError('SSH cannot start before local provisioning is complete.')
+        if choices['start_now']:
+            self.call(['systemctl', 'reload-or-restart', 'sshd.service'])
+            self.call(['systemctl', 'is-active', '--quiet', 'sshd.service'])
+        else:
+            self.call(['systemctl', 'stop', 'sshd.service'])
+
+    def apply_firstboot(self):
+        if not self.provisioned.is_file():
+            raise RuntimeError('SSH cannot start before local provisioning is complete.')
+        choices = json.loads(self.choices_path.read_text())
+        validate_choices(choices, self.lookup)
+        if marker_user(self.provisioned) != choices['user']:
+            raise RuntimeError('Saved SSH choices do not match the provisioned administrator.')
+        self.verify_policy(choices)
+        self.set_current(choices)
+        return choices
+
+
+def marker_user(path):
+    users = [line.split('=', 1)[1] for line in path.read_text().splitlines() if line.startswith('user=')]
+    if len(users) != 1 or not USER_RE.fullmatch(users[0]) or users[0] in ('root', 'alarm'):
+        raise ValueError('The provisioning marker has no valid administrator.')
+    return users[0]
+
+
+def require_terminal(firstboot=False):
+    if os.geteuid() != 0:
+        raise RuntimeError('Run this helper with sudo.')
+    if not all(stream.isatty() for stream in (sys.stdin, sys.stdout, sys.stderr)):
+        raise RuntimeError('An interactive terminal is required; do not redirect setup output.')
+    if firstboot and os.ttyname(sys.stdin.fileno()) not in ('/dev/tty1', '/dev/ttyS2'):
+        raise RuntimeError('Firstboot setup requires tty1 or ttyS2.')
+
+
+def report(choices):
+    print(f"SSH now: {'enabled' if choices['start_now'] else 'disabled'}; "
+          f"future boots: {'enabled' if choices['enable_boot'] else 'disabled'}; "
+          f"{choices['user']} authentication: {'public key or password' if choices['password_login'] else 'public key only'}.")
+    print('Root remote login remains denied. Later: sudo rock5t-configure-ssh')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--firstboot-stage', metavar='USER')
+    group.add_argument('--apply-firstboot', action='store_true')
+    group.add_argument('--user', help='Administrator account allowed to use SSH; default: provisioned administrator')
+    args = parser.parse_args()
+    os.environ['PATH'] = '/usr/bin:/usr/sbin'
+    os.umask(0o077)
+    try:
+        require_terminal(firstboot=bool(args.firstboot_stage or args.apply_firstboot))
+        manager = SSHManager()
+        if args.apply_firstboot:
+            report(manager.apply_firstboot())
+            return 0
+        if args.firstboot_stage:
+            if manager.provisioned.exists() or (manager.state / 'pending-user').read_text().strip() != args.firstboot_stage:
+                raise RuntimeError('The local firstboot administrator does not match this request.')
+            user = args.firstboot_stage
+        else:
+            if not manager.provisioned.is_file():
+                raise RuntimeError('Finish local firstboot setup before using this helper.')
+            user = args.user or marker_user(manager.provisioned)
+        # Validate identity before interpolating it into a terminal prompt.
+        validate_choices({'user': user, 'start_now': False, 'enable_boot': False, 'password_login': False})
+        choices = choose(user)
+        manager.configure(choices, staged=bool(args.firstboot_stage))
+        if args.firstboot_stage:
+            print('SSH choices saved. Remote access remains blocked until local setup completes.')
+        else:
+            report(choices)
+    except (KeyboardInterrupt, EOFError):
+        print('\nSSH setup interrupted. Run the helper again to resume.', file=sys.stderr)
+        return 130
+    except (RuntimeError, OSError, ValueError, KeyError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

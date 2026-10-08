@@ -1,0 +1,79 @@
+{
+  "base_test": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 12,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  },
+  "scoped_test": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 1,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  },
+  "scoped_signal_test": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 21,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  },
+  "scoped_abstract_unix_test": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 33,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  },
+  "ptrace_test": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 9,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  },
+  "fs_test_layout0_layout1": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 73,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  },
+  "net_test_selected": {
+    "exit_code": 0,
+    "totals": {
+      "pass": 24,
+      "fail": 0,
+      "xfail": 0,
+      "xpass": 0,
+      "skip": 0,
+      "error": 0
+    }
+  }
+}

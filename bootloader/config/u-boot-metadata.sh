@@ -1,0 +1,13 @@
+declare -i UBOOT_NUM_TARGETS=1
+declare UBOOT_BIN_DIR="/usr/lib/linux-u-boot-current-rock-5t"
+declare UBOOT_VERSION="2026.04"
+declare UBOOT_ARTIFACT_VERSION="2026.04-S88dc-P05fe-H50cb-V9e87-B5da4-R448a"
+declare UBOOT_GIT_REVISION="88dc2788777babfd6322fa655df549a019aa1e69"
+declare UBOOT_GIT_SOURCE="https://github.com/u-boot/u-boot.git"
+declare UBOOT_GIT_BRANCH="tag:v2026.04"
+declare UBOOT_GIT_PATCHDIR="v2026.04"
+declare UBOOT_PARTITION_TYPE="gpt"
+declare UBOOT_KERNEL_DTB="rockchip/rk3588-rock-5t.dtb"
+declare UBOOT_KERNEL_SERIALCON="ttyS2"
+declare UBOOT_EXTLINUX_PREFER="no"
+declare UBOOT_EXTLINUX_CMDLINE=""

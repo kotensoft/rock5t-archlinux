@@ -1,0 +1,14 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = linux-firmware*
+Target = firmware-*
+
+[Action]
+Description = Expand firmware for the ROCK5T kernel without compressed firmware loader support
+When = PostTransaction
+Exec = /usr/local/sbin/rock5t-expand-firmware
+Depends = python
+Depends = zstd

@@ -1,0 +1,136 @@
+#!/usr/bin/bash
+# Local-console provisioning only. Never run this script through SSH.
+set +x  # Never trace commands in a credential-entry workflow.
+set -Eeuo pipefail
+umask 077
+export PATH=/usr/bin:/usr/sbin
+state=/var/lib/rock5t
+complete=$state/provisioned
+network_ready=/run/rock5t-network-ready
+mkdir -p "$state"
+[[ ! -e $complete ]] || exit 0
+console=${1:?console required}
+case "$console" in tty1|ttyS2) ;; *) exit 64 ;; esac
+[[ $(tty) == /dev/"$console" ]] || { echo 'Refusing a non-local terminal.'; exit 64; }
+if [[ $console == ttyS2 ]]; then stty 1500000 cs8 -parenb -cstopb; fi
+printf '\nArch Linux ARM ROCK5T first boot\nNo default login or password is enabled.\n'
+printf 'Press Enter to set up this device on this console.\n'
+# Poll so the unused console can exit when the other console completes setup.
+while [[ ! -e $complete ]]; do
+    if IFS= read -r -t 2; then break; fi
+done
+[[ ! -e $complete ]] || exit 0
+exec 9>/run/rock5t-firstboot.lock
+if ! flock -n 9; then
+    printf 'Setup is in progress on the other console. Waiting for it to finish.\n'
+    while [[ ! -e $complete ]]; do
+        if flock -n 9; then break; fi
+        sleep 2
+    done
+fi
+[[ ! -e $complete ]] || exit 0
+# Only the console holding the lock owns this temporary network gate. SSH,
+# gettys and desktop continue to require the final provisioned marker.
+close_uncommitted_network() {
+    if [[ ! -e $complete && -e $network_ready ]]; then
+        nmcli --wait 10 networking off >/dev/null 2>&1 || :
+        systemctl stop NetworkManager.service >/dev/null 2>&1 || :
+    fi
+    rm -f "$network_ready"
+}
+cleanup() {
+    status=$?
+    trap - EXIT HUP INT TERM
+    close_uncommitted_network
+    # A failure after the commit must not strand the console behind completed
+    # setup. Starting the target is idempotent and uses --no-block because its
+    # units wait for both setup services to exit.
+    if [[ -e $complete ]]; then
+        systemctl --no-block start rock5t-provisioned.target >/dev/null 2>&1 || :
+    fi
+    exit "$status"
+}
+trap cleanup EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+# Reclaim a gate left by SIGKILL before locking the pending user's account.
+close_uncommitted_network
+printf '\nUse a strong, unique password. Root login remains disabled.\n'
+if [[ -s $state/pending-user ]]; then
+    user=$(cat "$state/pending-user")
+    [[ $user =~ ^[a-z_][a-z0-9_-]{0,30}$ && $user != root && $user != alarm ]] || exit 1
+    printf 'Resuming setup for %s.\n' "$user"
+else
+    while :; do
+        read -r -p 'New administrator username: ' user
+        if [[ $user =~ ^[a-z_][a-z0-9_-]{0,30}$ && $user != root && $user != alarm ]] && ! getent passwd "$user" >/dev/null; then break; fi
+        echo 'Use an unused lowercase name, 1–31 characters; root and alarm are reserved.'
+    done
+    printf '%s\n' "$user" > "$state/pending-user.tmp"
+    mv "$state/pending-user.tmp" "$state/pending-user"
+fi
+if ! getent passwd "$user" >/dev/null; then
+    useradd --create-home --shell /bin/bash --groups wheel "$user"
+fi
+# A resumed setup never relies on a password entered in an interrupted attempt.
+usermod --lock "$user"
+until passwd "$user"; do echo 'Password was not set. Please try again.'; done
+while :; do
+    read -r -p 'Hostname [rock5t]: ' hostname
+    hostname=${hostname:-rock5t}
+    [[ $hostname =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$ ]] && break
+    echo 'Choose a single hostname label, 1–63 letters, digits or internal hyphens.'
+done
+printf '%s\n' "$hostname" > /etc/hostname
+printf '127.0.0.1 localhost\n::1 localhost\n127.0.1.1 %s\n' "$hostname" > /etc/hosts
+hostnamectl set-hostname "$hostname"
+# PID 1 initializes the deliberately empty image machine-id on the first real boot.
+systemd-machine-id-setup
+ssh-keygen -A
+# The image contains public distribution keyrings only. Generate this device's
+# local pacman trust key and populate both shipped public keyrings offline.
+# set -e leaves pending-user intact on any failure, so setup can be retried.
+for keyring in archlinuxarm archlinux; do
+    [[ -s /usr/share/pacman/keyrings/$keyring.gpg ]] || {
+        printf 'Missing public package keyring: %s. Setup cannot finish safely.\n' "$keyring" >&2
+        exit 1
+    }
+done
+printf "\nInitializing this device's package-signing trust key. This may take a moment.\n"
+pacman-key --init
+pacman-key --populate archlinuxarm archlinux
+visudo -cf /etc/sudoers.d/10-rock5t-wheel
+# A unique authenticated local account, machine identity and package trust now
+# exist. Permit only NetworkManager during the optional network phase.
+: > "$network_ready"
+/usr/local/sbin/rock5t-configure-network --firstboot
+# Boot enablement may be staged, but sshd's final-marker gate stays closed.
+/usr/local/sbin/rock5t-configure-ssh --firstboot-stage "$user"
+printf '\nExpand the ext4 root partition to fill this SD/eMMC/NVMe device?\n'
+read -r -p 'Expand [y/N]: ' grow
+case "$grow" in y|Y|yes|YES)
+    if ! /usr/local/sbin/rock5t-grow-root; then
+        echo 'Expansion was not completed. Your account is usable; retry sudo rock5t-grow-root later.'
+    fi
+esac
+# Commit only after account, identity, SSH keys, package trust and sudo are ready.
+printf 'user=%s\ncreated=%s\n' "$user" "$(date --utc --iso-8601=seconds)" > "$state/provisioned.tmp"
+sync "$state/provisioned.tmp"
+mv "$state/provisioned.tmp" "$complete"
+sync -f "$state"
+rm -f "$state/pending-user"
+printf '\nSetup complete. Sign in as %s and use sudo for administration.\n' "$user"
+# Clear a saved NetworkManager disabled state from an interrupted setup even
+# when Wi-Fi was skipped on this successful attempt. Failure is recoverable
+# after local sign-in and never changes the SSH/desktop completion marker.
+if systemctl start NetworkManager.service; then
+    nmcli --wait 15 networking on || echo 'NetworkManager could not enable networking. Retry sudo rock5t-configure-network later.'
+else
+    echo 'NetworkManager did not start. Retry sudo rock5t-configure-network later.'
+fi
+if ! /usr/local/sbin/rock5t-configure-ssh --apply-firstboot; then
+    echo 'SSH could not apply the selected current state. Review sudo rock5t-configure-ssh after sign-in.'
+fi
+rm -f "$network_ready"
+systemctl --no-block start rock5t-provisioned.target

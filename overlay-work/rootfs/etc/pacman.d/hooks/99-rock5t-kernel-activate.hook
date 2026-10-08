@@ -1,0 +1,13 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = linux-rock5t
+
+[Action]
+Description = Stage ROCK5T kernel and atomically activate with previous-kernel recovery entry
+When = PostTransaction
+Exec = /usr/local/sbin/rock5t-kernel activate
+Depends = python
+Depends = mkinitcpio
+Depends = kmod

@@ -1,0 +1,14 @@
+{
+  "required_kernel_config": [
+    "CONFIG_VT=y",
+    "CONFIG_DRM_FBDEV_EMULATION=y",
+    "CONFIG_FRAMEBUFFER_CONSOLE=y",
+    "CONFIG_DRM_VIRTIO_GPU=m",
+    "CONFIG_VIRTIO_INPUT=m"
+  ],
+  "qemu_devices_available": true,
+  "ocr_available": true,
+  "keyboard_mapping_checked": true,
+  "guest_collector_syntax_checked": true,
+  "guest_boot_performed": false
+}

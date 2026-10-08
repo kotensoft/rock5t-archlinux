@@ -1,0 +1,14 @@
+# Next-version kde package profile
+plasma-meta
+plasma-login-manager
+konsole
+dolphin
+chromium
+noto-fonts
+noto-fonts-cjk
+pipewire
+wireplumber
+pipewire-pulse
+mesa
+vulkan-panfrost
+qt6-wayland

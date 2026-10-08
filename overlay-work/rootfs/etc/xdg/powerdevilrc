@@ -1,0 +1,5 @@
+# ROCK5T mains-powered default, verified against PowerDevil 6.7.5.
+# A normal KConfig default: users can change it in Power Management.
+# Leave manual sleep, battery profiles, screen blanking and locking untouched.
+[AC][SuspendAndShutdown]
+AutoSuspendAction=0

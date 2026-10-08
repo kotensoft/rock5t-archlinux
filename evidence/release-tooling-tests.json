@@ -1,0 +1,22 @@
+{
+  "tests": {
+    "command": "python3 -m unittest -v test_rock5t_image.py test_release_image.py",
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "log": "packaging-work/release-tests.log",
+    "python_compile": "passed",
+    "bash_syntax": "passed",
+    "linux_merge_hash_helpers": "executed_on_tiny_fixtures",
+    "powershell_helpers": "statically_reviewed_only_pwsh_unavailable"
+  },
+  "source_files": {
+    "packaging-work/release_image.py": "658527bcd533cf196746ca7f59a97b55576604021045e8cfffdd285a46ad221b",
+    "packaging-work/test_release_image.py": "b8200aab73ee7dcdc56e68d7c137369bbe1dac708c5e5a4f27232a0182fd7fe6",
+    "packaging-work/rock5t_image.py": "b398f6dabcc9b2389a35d8d90c40671e2ce1205967086ea98fe9583a98e5c903",
+    "packaging-work/test_rock5t_image.py": "de23eacaf072cacbdcf56c71a39d669a89c6f71ee30580e4dd23a9dc7bda599f",
+    "next-version/delivery-tools/prepare_delivery.py": "199a0826c45d278328896fb58bce6ec08fa03efbc909793e293cb7b1e0d5a02a"
+  },
+  "source_log_sha256": "5c822a08cec7215bf5ff59aee4b439d3baa1854e61c158364a62422b5183d7b6",
+  "notes": "Recorded live-source test run: 18 passed, zero failed/skipped. Raw log deliberately excluded. PowerShell helpers were statically reviewed only."
+}

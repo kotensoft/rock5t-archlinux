@@ -1,0 +1,176 @@
+{
+  "retrieved_utc": "2026-10-07",
+  "release": "Armbian 26.8.3",
+  "kernel_release": "6.18.44-current-rockchip64",
+  "kernel_upstream_commit": "1efe5d048a391de3ead2804b2e7f86376c356cc5",
+  "kernel_package_provenance": {
+    "driver_hash": "539705d8_ceaab8e6",
+    "patches_hash": "d9e569eab50e60b3",
+    "config_hash": "40fcc37a0d6cf7d4",
+    "framework_bash_hash": "4990fb4ba983d439"
+  },
+  "uboot_release": "2026.04",
+  "uboot_upstream_commit": "88dc2788777babfd6322fa655df549a019aa1e69",
+  "uboot_binary_observed_atf": "v2.13.0(release):armbian",
+  "uboot_binary_observed_ddr": "rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.20_20250926.bin",
+  "upstream_recipe_reference": {
+    "armbian_commit": "1613ba6961bf378b150285887d6c2a2e497fd9cd",
+    "url": "https://github.com/armbian/build/tree/1613ba6961bf378b150285887d6c2a2e497fd9cd",
+    "relationship_to_binary": "Current source reference only; this commit is NOT claimed to be the source snapshot used for the prebuilt debs."
+  },
+  "signing_keys": [
+    {
+      "fingerprint": "DF00FAF1C577104B50BF1D0093D6889F9F0E78D5",
+      "url": "https://raw.githubusercontent.com/armbian/build/1613ba6961bf378b150285887d6c2a2e497fd9cd/tools/repository/armbian.key"
+    },
+    {
+      "fingerprint": "8CFA83D13EB2181EEF5843E41EB30FAF236099FE",
+      "url": "https://raw.githubusercontent.com/armbian/build/1613ba6961bf378b150285887d6c2a2e497fd9cd/config/armbian.key"
+    }
+  ],
+  "repository_metadata": {
+    "inrelease_url": "https://apt.armbian.com/dists/trixie/InRelease",
+    "inrelease_sha256": "fbe40e5ba439138426ac54322e3028ff317e410e9d3daf485d779ce709824fae",
+    "packages_url": "https://apt.armbian.com/dists/trixie/main/binary-arm64/Packages.gz",
+    "packages_sha256": "ef4a9897246975899081e1508fedfe14cc05ef028517d277245f1c9f02fdd6b8",
+    "release_date": "2026-10-05T20:53:39Z",
+    "signature_verification": "Both above fingerprints produced VALIDSIG; gpg verify returned 0 with both official repository keys."
+  },
+  "packages": [
+    {
+      "Package": "linux-image-current-rockchip64",
+      "Priority": "optional",
+      "Section": "kernel",
+      "Installed-Size": "304310",
+      "Maintainer": "Armbian Linux <info@armbian.com>",
+      "Architecture": "arm64",
+      "Source": "linux-6.18.44",
+      "Version": "26.8.3",
+      "Provides": "linux-image, linux-image-armbian, armbian-current, wireguard-modules",
+      "Depends": "initramfs-tools | linux-initramfs-tool",
+      "Filename": "pool/main/l/linux-6.18.44/linux-image-current-rockchip64_26.8.3_arm64__6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a.deb",
+      "Size": "52138316",
+      "MD5sum": "e33ce9964df2bfc42ac4dde99485dd8e",
+      "SHA1": "d933d71cd22dbc4cd807920f22ea1595bdab9ebf",
+      "SHA256": "88738788702d7ef3d34a180639f0417e0a2e6afc669c681e7de361b49d8ceaba",
+      "SHA512": "d2d3ec12e99350fb35b6b9f46e1cc8d058311e4b5228144933137b19c7895c8523d0c297777090b37ad091007bd540338129470ad6137ec0262c50df156b084a",
+      "Description": "Armbian Linux current kernel image 6.18.44-current-rockchip64",
+      "Armbian-Kernel-Version": "6.18.44",
+      "Armbian-Kernel-Version-Family": "6.18.44-current-rockchip64",
+      "Armbian-Original-Hash": "6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a",
+      "url": "https://apt.armbian.com/pool/main/l/linux-6.18.44/linux-image-current-rockchip64_26.8.3_arm64__6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a.deb",
+      "local_file": "linux-image-current-rockchip64_26.8.3_arm64__6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a.deb",
+      "verified_sha256": "88738788702d7ef3d34a180639f0417e0a2e6afc669c681e7de361b49d8ceaba",
+      "control": "Package: linux-image-current-rockchip64\nVersion: 26.8.3\nSource: linux-6.18.44\nArmbian-Kernel-Version: 6.18.44\nArmbian-Kernel-Version-Family: 6.18.44-current-rockchip64\nArchitecture: arm64\nMaintainer: Armbian Linux <info@armbian.com>\nSection: kernel\nPriority: optional\nDepends: initramfs-tools | linux-initramfs-tool\nProvides: linux-image, linux-image-armbian, armbian-current, wireguard-modules\nDescription: Armbian Linux current kernel image 6.18.44-current-rockchip64\n This package contains the Linux kernel, modules and corresponding other files.\n version \"6.18.44\" git revision \"1efe5d048a391de3ead2804b2e7f86376c356cc5\" codename \"Baby Opossum Posse\" drivers hash \"539705d8_ceaab8e6\" patches hash \"d9e569eab50e60b3\" .config hash \"40fcc37a0d6cf7d4\" .config hook hash \"2153b201d2f3d096\" variables hash \"c22207b66dc5dd57157df2cd7b9c20559b2ed8ac44b9c3c3b9704002c06b8921\" framework bash hash \"4990fb4ba983d439\"\nInstalled-Size: 304310\nArmbian-Original-Hash: 6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a\n"
+    },
+    {
+      "Package": "linux-dtb-current-rockchip64",
+      "Priority": "optional",
+      "Section": "kernel",
+      "Installed-Size": "29232",
+      "Maintainer": "Armbian Linux <info@armbian.com>",
+      "Architecture": "arm64",
+      "Version": "26.8.3",
+      "Provides": "linux-dtb, linux-dtb-armbian, armbian-current",
+      "Filename": "pool/main/l/linux-dtb-current-rockchip64/linux-dtb-current-rockchip64_26.8.3_arm64__6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a.deb",
+      "Size": "1095916",
+      "MD5sum": "e03691e9b3b17d671e056dd627de8f8e",
+      "SHA1": "1321877bb82d3a99015b72616fa9d2d1044d06a0",
+      "SHA256": "907ea90ad68ecb321a7c9f1af08724d1bd5d12061398f10d80a0e1e5c55f76ae",
+      "SHA512": "e1bad8c482bd2ed8988c1a84e929a9e00bc483024e4555e26d209ad558ba8523f238b69e281398ed3588a041d3bca1f594a40562c5808bec459c64bacf458f99",
+      "Description": "Armbian Linux current DTBs in /boot/dtb-6.18.44-current-rockchip64",
+      "Armbian-Original-Hash": "6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a",
+      "url": "https://apt.armbian.com/pool/main/l/linux-dtb-current-rockchip64/linux-dtb-current-rockchip64_26.8.3_arm64__6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a.deb",
+      "local_file": "linux-dtb-current-rockchip64_26.8.3_arm64__6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a.deb",
+      "verified_sha256": "907ea90ad68ecb321a7c9f1af08724d1bd5d12061398f10d80a0e1e5c55f76ae",
+      "control": "Version: 26.8.3\nMaintainer: Armbian Linux <info@armbian.com>\nSection: kernel\nPackage: linux-dtb-current-rockchip64\nArchitecture: arm64\nPriority: optional\nProvides: linux-dtb, linux-dtb-armbian, armbian-current\nDescription: Armbian Linux current DTBs in /boot/dtb-6.18.44-current-rockchip64\n This package contains device tree blobs from the Linux kernel, version 6.18.44-current-rockchip64\n version \"6.18.44\" git revision \"1efe5d048a391de3ead2804b2e7f86376c356cc5\" codename \"Baby Opossum Posse\" drivers hash \"539705d8_ceaab8e6\" patches hash \"d9e569eab50e60b3\" .config hash \"40fcc37a0d6cf7d4\" .config hook hash \"2153b201d2f3d096\" variables hash \"c22207b66dc5dd57157df2cd7b9c20559b2ed8ac44b9c3c3b9704002c06b8921\" framework bash hash \"4990fb4ba983d439\"\nInstalled-Size: 29232\nArmbian-Original-Hash: 6.18.44-S1efe-D5397-Pd9e5-C40fc-H2153-HK01ba-Vc222-B4990-R448a\n"
+    },
+    {
+      "Package": "linux-u-boot-rock-5t-current",
+      "Priority": "optional",
+      "Section": "kernel",
+      "Installed-Size": "12048",
+      "Maintainer": "Armbian Linux <info@armbian.com>",
+      "Architecture": "arm64",
+      "Version": "26.8.3",
+      "Replaces": "armbian-u-boot",
+      "Provides": "armbian-u-boot",
+      "Conflicts": "armbian-u-boot, u-boot-sunxi",
+      "Filename": "pool/main/l/linux-u-boot-rock-5t-current/linux-u-boot-rock-5t-current_26.8.3_arm64__2026.04-S88dc-P05fe-H50cb-V9e87-B5da4-R448a.deb",
+      "Size": "944060",
+      "MD5sum": "1da3da8193be4f56747b8a99a2f30e81",
+      "SHA1": "8390b62924528cbe62d060b11b4427748f85f792",
+      "SHA256": "347222b02dd3a9d105e268de9f1453a51db9de50e53291c7dab39e27e1692f56",
+      "SHA512": "1c6c7534f81e8483442014ab3fbfad8d54f16bf0b09b2a2f58a1f9d76afc6b225978a0293255b0c269bbfa5580eed6dc8360cca413d47d54a3f6df181ed79ca0",
+      "Description": "Das U-Boot for rock-5t",
+      "Armbian-Original-Hash": "2026.04-S88dc-P05fe-H50cb-V9e87-B5da4-R448a",
+      "url": "https://apt.armbian.com/pool/main/l/linux-u-boot-rock-5t-current/linux-u-boot-rock-5t-current_26.8.3_arm64__2026.04-S88dc-P05fe-H50cb-V9e87-B5da4-R448a.deb",
+      "local_file": "linux-u-boot-rock-5t-current_26.8.3_arm64__2026.04-S88dc-P05fe-H50cb-V9e87-B5da4-R448a.deb",
+      "verified_sha256": "347222b02dd3a9d105e268de9f1453a51db9de50e53291c7dab39e27e1692f56",
+      "control": "Package: linux-u-boot-rock-5t-current\nVersion: 26.8.3\nArchitecture: arm64\nMaintainer: Armbian Linux <info@armbian.com>\nSection: kernel\nPriority: optional\nProvides: armbian-u-boot\nReplaces: armbian-u-boot\nConflicts: armbian-u-boot, u-boot-sunxi\nDescription: Das U-Boot for rock-5t\n version \"2026.04\" git revision \"88dc2788777babfd6322fa655df549a019aa1e69\" patches hash \"05fe3b9a63ca850e\" Extension hooks hash \"45e42e29ed80425e56623d5a2d7aeedef8b3405461e91a1082187f5fa70b9045\" uboot functions hash \"5d42cc02cb77c2c4c35986b8efd4c6d8f4ef677f7e20c7e81ccb6bacadea2aa8\" variables hash \"9e871aa8124fe599364e1c44a7e73941f77ffc9aab50bc27a46c47ad47e98601\" framework bash hash \"5da4413f38e29074\"\nInstalled-Size: 12048\nArmbian-Original-Hash: 2026.04-S88dc-P05fe-H50cb-V9e87-B5da4-R448a\n"
+    }
+  ],
+  "files": {
+    "deb-root/boot/vmlinuz-6.18.44-current-rockchip64": {
+      "sha256": "f5b526cf5512599523979ead9254ab007195bfa65ab7ddc52f5e46bd8eab4f52",
+      "size": 35916288
+    },
+    "deb-root/boot/config-6.18.44-current-rockchip64": {
+      "sha256": "df04c47ef19557272ed2a926f44ec2abea82fcffa334b484589bcbb54c9841a3",
+      "size": 269582
+    },
+    "deb-root/boot/System.map-6.18.44-current-rockchip64": {
+      "sha256": "68f8e8f9aad96c1f279cc6a72cd5fef8a6d1943505e499c7b7504eadf5d31ff9",
+      "size": 5580061
+    },
+    "deb-root/boot/dtb-6.18.44-current-rockchip64/rockchip/rk3588-rock-5t.dtb": {
+      "sha256": "faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af",
+      "size": 191019
+    },
+    "deb-root/usr/lib/linux-u-boot-current-rock-5t/u-boot-defconfig-target-1": {
+      "sha256": "7cf4091ef6a649f31283a1adc3ba018299939f4b22c705a996190e6b23d55bc2",
+      "size": 3152
+    },
+    "deb-root/usr/lib/linux-u-boot-current-rock-5t/u-boot-metadata-target-1.sh": {
+      "sha256": "bb3095630983a335d0468b75313fd4abee42245b93a19b2cf5d624cf92011741",
+      "size": 340
+    },
+    "deb-root/usr/lib/linux-u-boot-current-rock-5t/u-boot-rockchip-spi.bin": {
+      "sha256": "cbac9f0a54274daf73cd9aacc84a9249ed146c35594dd8f048dc3bb22136f3a7",
+      "size": 2119680
+    },
+    "deb-root/usr/lib/linux-u-boot-current-rock-5t/u-boot-rockchip.bin": {
+      "sha256": "bde61feff0227b7616f57cce507ee7764290274b41c09499e988f2ff1753e337",
+      "size": 10082304
+    },
+    "deb-root/usr/lib/linux-u-boot-current-rock-5t/u-boot-metadata.sh": {
+      "sha256": "d98bcbdf64920331f2c55cff8488dbbfba9a23b34fcc3d57bdbfaaa44a4f2cea",
+      "size": 612
+    },
+    "deb-root/usr/lib/linux-u-boot-current-rock-5t/u-boot-config-target-1": {
+      "sha256": "5f1789e136ba9d067ac5b7ffe96a7cf4ad805c5698a2d51fb1d753a6f4e82ad5",
+      "size": 60288
+    }
+  },
+  "source_firmware": [
+    {
+      "file": "rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.20_20250926.bin",
+      "url": "https://raw.githubusercontent.com/armbian/rkbin/1d3c61008fa823936ae7a59615393f8294b64456/rk35/rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.20_20250926.bin",
+      "sha256": "4986b4711fee4a32f716fcf6e3491291f43193ded98caff7cff3e2f081b506e6",
+      "note": "Matches DDR filename and version observed in prebuilt U-Boot."
+    },
+    {
+      "file": "rk3588_bl31_v1.48.elf",
+      "url": "https://raw.githubusercontent.com/armbian/rkbin/1d3c61008fa823936ae7a59615393f8294b64456/rk35/rk3588_bl31_v1.48.elf",
+      "sha256": "ff717807d873ce95e5463ac29e0b5f081f8c5956d57f40376a1a3fe0fb93accf",
+      "note": "Stock BL31 v1.48 is a fallback source reference only; prebuilt U-Boot embeds TF-A v2.13.0, not this blob."
+    }
+  ],
+  "hardware_boot_tested": false,
+  "source_atf_reference": {
+    "tag": "v2.13.0",
+    "commit": "c17351450c8a513ca3f30f936e26a71db693a145",
+    "url": "https://github.com/ARM-software/arm-trusted-firmware/tree/c17351450c8a513ca3f30f936e26a71db693a145",
+    "note": "Official current board recipe and embedded firmware version agree. Prebuilt TF-A binary source/build reproducibility not independently rebuilt."
+  }
+}

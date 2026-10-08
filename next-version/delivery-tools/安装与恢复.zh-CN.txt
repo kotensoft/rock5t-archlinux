@@ -1,0 +1,69 @@
+ROCK5T 安装与恢复：2026.10.08-landlock1
+
+适用：Radxa ROCK 5T，Arch Linux ARM 用户空间；内核 6.18.44-current-rockchip64-landlock1。
+CLI 与 KDE 分别采用统一 raw GPT 布局作为 SD/eMMC 兼容方案；两版 root+boot 已通过相关软件审计，但 eMMC 整盘准备与硬件启动仍未验收。当前优先按 SD 卡交付和操作。只选一种版本，同一目录不要混放两版文件。此流程不触碰 SPI。
+镜像是否已完成软件检查、准确容量与 SHA256，以本目录的 manifest/validation 文件为准。本轮按用户选择跳过新内核实机测试；“软件验证通过”不代表 ROCK5T 已实际启动通过。
+
+一、下载、合并、校验
+
+Library 交付按原始字节切成不超过 90 MiB 的 part001、part002…；这只是本次交付设置，不是对平台上限的声明。单个 part 不能解压或刷写。
+下载所选版本的全部分卷、全部 .sha256 文件以及合并/校验脚本，放进同一个本地文件夹。不要重命名分卷。需要足够空间同时存放分卷、合并后的 .xz 和解压后的 .img。
+
+Linux：
+  bash merge.sh
+  bash verify.sh
+  xz --decompress --keep archlinux-rock5t-cli-2026.10.08-landlock1.img.xz
+  bash verify.sh
+KDE 请把上面的 cli 改为 kde。verify.sh 对已有整包核对 SHA256，对 .xz 也检查压缩流；解压后再运行会同时检查原始 .img。
+
+Windows PowerShell：
+  .\merge.ps1
+  .\verify.ps1
+再用可信来源的、支持 xz 的解压工具，把已验证的 .img.xz 解压为 .img；随后再次运行 .\verify.ps1，确认原始 .img 也通过。脚本只在自己的文件夹读写普通文件，不需要管理员权限。
+若 PowerShell 策略阻止脚本，先按自己的安全策略审阅处理，或在 Linux 合并；不要为此关闭系统安全保护。
+
+当前完整镜像仅通过私有 Library 交付。完整镜像公开发布所需的用户空间源码材料尚未齐全，当前公开范围仅限自有源码；不要把公开源码页面当成已有完整镜像的下载来源。若取得配套的完整 .img.xz，无需分卷合并，直接核对整包 SHA256、解压并再核对 .img。
+报告中的 $BUILD_ROOT/ 是构建目录占位符，已替换云端绝对路径；文件哈希、容量与验证结论保持不变，原始报告另行保留。
+合并工具会先校验每一卷，再校验整包；已有整包或 .partial 时停止，不覆盖。任一卷缺失、哈希不符、压缩错误，都必须停止刷写。SHA256 检查文件完整性，随包未签名校验表不能独立证明发布者身份。
+
+二、写入 SD 卡
+
+1. 备份目标盘数据，保留一张已知可用的救援 SD。目标容量须大于等于 manifest 的 disk_bytes；不要把唯一可用系统直接覆盖。
+2. 优先使用带写后验证的整盘镜像工具，选择已校验的 .img。必须按型号、容量、序列号识别整个目标盘；写入会覆盖其全部数据，不能选择电脑系统盘或当前正在运行的根盘。
+3. 只写入已确认的目标 SD 整盘，不要把镜像文件简单复制到某个分区中；不要据此向 eMMC 写入。
+4. 写入后完成读回验证，再安全弹出。主机要求格式化 Linux 分区时取消。
+5. 板卡断电后装入目标 SD 卡；初次启动只连接一个待启动目标。镜像没有刷写 SPI；现存 SPI/U-Boot 或其他介质可能改变启动顺序，启动来源应看串口日志确认。
+
+保留的 GPT 布局：32 KiB 处为原有已验证 ROCK5T U-Boot，16 MiB 处为 1 GiB FAT32 BOOT，1040 MiB 处为 ext4 ROOT。不要清零引导前区。
+本版 CLI、KDE 与旧版拥有不同 GPT 标识与根文件系统 UUID。同一镜像的两份克隆仍重复标识，不要同时接入两份克隆启动；更改主机名不能解决磁盘标识冲突。
+
+三、首次启动
+
+接 HDMI 输出与键盘，或符合板卡官方接口说明的 3.3V USB-TTL 串口（1500000，8N1，无流控）。断电接线，共地、TX/RX 交叉；只连接 GND/TX/RX，不连接适配器 VCC，不用 5V TTL 或 RS-232 电平。
+没有默认用户名或密码。使用 tty1 或 ttyS2 的向导创建管理员、密码与主机名。根分区扩容可选，默认不扩容；先备份再做磁盘变更。
+向导可配置 Wi-Fi 或跳过。NetworkManager 会在本机保存连接/凭据；密码在隐藏的交互提示输入，不写进共享日志。
+SSH 的“现在启动”“开机自启”“管理员密码登录”分别选择，默认关闭、关闭、仅公钥；始终禁止 root/alarm 远程登录。公钥模式需要自行安装自己的授权公钥。
+稍后配置：sudo rock5t-configure-network；sudo rock5t-configure-ssh。
+本机生成独立身份和 SSH host keys，不要分发已初始化整盘克隆。
+KDE 完成首启后使用 Plasma Login Manager 进入 Plasma Wayland；默认浏览器 Chromium。没有 SDDM 或 Firefox 备用入口。
+
+四、维护与恢复
+
+用户空间使用 sudo pacman -Syu 完整更新，避免局部升级。自定义 linux-rock5t 内核不由官方 ALARM 仓库自动维护；不得把 Armbian apt 源混入本系统。Landlock 已编入并默认启用，但之前的默认 extra 仓库低速超时没有被本次小包测试证明解决。
+
+内核更新前：备份数据，检查 findmnt /boot 和 sudo rock5t-kernel status；只安装来源与摘要已核对、实际 release 不同且含配套模块/DTB 的新内核包。
+更新器保留完整代际文件，成功后再切换菜单；不自动刷 U-Boot/SPI。pacman 安装成功也要检查激活状态，不能忽略 hook 报错直接重启。
+回退是人工操作，无启动失败自动回滚。后续升级后若有完整上一代，可在 U-Boot 菜单选 Previous kernel，进入系统后运行 sudo rock5t-kernel rollback，再检查状态并重启。首次镜像只有本版一个内核代，不含 previous 项；不能凭空回退到旧镜像。
+
+黑屏先查 UART：区分引导、内核与显示问题，不把黑屏直接判为系统未启动。没有可用菜单/上一代时，断电，从已知可用救援 SD 启动；若有其他引导器抢先，先保存日志，不盲目擦 SPI。
+恢复数据时按型号、序列号和 PARTUUID 识别故障盘，优先只读挂载并备份，再修复或重新刷写。不能对有待恢复数据的介质先格式化。
+
+五、已知边界
+
+- 新内核 Landlock/QEMU 软件证据不能替代 ROCK5T 启动、SD 卡、网卡、Wi-Fi、音频、HDMI 或真实 PLM/Chromium 会话测试。
+- 使用真正面向板卡的 mkinitcpio 产物，检查匹配内核模块及 PCIe PHY；没有用 QEMU 测试 initramfs 充作安装镜像 initramfs。静态检查仍不能证明硬件启动成功。
+- Chromium 仅启用 AcceleratedVideoDecoder 选项，保留 sandbox。已知 GPU sandbox 问题未在本轮修复/复测；不提供 --no-sandbox 或 --disable-gpu-sandbox 作为解决方案。
+- 硬件视频解码/编码、实际 codec 支持与性能未验收，不能因保留 VPU 驱动或启用浏览器选项而标为可用。本轮没有重新开启已取消的 GPU/视频测试。
+- FAT32 断电、任意介质损坏无法由软件事务设计保证恢复；保留独立救援介质和备份。
+
+反馈请附版本/CLI或KDE、镜像 SHA256、板卡版本、介质与电源信息、完整 UART 日志，以及 uname -a、cat /proc/cmdline、lsblk -f、findmnt /、findmnt /boot、systemctl --failed、sudo rock5t-kernel status。公开日志前移除密码、私钥、令牌，并检查 IP/MAC/SSID 等个人信息。

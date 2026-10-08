@@ -1,0 +1,20 @@
+# Fill ALL @...@ placeholders from verified build inputs. Build using makepkg.
+pkgname=linux-rock5t
+pkgver=@PKGVER@
+pkgrel=1
+pkgdesc='Versioned ARM64 Linux kernel payload for the Radxa ROCK5T'
+arch=('aarch64')
+url='https://www.kernel.org/'
+license=('GPL-2.0-only')
+depends=('coreutils' 'kmod' 'mkinitcpio' 'python')
+options=('!strip' '!debug')
+_kernelrelease='@KERNELRELEASE@'
+source=("rock5t-kernel-${_kernelrelease}.tar.zst")
+sha256sums=('@PAYLOAD_ARCHIVE_SHA256@')
+
+package() {
+    # Runtime modules and /boot generations intentionally remain outside pacman's
+    # file ownership. The activation hook preserves them across package removal.
+    install -dm755 "$pkgdir/usr/lib/rock5t-kernel"
+    cp -a "$srcdir/$_kernelrelease" "$pkgdir/usr/lib/rock5t-kernel/"
+}

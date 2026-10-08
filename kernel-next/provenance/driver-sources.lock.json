@@ -1,0 +1,64 @@
+{
+  "armbian_framework_commit": "fd4ebfd1e107d5b89f7a672c7d609789565753b2",
+  "family": "rockchip64",
+  "branch": "current",
+  "kernel_major_minor": "6.18",
+  "external_driver_sources": [
+    {
+      "repository_url": "https://github.com/EvilOlaf/rtl8189ES_linux",
+      "commit": "7aff01915502ea0687b499800c34404a10c57721",
+      "archive_url": "https://codeload.github.com/EvilOlaf/rtl8189ES_linux/tar.gz/7aff01915502ea0687b499800c34404a10c57721",
+      "archive_sha256": "37e1bb526ceef95bc8f9fc8b2b58a180e0a2c9eaf17b96dfcdc0ed89459732be",
+      "archive_bytes": 2603979,
+      "archive_filename": "rtl8189es-7aff01915502ea0687b499800c34404a10c57721.tar.gz"
+    },
+    {
+      "repository_url": "https://github.com/EvilOlaf/rtl8189ES_linux",
+      "commit": "f95ad2e28bfb1a4350ff5da123a28df4183ca120",
+      "archive_url": "https://codeload.github.com/EvilOlaf/rtl8189ES_linux/tar.gz/f95ad2e28bfb1a4350ff5da123a28df4183ca120",
+      "archive_sha256": "680856e820532c5a23c1d563bd3ab4c9c1d9856d02c8018b65f13aef541238f4",
+      "archive_bytes": 2469551,
+      "archive_filename": "rtl8189fs-f95ad2e28bfb1a4350ff5da123a28df4183ca120.tar.gz"
+    },
+    {
+      "repository_url": "https://github.com/EvilOlaf/rtl8192eu-linux-driver",
+      "commit": "1841930b192e245d09fb19f1ee7d1fa5a2ab30e8",
+      "archive_url": "https://codeload.github.com/EvilOlaf/rtl8192eu-linux-driver/tar.gz/1841930b192e245d09fb19f1ee7d1fa5a2ab30e8",
+      "archive_sha256": "796f8da65df096492ea58d0a93b1e13601e2aead63cb5c809c046eac023989fd",
+      "archive_bytes": 2488884,
+      "archive_filename": "rtl8192eu-1841930b192e245d09fb19f1ee7d1fa5a2ab30e8.tar.gz"
+    },
+    {
+      "repository_url": "https://github.com/libc0607/rtl88x2eu-20230815",
+      "commit": "ccb31f4ee346d5c2dd45475d276171b2f8de8350",
+      "archive_url": "https://codeload.github.com/libc0607/rtl88x2eu-20230815/tar.gz/ccb31f4ee346d5c2dd45475d276171b2f8de8350",
+      "archive_sha256": "9bd3a3e8096709b5fd207b678958f80a91ac1459f211905ceeabc9babe6c7cb4",
+      "archive_bytes": 5003993,
+      "archive_filename": "rtl8822eu-ccb31f4ee346d5c2dd45475d276171b2f8de8350.tar.gz"
+    },
+    {
+      "repository_url": "https://github.com/armbian/wifi-rtl8852bs",
+      "commit": "6099b02169460aa99e9e1ca8c37de28d248cbe83",
+      "archive_url": "https://codeload.github.com/armbian/wifi-rtl8852bs/tar.gz/6099b02169460aa99e9e1ca8c37de28d248cbe83",
+      "archive_sha256": "b1d30c605f2110acad54b0fdc0430a2e33350113b2f43eb27bf33b067463e01d",
+      "archive_bytes": 8207451,
+      "archive_filename": "rtl8852bs-6099b02169460aa99e9e1ca8c37de28d248cbe83.tar.gz"
+    },
+    {
+      "repository_url": "https://github.com/armbian/uwe5622",
+      "commit": "d6bec7538a0b4b67e35715ad71eaa056555524cb",
+      "archive_url": "https://codeload.github.com/armbian/uwe5622/tar.gz/d6bec7538a0b4b67e35715ad71eaa056555524cb",
+      "archive_sha256": "d85333868862d820f2dae3379ee7b9962ebfd8aeb1ee9cb84c66c725f292ea11",
+      "archive_bytes": 5469269,
+      "archive_filename": "uwe5622-d6bec7538a0b4b67e35715ad71eaa056555524cb.tar.gz"
+    },
+    {
+      "repository_url": "https://github.com/armbian/rtl8723ds",
+      "commit": "938bc4c52daad88c7217fa6771482e5c820f0dde",
+      "archive_url": "https://codeload.github.com/armbian/rtl8723ds/tar.gz/938bc4c52daad88c7217fa6771482e5c820f0dde",
+      "archive_sha256": "e0c5666abcdadcddf0a2fb3b366b362a6e92353474bc02a8812d53327f943f89",
+      "archive_bytes": 2448593,
+      "archive_filename": "rtl8723ds-938bc4c52daad88c7217fa6771482e5c820f0dde.tar.gz"
+    }
+  ]
+}

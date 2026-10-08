@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "seed": "archlinux-rock5t-cli-2026.10.08-landlock1",
+  "disk_uuid": "b36de021-af28-5811-b7d2-9f8909ce27ed",
+  "boot_uuid": "c95edd32-4d1f-559e-b9d4-04fe825d1deb",
+  "root_uuid": "5ec56659-7fe4-57a5-ac85-6f3706acc9b2"
+}

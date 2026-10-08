@@ -1,0 +1,116 @@
+# Userspace source inventory
+
+Stage: final
+
+- packages_selected: 748
+- source_recipe_groups: 685
+- cache_archives_inspected: 671
+- metadata_read_errors: 0
+- planned_archives_missing: 0
+- exact_binary_package_metadata_missing: 92
+- repository_index_only: 91
+- all_exact_package_metadata_missing: 1
+- conflicting_package_archives: 0
+- buildinfo_PKGBUILD_hash_recorded: 656
+- packages_declaring_source_licenses: 465
+- source_recipe_groups_with_route_evidence: 6
+- verified_complete_userspace_source_sets: 0
+
+No userspace source set is marked complete by this metadata-only tool.
+
+## Exact binary package metadata missing
+
+- acl 2.4.0-1 (exact_repository_index_only)
+- archlinuxarm-keyring 20240419-2 (exact_repository_index_only)
+- attr 2.6.0-1 (exact_repository_index_only)
+- audit 4.2.1-1 (exact_repository_index_only)
+- base 3-3 (exact_repository_index_only)
+- binutils 2.46+r70+g155188ea10a7-1 (exact_repository_index_only)
+- brotli 1.2.0-1 (exact_repository_index_only)
+- bzip2 1.0.8-6 (exact_repository_index_only)
+- ca-certificates 20240618-1 (exact_repository_index_only)
+- ca-certificates-utils 20240618-1 (exact_repository_index_only)
+- dbus 1.16.2-1 (exact_repository_index_only)
+- dbus-broker 37-3 (exact_repository_index_only)
+- dbus-broker-units 37-3 (exact_repository_index_only)
+- dbus-units 37-3 (exact_repository_index_only)
+- diffutils 3.12-2 (exact_repository_index_only)
+- ex-vi-compat 3-1 (exact_repository_index_only)
+- file 5.48-1 (exact_repository_index_only)
+- filesystem 2025.10.12-1 (exact_repository_index_only)
+- findutils 4.11.0-1 (exact_repository_index_only)
+- gawk 5.4.1-1 (exact_repository_index_only)
+- gcc-libs 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- gdbm 1.26-2 (exact_repository_index_only)
+- gettext 1.0-2 (exact_repository_index_only)
+- glib2 2.88.3-1 (exact_repository_index_only)
+- glibc 2.43+r22+g8362e8ce10b2-2 (exact_repository_index_only)
+- gmp 6.3.0-3 (exact_repository_index_only)
+- gnulib-l10n 20241231-1 (exact_repository_index_only)
+- grep 3.12-2 (exact_repository_index_only)
+- icu 78.3-1 (exact_repository_index_only)
+- iptables 1:1.8.13-1 (exact_repository_index_only)
+- iputils 20250605-1 (exact_repository_index_only)
+- json-c 0.19-1 (exact_repository_index_only)
+- kbd 2.10.0-1 (exact_repository_index_only)
+- keyutils 1.6.3-4 (exact_repository_index_only)
+- krb5 1.22.2-1 (exact_repository_index_only)
+- libarchive 3.8.9-1 (exact_repository_index_only)
+- libasan 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libassuan 3.0.0-1 (exact_repository_index_only)
+- libatomic 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libbpf 1.7.0-1 (exact_repository_index_only)
+- libcap 2.78-1 (exact_repository_index_only)
+- libedit 20260512_3.1-1 (exact_repository_index_only)
+- libevent 2.1.13-2 (exact_repository_index_only)
+- libgcc 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libgfortran 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libgomp 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libgpg-error 1.61-1 (exact_repository_index_only)
+- libidn2 2.3.8-1 (exact_repository_index_only)
+- liblsan 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libmnl 1.0.5-2 (exact_repository_index_only)
+- libnetfilter_conntrack 1.1.1-1 (exact_repository_index_only)
+- libnfnetlink 1.0.2-2 (exact_repository_index_only)
+- libnghttp2 1.70.0-1 (exact_repository_index_only)
+- libnghttp3 1.18.0-1 (exact_repository_index_only)
+- libngtcp2 1.25.0-1 (exact_repository_index_only)
+- libnl 3.12.0-1 (exact_repository_index_only)
+- libnsl 2.0.1-2 (exact_repository_index_only)
+- libobjc 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libpsl 0.21.5-2 (exact_repository_index_only)
+- libquadmath 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libsasl 2.1.28-5 (exact_repository_index_only)
+- libseccomp 2.6.0-1 (exact_repository_index_only)
+- libssh2 1.11.1-7 (exact_repository_index_only)
+- libstdc++ 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libtasn1 4.21.0-1 (exact_repository_index_only)
+- libtsan 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libubsan 16.1.1+r12+g301eb08fa2c5-1 (exact_repository_index_only)
+- libunistring 1.4.2-1 (exact_repository_index_only)
+- libusb 1.0.30-1 (exact_repository_index_only)
+- libverto 0.3.2-6 (exact_repository_index_only)
+- libxcrypt 4.5.2-1 (exact_repository_index_only)
+- licenses 20240728-1 (exact_repository_index_only)
+- linux-rock5t 6.18.44-2 (exact_package_missing_from_cache)
+- lmdb 0.9.35-1 (exact_repository_index_only)
+- lz4 1:1.10.0-2 (exact_repository_index_only)
+- mkinitcpio-busybox 1.36.1-1 (exact_repository_index_only)
+- mpfr 4.2.2-1 (exact_repository_index_only)
+- ncurses 6.6-2 (exact_repository_index_only)
+- net-tools 2.10-3 (exact_repository_index_only)
+- netctl 1.29-2 (exact_repository_index_only)
+- nettle 4.0-1 (exact_repository_index_only)
+- npth 1.8-1 (exact_repository_index_only)
+- pacman 7.1.0.r9.g54d9411-2 (exact_repository_index_only)
+- pacman-mirrorlist 20260411-2 (exact_repository_index_only)
+- pambase 20260616-1 (exact_repository_index_only)
+- pinentry 1.3.3-1 (exact_repository_index_only)
+- popt 1.19-2 (exact_repository_index_only)
+- psmisc 23.7-2 (exact_repository_index_only)
+- shadow 4.20.0.arch1-1 (exact_repository_index_only)
+- sqlite 3.53.4-1 (exact_repository_index_only)
+- which 2.25-1 (exact_repository_index_only)
+- zlib 1:1.3.2-3 (exact_repository_index_only)
+
+For every unresolved package, establish the relevant recipe, all auxiliary files and patches, pinned source archives/VCS snapshots and submodules, and required licenses. A matching recorded PKGBUILD digest is strong provenance evidence; a mismatch alone does not determine whether corresponding-source materials are sufficient. Archive evidence separately.

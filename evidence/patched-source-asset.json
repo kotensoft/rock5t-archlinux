@@ -1,0 +1,40 @@
+{
+  "filename": "rock5t-linux-6.18.44-landlock1-patched-source.tar.xz",
+  "bytes": 200164704,
+  "sha256": "b2ebff6f31eb81e0f73efc3ce57e3c080bc57c26b87391e75bef197802cccec9",
+  "source_type": "complete_git_archived_patched_Linux_source_tree",
+  "linux_version": "6.18.44",
+  "kernel_release": "6.18.44-current-rockchip64-landlock1",
+  "git_tree_sha1": "7b3a45f61573390bc15beecf01c6324d5170c687",
+  "git_tree_identity_evidence": "Build verification recorded a clean working tree and this HEAD tree immediately before git archive. The extracted tree was subsequently removed for disk space.",
+  "archive_digest_rechecked": true,
+  "xz_integrity": "Verified by the producing build process.",
+  "git_metadata_included": false,
+  "supplement_required": [
+    "release-repo/kernel-next/config/landlock.config",
+    "release-repo/kernel-next/config/baseline.config",
+    "release-repo/kernel-next/scripts/",
+    "release-repo/tools/",
+    "release-repo/sources.lock.json",
+    "release-repo/LICENSES/"
+  ],
+  "scope_note": "Convenient complete actual patched kernel source tree, complementing the 11 original pinned source archives and audited build/configuration scripts. Not installation images, not userspace source collection, and not proof of hardware validation.",
+  "archive_first_members": [
+    "linux-6.18.44-rock5t",
+    "linux-6.18.44-rock5t/.clang-format",
+    "linux-6.18.44-rock5t/.clippy.toml",
+    "linux-6.18.44-rock5t/.cocciconfig",
+    "linux-6.18.44-rock5t/.editorconfig",
+    "linux-6.18.44-rock5t/.get_maintainer.ignore",
+    "linux-6.18.44-rock5t/.gitattributes",
+    "linux-6.18.44-rock5t/.gitignore",
+    "linux-6.18.44-rock5t/.mailmap",
+    "linux-6.18.44-rock5t/.pylintrc",
+    "linux-6.18.44-rock5t/.rustfmt.toml",
+    "linux-6.18.44-rock5t/COPYING",
+    "linux-6.18.44-rock5t/CREDITS",
+    "linux-6.18.44-rock5t/Documentation",
+    "linux-6.18.44-rock5t/Documentation/.gitignore"
+  ],
+  "archive_root_directory": "linux-6.18.44-rock5t/"
+}

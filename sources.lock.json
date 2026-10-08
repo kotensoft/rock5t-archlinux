@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "kernel_release": "6.18.44-current-rockchip64-landlock1",
+  "archive_inputs": [
+    {
+      "path": "kernel-next/linux-6.18.44.tar.xz",
+      "url": "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.44.tar.xz",
+      "sha256": "0f72d938f06828e82c90405174fe572287db7bfe089e2fc46572a99a7f240d43",
+      "bytes": 154583504,
+      "role": "Linux source",
+      "commit": "1efe5d048a391de3ead2804b2e7f86376c356cc5"
+    },
+    {
+      "path": "kernel-next/armbian-fd4ebfd1.tar.gz",
+      "url": "https://codeload.github.com/armbian/build/tar.gz/fd4ebfd1e107d5b89f7a672c7d609789565753b2",
+      "sha256": "2159f01d54e26d0517fb1a7f15b1024b6c320e95c0423045aec661fc0fbf27b9",
+      "bytes": 69098684,
+      "role": "Armbian framework and patches",
+      "commit": "fd4ebfd1e107d5b89f7a672c7d609789565753b2"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/rtl8189es-7aff01915502ea0687b499800c34404a10c57721.tar.gz",
+      "url": "https://codeload.github.com/EvilOlaf/rtl8189ES_linux/tar.gz/7aff01915502ea0687b499800c34404a10c57721",
+      "sha256": "37e1bb526ceef95bc8f9fc8b2b58a180e0a2c9eaf17b96dfcdc0ed89459732be",
+      "bytes": 2603979,
+      "role": "External driver source",
+      "commit": "7aff01915502ea0687b499800c34404a10c57721"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/rtl8189fs-f95ad2e28bfb1a4350ff5da123a28df4183ca120.tar.gz",
+      "url": "https://codeload.github.com/EvilOlaf/rtl8189ES_linux/tar.gz/f95ad2e28bfb1a4350ff5da123a28df4183ca120",
+      "sha256": "680856e820532c5a23c1d563bd3ab4c9c1d9856d02c8018b65f13aef541238f4",
+      "bytes": 2469551,
+      "role": "External driver source",
+      "commit": "f95ad2e28bfb1a4350ff5da123a28df4183ca120"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/rtl8192eu-1841930b192e245d09fb19f1ee7d1fa5a2ab30e8.tar.gz",
+      "url": "https://codeload.github.com/EvilOlaf/rtl8192eu-linux-driver/tar.gz/1841930b192e245d09fb19f1ee7d1fa5a2ab30e8",
+      "sha256": "796f8da65df096492ea58d0a93b1e13601e2aead63cb5c809c046eac023989fd",
+      "bytes": 2488884,
+      "role": "External driver source",
+      "commit": "1841930b192e245d09fb19f1ee7d1fa5a2ab30e8"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/rtl8822eu-ccb31f4ee346d5c2dd45475d276171b2f8de8350.tar.gz",
+      "url": "https://codeload.github.com/libc0607/rtl88x2eu-20230815/tar.gz/ccb31f4ee346d5c2dd45475d276171b2f8de8350",
+      "sha256": "9bd3a3e8096709b5fd207b678958f80a91ac1459f211905ceeabc9babe6c7cb4",
+      "bytes": 5003993,
+      "role": "External driver source",
+      "commit": "ccb31f4ee346d5c2dd45475d276171b2f8de8350"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/rtl8852bs-6099b02169460aa99e9e1ca8c37de28d248cbe83.tar.gz",
+      "url": "https://codeload.github.com/armbian/wifi-rtl8852bs/tar.gz/6099b02169460aa99e9e1ca8c37de28d248cbe83",
+      "sha256": "b1d30c605f2110acad54b0fdc0430a2e33350113b2f43eb27bf33b067463e01d",
+      "bytes": 8207451,
+      "role": "External driver source",
+      "commit": "6099b02169460aa99e9e1ca8c37de28d248cbe83"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/uwe5622-d6bec7538a0b4b67e35715ad71eaa056555524cb.tar.gz",
+      "url": "https://codeload.github.com/armbian/uwe5622/tar.gz/d6bec7538a0b4b67e35715ad71eaa056555524cb",
+      "sha256": "d85333868862d820f2dae3379ee7b9962ebfd8aeb1ee9cb84c66c725f292ea11",
+      "bytes": 5469269,
+      "role": "External driver source",
+      "commit": "d6bec7538a0b4b67e35715ad71eaa056555524cb"
+    },
+    {
+      "path": "kernel-next/build-fd4ebfd1e107d5b89f7a672c7d609789565753b2/cache/driver-archives/rtl8723ds-938bc4c52daad88c7217fa6771482e5c820f0dde.tar.gz",
+      "url": "https://codeload.github.com/armbian/rtl8723ds/tar.gz/938bc4c52daad88c7217fa6771482e5c820f0dde",
+      "sha256": "e0c5666abcdadcddf0a2fb3b366b362a6e92353474bc02a8812d53327f943f89",
+      "bytes": 2448593,
+      "role": "External driver source",
+      "commit": "938bc4c52daad88c7217fa6771482e5c820f0dde"
+    },
+    {
+      "path": "next-version/u-boot-88dc2788777babfd6322fa655df549a019aa1e69.tar.gz",
+      "url": "https://codeload.github.com/u-boot/u-boot/tar.gz/88dc2788777babfd6322fa655df549a019aa1e69",
+      "sha256": "c9858cd5fdc0204e72d5c2d4f0e185883fe627a5901f91c165ddecd787899117",
+      "bytes": 45534314,
+      "role": "U-Boot source",
+      "commit": "88dc2788777babfd6322fa655df549a019aa1e69"
+    },
+    {
+      "path": "next-version/arm-trusted-firmware-c17351450c8a513ca3f30f936e26a71db693a145.tar.gz",
+      "url": "https://codeload.github.com/ARM-software/arm-trusted-firmware/tar.gz/c17351450c8a513ca3f30f936e26a71db693a145",
+      "sha256": "e1e3339d85eb4d8b04f26e2a9f8e43691bd0ed053b9d97276a44b336ea1234b1",
+      "bytes": 10672549,
+      "role": "Trusted Firmware-A source",
+      "commit": "c17351450c8a513ca3f30f936e26a71db693a145"
+    }
+  ],
+  "assembled_linux_git_tree_sha1": "7b3a45f61573390bc15beecf01c6324d5170c687",
+  "status": "Pinned Linux and open-source boot-stack inputs. Proprietary DDR firmware is excluded; exact DDR license and byte identity are documented separately. Final installation-image userspace package sources and image verification results remain pending."
+}

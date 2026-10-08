@@ -1,0 +1,983 @@
+{
+  "schema_version": 1,
+  "whitelist_file_count": 97,
+  "exact_matches": 93,
+  "documented_adapters": 4,
+  "unexpected_mismatches": [],
+  "files": [
+    {
+      "group": "build",
+      "origin": "scripts/prepare-package-signatures.py",
+      "destination": "scripts/prepare-package-signatures.py",
+      "sha256": "b9474cbe8bce35da2efd4c411e4155f9482cfb60ea3d33477a1129807a35cca9",
+      "bytes": 1259,
+      "match": "exact",
+      "source_sha256_at_freeze": "b9474cbe8bce35da2efd4c411e4155f9482cfb60ea3d33477a1129807a35cca9",
+      "destination_sha256": "b9474cbe8bce35da2efd4c411e4155f9482cfb60ea3d33477a1129807a35cca9"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-install-kde-target.sh",
+      "destination": "scripts/next-install-kde-target.sh",
+      "sha256": "8ed0492119a6715c05484d29c68120c54028925a587ed23aa3c6455c3b447aa1",
+      "bytes": 614,
+      "match": "exact",
+      "source_sha256_at_freeze": "8ed0492119a6715c05484d29c68120c54028925a587ed23aa3c6455c3b447aa1",
+      "destination_sha256": "8ed0492119a6715c05484d29c68120c54028925a587ed23aa3c6455c3b447aa1"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/guest-setup.sh",
+      "destination": "scripts/guest-setup.sh",
+      "sha256": "388c0d96b558627b6972c07f546b3e01655c620c3af83edc9ef882f1fb1a21a9",
+      "bytes": 677,
+      "match": "exact",
+      "source_sha256_at_freeze": "388c0d96b558627b6972c07f546b3e01655c620c3af83edc9ef882f1fb1a21a9",
+      "destination_sha256": "388c0d96b558627b6972c07f546b3e01655c620c3af83edc9ef882f1fb1a21a9"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-install-cli.sh",
+      "destination": "scripts/next-install-cli.sh",
+      "sha256": "c138706fbd42fe6e7c8fe46731357c2f90564bea450191bcb7cda2aa88d416bc",
+      "bytes": 1500,
+      "match": "exact",
+      "source_sha256_at_freeze": "c138706fbd42fe6e7c8fe46731357c2f90564bea450191bcb7cda2aa88d416bc",
+      "destination_sha256": "c138706fbd42fe6e7c8fe46731357c2f90564bea450191bcb7cda2aa88d416bc"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/make-kernel-package.sh",
+      "destination": "scripts/make-kernel-package.sh",
+      "sha256": "98b5c0f0d48577cad9f379568dae4afb5240f20c2bb7ecf7a82219668f10d399",
+      "bytes": 2284,
+      "match": "exact",
+      "source_sha256_at_freeze": "98b5c0f0d48577cad9f379568dae4afb5240f20c2bb7ecf7a82219668f10d399",
+      "destination_sha256": "98b5c0f0d48577cad9f379568dae4afb5240f20c2bb7ecf7a82219668f10d399"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/mount-build-targets.sh",
+      "destination": "scripts/mount-build-targets.sh",
+      "sha256": "4bb58c178d67ee7247ba59f69a93890828c0a03cfaaac3c2a0308f2ac4305fd7",
+      "bytes": 658,
+      "match": "exact",
+      "source_sha256_at_freeze": "4bb58c178d67ee7247ba59f69a93890828c0a03cfaaac3c2a0308f2ac4305fd7",
+      "destination_sha256": "4bb58c178d67ee7247ba59f69a93890828c0a03cfaaac3c2a0308f2ac4305fd7"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-mount-targets.sh",
+      "destination": "scripts/next-mount-targets.sh",
+      "sha256": "1b0dfc2fa857d8de91b32ff4d1473d69359b546a540208c7468328441ad30537",
+      "bytes": 519,
+      "match": "exact",
+      "source_sha256_at_freeze": "1b0dfc2fa857d8de91b32ff4d1473d69359b546a540208c7468328441ad30537",
+      "destination_sha256": "1b0dfc2fa857d8de91b32ff4d1473d69359b546a540208c7468328441ad30537"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/guest-install-cached.sh",
+      "destination": "scripts/guest-install-cached.sh",
+      "sha256": "bca95d15dacf94a55cb67bd9bf68a89af8531f6393e0218b1a437b8d8e29d10c",
+      "bytes": 475,
+      "match": "exact",
+      "source_sha256_at_freeze": "bca95d15dacf94a55cb67bd9bf68a89af8531f6393e0218b1a437b8d8e29d10c",
+      "destination_sha256": "bca95d15dacf94a55cb67bd9bf68a89af8531f6393e0218b1a437b8d8e29d10c"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/profile-packages.sh",
+      "destination": "scripts/profile-packages.sh",
+      "sha256": "261cfb78c35badfcae14f07b2b67e9c8edf9839470a671b1c05eb46d39db189b",
+      "bytes": 1138,
+      "match": "exact",
+      "source_sha256_at_freeze": "261cfb78c35badfcae14f07b2b67e9c8edf9839470a671b1c05eb46d39db189b",
+      "destination_sha256": "261cfb78c35badfcae14f07b2b67e9c8edf9839470a671b1c05eb46d39db189b"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-finish-kde-root.sh",
+      "destination": "scripts/next-finish-kde-root.sh",
+      "sha256": "5c56b2d0be9c7550457efdb8c43ee32685a18f82584ef51722b7663876da4fdd",
+      "bytes": 2333,
+      "match": "exact",
+      "source_sha256_at_freeze": "5c56b2d0be9c7550457efdb8c43ee32685a18f82584ef51722b7663876da4fdd",
+      "destination_sha256": "5c56b2d0be9c7550457efdb8c43ee32685a18f82584ef51722b7663876da4fdd"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-finish-cli-baseline.sh",
+      "destination": "scripts/next-finish-cli-baseline.sh",
+      "sha256": "f62f390c24eb0caa130e3384d6ce7cd021f1ec41dcf339c9f2d028b4495934bd",
+      "bytes": 524,
+      "match": "exact",
+      "source_sha256_at_freeze": "f62f390c24eb0caa130e3384d6ce7cd021f1ec41dcf339c9f2d028b4495934bd",
+      "destination_sha256": "f62f390c24eb0caa130e3384d6ce7cd021f1ec41dcf339c9f2d028b4495934bd"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/download-packages.py",
+      "destination": "scripts/download-packages.py",
+      "sha256": "212d25f7f322be3857067a3c4a11b93ac13f76694c9c4c3ace6025df178d8d70",
+      "bytes": 1460,
+      "match": "exact",
+      "source_sha256_at_freeze": "212d25f7f322be3857067a3c4a11b93ac13f76694c9c4c3ace6025df178d8d70",
+      "destination_sha256": "212d25f7f322be3857067a3c4a11b93ac13f76694c9c4c3ace6025df178d8d70"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/install-cli.sh",
+      "destination": "scripts/install-cli.sh",
+      "sha256": "b4536dd4a507ddc3d2324dc3595a182db9f25e7a8ef3a9725901626f0b54be6a",
+      "bytes": 395,
+      "match": "exact",
+      "source_sha256_at_freeze": "b4536dd4a507ddc3d2324dc3595a182db9f25e7a8ef3a9725901626f0b54be6a",
+      "destination_sha256": "b4536dd4a507ddc3d2324dc3595a182db9f25e7a8ef3a9725901626f0b54be6a"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-audit-and-stop.sh",
+      "destination": "scripts/next-audit-and-stop.sh",
+      "sha256": "a9f77397cf08220700afe52d69246d03026a019fd0307681328cb02463c520da",
+      "bytes": 288,
+      "match": "exact",
+      "source_sha256_at_freeze": "a9f77397cf08220700afe52d69246d03026a019fd0307681328cb02463c520da",
+      "destination_sha256": "a9f77397cf08220700afe52d69246d03026a019fd0307681328cb02463c520da"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/install-kde.sh",
+      "destination": "scripts/install-kde.sh",
+      "sha256": "f0a25cdd9b4edfe342c41a4723d0df4257e04dd7f8ee83c32e05dcffb729adde",
+      "bytes": 167,
+      "match": "exact",
+      "source_sha256_at_freeze": "f0a25cdd9b4edfe342c41a4723d0df4257e04dd7f8ee83c32e05dcffb729adde",
+      "destination_sha256": "f0a25cdd9b4edfe342c41a4723d0df4257e04dd7f8ee83c32e05dcffb729adde"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-stop-builder.sh",
+      "destination": "scripts/next-stop-builder.sh",
+      "sha256": "4de26f480b637a6d4398478d425a9dbdb5da2006620c9e21c0600f3b26781de3",
+      "bytes": 134,
+      "match": "exact",
+      "source_sha256_at_freeze": "4de26f480b637a6d4398478d425a9dbdb5da2006620c9e21c0600f3b26781de3",
+      "destination_sha256": "4de26f480b637a6d4398478d425a9dbdb5da2006620c9e21c0600f3b26781de3"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/compress-image.py",
+      "destination": "scripts/compress-image.py",
+      "sha256": "decd3bedd47e32ffb47389758c59c607d64baa4a80494ff8334580247a8eebf4",
+      "bytes": 2942,
+      "match": "exact",
+      "source_sha256_at_freeze": "decd3bedd47e32ffb47389758c59c607d64baa4a80494ff8334580247a8eebf4",
+      "destination_sha256": "decd3bedd47e32ffb47389758c59c607d64baa4a80494ff8334580247a8eebf4"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/qa-next-roots.py",
+      "destination": "scripts/qa-next-roots.py",
+      "sha256": "c1895f73ed35c890ab2a9bd2a1f1b04538a4f2cb99f9b6c14ffdb94b66b031e3",
+      "bytes": 4061,
+      "match": "exact",
+      "source_sha256_at_freeze": "c1895f73ed35c890ab2a9bd2a1f1b04538a4f2cb99f9b6c14ffdb94b66b031e3",
+      "destination_sha256": "c1895f73ed35c890ab2a9bd2a1f1b04538a4f2cb99f9b6c14ffdb94b66b031e3"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-finalize-roots.sh",
+      "destination": "scripts/next-finalize-roots.sh",
+      "sha256": "40911920b9025d3a04da5e43e5f9972fad83a2de358b2a58802fcb0588a5e57c",
+      "bytes": 303,
+      "match": "exact",
+      "source_sha256_at_freeze": "40911920b9025d3a04da5e43e5f9972fad83a2de358b2a58802fcb0588a5e57c",
+      "destination_sha256": "40911920b9025d3a04da5e43e5f9972fad83a2de358b2a58802fcb0588a5e57c"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/guest-baseline-finish.sh",
+      "destination": "scripts/guest-baseline-finish.sh",
+      "sha256": "27d4f74263580a14e407b3215b43288d6d4ac6a0f66da2af71083f73e7ed4e8c",
+      "bytes": 1258,
+      "match": "exact",
+      "source_sha256_at_freeze": "27d4f74263580a14e407b3215b43288d6d4ac6a0f66da2af71083f73e7ed4e8c",
+      "destination_sha256": "27d4f74263580a14e407b3215b43288d6d4ac6a0f66da2af71083f73e7ed4e8c"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/finalize-target.sh",
+      "destination": "scripts/finalize-target.sh",
+      "sha256": "d991eb548e2bcb571391a83b4a44c1e223c01137b0d2ecd88e3dc578442346de",
+      "bytes": 4642,
+      "match": "exact",
+      "source_sha256_at_freeze": "d991eb548e2bcb571391a83b4a44c1e223c01137b0d2ecd88e3dc578442346de",
+      "destination_sha256": "d991eb548e2bcb571391a83b4a44c1e223c01137b0d2ecd88e3dc578442346de"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/validate-next-kernel.py",
+      "destination": "scripts/validate-next-kernel.py",
+      "sha256": "043ed0e43efdf3a2990dafed32a4ebe61d794c837644aec1010777ede269c126",
+      "bytes": 3075,
+      "match": "exact",
+      "source_sha256_at_freeze": "043ed0e43efdf3a2990dafed32a4ebe61d794c837644aec1010777ede269c126",
+      "destination_sha256": "043ed0e43efdf3a2990dafed32a4ebe61d794c837644aec1010777ede269c126"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/start-next-vm.sh",
+      "destination": "scripts/start-next-vm.sh",
+      "sha256": "8bc48f37f76e3a06a63c60f68838d130852e666d0653655135eee870ab3a217a",
+      "bytes": 1463,
+      "match": "exact",
+      "source_sha256_at_freeze": "8bc48f37f76e3a06a63c60f68838d130852e666d0653655135eee870ab3a217a",
+      "destination_sha256": "8bc48f37f76e3a06a63c60f68838d130852e666d0653655135eee870ab3a217a"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/finish-target.sh",
+      "destination": "scripts/finish-target.sh",
+      "sha256": "46be43defaf660402fcf8522e69a7bd1893d1b8aedeaea65b004ae080eb50645",
+      "bytes": 1341,
+      "match": "exact",
+      "source_sha256_at_freeze": "46be43defaf660402fcf8522e69a7bd1893d1b8aedeaea65b004ae080eb50645",
+      "destination_sha256": "46be43defaf660402fcf8522e69a7bd1893d1b8aedeaea65b004ae080eb50645"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-guest-runner.sh",
+      "destination": "scripts/next-guest-runner.sh",
+      "sha256": "309277464b5363f800fc739bf878b6ce93552c27143ee245a55d32a7a41dc63e",
+      "bytes": 667,
+      "match": "exact",
+      "source_sha256_at_freeze": "309277464b5363f800fc739bf878b6ce93552c27143ee245a55d32a7a41dc63e",
+      "destination_sha256": "309277464b5363f800fc739bf878b6ce93552c27143ee245a55d32a7a41dc63e"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/restore-filecaps.py",
+      "destination": "scripts/restore-filecaps.py",
+      "sha256": "5c402d6790acfedf78ed7545170664228056ce40d34a778912a9924eb95b1a7f",
+      "bytes": 2502,
+      "match": "exact",
+      "source_sha256_at_freeze": "5c402d6790acfedf78ed7545170664228056ce40d34a778912a9924eb95b1a7f",
+      "destination_sha256": "5c402d6790acfedf78ed7545170664228056ce40d34a778912a9924eb95b1a7f"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/next-guest-bootstrap.sh",
+      "destination": "scripts/next-guest-bootstrap.sh",
+      "sha256": "cb5d150c7720638954cbc5bb17435281fd2de77797cc55f3384f61f872ad1848",
+      "bytes": 1565,
+      "match": "exact",
+      "source_sha256_at_freeze": "cb5d150c7720638954cbc5bb17435281fd2de77797cc55f3384f61f872ad1848",
+      "destination_sha256": "cb5d150c7720638954cbc5bb17435281fd2de77797cc55f3384f61f872ad1848"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/install-kde-target.sh",
+      "destination": "scripts/install-kde-target.sh",
+      "sha256": "bfdadf00c44dacd22eb5d26a8509104155043d2cf72f8fe015116a991f47208b",
+      "bytes": 427,
+      "match": "exact",
+      "source_sha256_at_freeze": "bfdadf00c44dacd22eb5d26a8509104155043d2cf72f8fe015116a991f47208b",
+      "destination_sha256": "bfdadf00c44dacd22eb5d26a8509104155043d2cf72f8fe015116a991f47208b"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/start-vm.sh",
+      "destination": "scripts/start-vm.sh",
+      "sha256": "f48d9a99c3ede89ce4ace26a69b43fb96b621e689a294665751dea6510b36454",
+      "bytes": 1323,
+      "match": "exact",
+      "source_sha256_at_freeze": "f48d9a99c3ede89ce4ace26a69b43fb96b621e689a294665751dea6510b36454",
+      "destination_sha256": "f48d9a99c3ede89ce4ace26a69b43fb96b621e689a294665751dea6510b36454"
+    },
+    {
+      "group": "build",
+      "origin": "scripts/create-builder-initramfs.sh",
+      "destination": "scripts/create-builder-initramfs.sh",
+      "sha256": "5428b2aa85d06c688e202cd09c9f375fb9884007ca0ce7f0369a853685726b5b",
+      "bytes": 1118,
+      "match": "exact",
+      "source_sha256_at_freeze": "5428b2aa85d06c688e202cd09c9f375fb9884007ca0ce7f0369a853685726b5b",
+      "destination_sha256": "5428b2aa85d06c688e202cd09c9f375fb9884007ca0ce7f0369a853685726b5b"
+    },
+    {
+      "group": "build",
+      "origin": "profiles/kde.packages",
+      "destination": "profiles/kde.packages",
+      "sha256": "9bb99d32f56f834e1775dcb1e2010f4d46a64a63947f1f6c7841878451e68bef",
+      "bytes": 188,
+      "match": "exact",
+      "source_sha256_at_freeze": "9bb99d32f56f834e1775dcb1e2010f4d46a64a63947f1f6c7841878451e68bef",
+      "destination_sha256": "9bb99d32f56f834e1775dcb1e2010f4d46a64a63947f1f6c7841878451e68bef"
+    },
+    {
+      "group": "build",
+      "origin": "profiles/cli.packages",
+      "destination": "profiles/cli.packages",
+      "sha256": "43cb0957f084e4cdfe1dd1e9029a66656376374fa14f2016d65d65406ed01959",
+      "bytes": 348,
+      "match": "exact",
+      "source_sha256_at_freeze": "43cb0957f084e4cdfe1dd1e9029a66656376374fa14f2016d65d65406ed01959",
+      "destination_sha256": "43cb0957f084e4cdfe1dd1e9029a66656376374fa14f2016d65d65406ed01959"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/prepare-rootfs.py",
+      "destination": "overlay-work/prepare-rootfs.py",
+      "sha256": "74ccfd58c8f4b0431f0057265e9ad5124ee908d388e826090c8b44a87c6ef2ad",
+      "bytes": 9708,
+      "match": "exact",
+      "source_sha256_at_freeze": "74ccfd58c8f4b0431f0057265e9ad5124ee908d388e826090c8b44a87c6ef2ad",
+      "destination_sha256": "74ccfd58c8f4b0431f0057265e9ad5124ee908d388e826090c8b44a87c6ef2ad"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/README.md",
+      "destination": "overlay-work/README.md",
+      "sha256": "9569ec92659599de91f8d42cf7fb3da052e140c647f5b97b973d2471e0345da5",
+      "bytes": 14833,
+      "match": "exact",
+      "source_sha256_at_freeze": "9569ec92659599de91f8d42cf7fb3da052e140c647f5b97b973d2471e0345da5",
+      "destination_sha256": "9569ec92659599de91f8d42cf7fb3da052e140c647f5b97b973d2471e0345da5"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/test_kernel_generations.py",
+      "destination": "overlay-work/tests/test_kernel_generations.py",
+      "sha256": "fed27b5588ed8a5e224d8be2265bd5cffd7477514c58808ce5d457c395e4ae19",
+      "bytes": 37279,
+      "match": "exact",
+      "source_sha256_at_freeze": "fed27b5588ed8a5e224d8be2265bd5cffd7477514c58808ce5d457c395e4ae19",
+      "destination_sha256": "fed27b5588ed8a5e224d8be2265bd5cffd7477514c58808ce5d457c395e4ae19"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/test_ac_power_policy.py",
+      "destination": "overlay-work/tests/test_ac_power_policy.py",
+      "sha256": "c05f2a4b51428a0af95a053870b7de0bc7130dbf3a86a11776ceee286e5dfd73",
+      "bytes": 6197,
+      "match": "exact",
+      "source_sha256_at_freeze": "c05f2a4b51428a0af95a053870b7de0bc7130dbf3a86a11776ceee286e5dfd73",
+      "destination_sha256": "c05f2a4b51428a0af95a053870b7de0bc7130dbf3a86a11776ceee286e5dfd73"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/test_overlay.py",
+      "destination": "overlay-work/tests/test_overlay.py",
+      "sha256": "9d974803259348a980e58e2058f4a3b00207e2ea2c553048e4a92ea10190fd95",
+      "bytes": 16674,
+      "match": "exact",
+      "source_sha256_at_freeze": "9d974803259348a980e58e2058f4a3b00207e2ea2c553048e4a92ea10190fd95",
+      "destination_sha256": "9d974803259348a980e58e2058f4a3b00207e2ea2c553048e4a92ea10190fd95"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/test_network_ssh.py",
+      "destination": "overlay-work/tests/test_network_ssh.py",
+      "sha256": "e237b5fd18bd1de67067ca6db48347e0fb3b4640ce21bb76d95c9e2c1ce05978",
+      "bytes": 21303,
+      "match": "exact",
+      "source_sha256_at_freeze": "e237b5fd18bd1de67067ca6db48347e0fb3b4640ce21bb76d95c9e2c1ce05978",
+      "destination_sha256": "e237b5fd18bd1de67067ca6db48347e0fb3b4640ce21bb76d95c9e2c1ce05978"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/KERNEL-GENERATIONS.md",
+      "destination": "overlay-work/tests/KERNEL-GENERATIONS.md",
+      "sha256": "76dc7988829883fef5d27856ce87c70e061ff7792ca637e24061db164a0de709",
+      "bytes": 8754,
+      "match": "exact",
+      "source_sha256_at_freeze": "76dc7988829883fef5d27856ce87c70e061ff7792ca637e24061db164a0de709",
+      "destination_sha256": "76dc7988829883fef5d27856ce87c70e061ff7792ca637e24061db164a0de709"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/test_ssh_parser.py",
+      "destination": "overlay-work/tests/test_ssh_parser.py",
+      "sha256": "0cbd859fb7d2007d349aa74d9d5ad48870373bca4af4d17244a8e1fa40c6196f",
+      "bytes": 5925,
+      "match": "exact",
+      "source_sha256_at_freeze": "0cbd859fb7d2007d349aa74d9d5ad48870373bca4af4d17244a8e1fa40c6196f",
+      "destination_sha256": "0cbd859fb7d2007d349aa74d9d5ad48870373bca4af4d17244a8e1fa40c6196f"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/test_next_desktop.py",
+      "destination": "overlay-work/tests/test_next_desktop.py",
+      "sha256": "10e5ae1a6401c1f87a0b3c00fbcc95c84837dc8d1b511276e64bd4277f4acea7",
+      "bytes": 4990,
+      "match": "documented_source_only_test_adapter",
+      "destination_sha256": "094ce5068967ad588d52c781e093f2e690fd5549837d7ccd09cde6620f0b7bbf",
+      "reason": "Allow an explicit external verified package fixture, or skip this binary-dependent test in a source-only checkout.",
+      "source_sha256_at_freeze": "10e5ae1a6401c1f87a0b3c00fbcc95c84837dc8d1b511276e64bd4277f4acea7"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/docs/NETWORK-SSH-NEXT.md",
+      "destination": "overlay-work/docs/NETWORK-SSH-NEXT.md",
+      "sha256": "907a42205cf033a5b86721a05df3c8ca800483bc2b2360098a0b0439fc7c2e41",
+      "bytes": 9085,
+      "match": "exact",
+      "source_sha256_at_freeze": "907a42205cf033a5b86721a05df3c8ca800483bc2b2360098a0b0439fc7c2e41",
+      "destination_sha256": "907a42205cf033a5b86721a05df3c8ca800483bc2b2360098a0b0439fc7c2e41"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/packaging/make-manifest.py",
+      "destination": "overlay-work/packaging/make-manifest.py",
+      "sha256": "3d281cb5e35b4e741fc2d847c78cea570fb168f1360923b38b04d9d07a6b5904",
+      "bytes": 1238,
+      "match": "exact",
+      "source_sha256_at_freeze": "3d281cb5e35b4e741fc2d847c78cea570fb168f1360923b38b04d9d07a6b5904",
+      "destination_sha256": "3d281cb5e35b4e741fc2d847c78cea570fb168f1360923b38b04d9d07a6b5904"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/packaging/PKGBUILD.in",
+      "destination": "overlay-work/packaging/PKGBUILD.in",
+      "sha256": "1896ea6e738693424ee6b8e95a2a9580821e055dcf01ffc97aa43803d367f90d",
+      "bytes": 766,
+      "match": "exact",
+      "source_sha256_at_freeze": "1896ea6e738693424ee6b8e95a2a9580821e055dcf01ffc97aa43803d367f90d",
+      "destination_sha256": "1896ea6e738693424ee6b8e95a2a9580821e055dcf01ffc97aa43803d367f90d"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/tests/fixtures/README-ssh.md",
+      "destination": "overlay-work/tests/fixtures/README-ssh.md",
+      "sha256": "d87bec6b3dd6611d684bfb47225fc34a2cdc460b9e04c26e3ab03bca4c593c8b",
+      "bytes": 999,
+      "match": "exact",
+      "source_sha256_at_freeze": "d87bec6b3dd6611d684bfb47225fc34a2cdc460b9e04c26e3ab03bca4c593c8b",
+      "destination_sha256": "d87bec6b3dd6611d684bfb47225fc34a2cdc460b9e04c26e3ab03bca4c593c8b"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/usr/local/sbin/rock5t-configure-network",
+      "destination": "overlay-work/rootfs/usr/local/sbin/rock5t-configure-network",
+      "sha256": "177c5daf5ae95f65a50be00120d06aaed75d7f5eb501d4dcef775bc6db044d42",
+      "bytes": 7405,
+      "match": "exact",
+      "source_sha256_at_freeze": "177c5daf5ae95f65a50be00120d06aaed75d7f5eb501d4dcef775bc6db044d42",
+      "destination_sha256": "177c5daf5ae95f65a50be00120d06aaed75d7f5eb501d4dcef775bc6db044d42"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/usr/local/sbin/rock5t-configure-ssh",
+      "destination": "overlay-work/rootfs/usr/local/sbin/rock5t-configure-ssh",
+      "sha256": "656b28e00f503fff5cc7893d98a57224ea1bc5cbede23fce8f94ed709c15c2e8",
+      "bytes": 13007,
+      "match": "exact",
+      "source_sha256_at_freeze": "656b28e00f503fff5cc7893d98a57224ea1bc5cbede23fce8f94ed709c15c2e8",
+      "destination_sha256": "656b28e00f503fff5cc7893d98a57224ea1bc5cbede23fce8f94ed709c15c2e8"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/usr/local/sbin/rock5t-grow-root",
+      "destination": "overlay-work/rootfs/usr/local/sbin/rock5t-grow-root",
+      "sha256": "9577f202dcdb1270bdb4fef3c6a42530ab8cdf151d150a8df8bb2398fc02a3cc",
+      "bytes": 1531,
+      "match": "exact",
+      "source_sha256_at_freeze": "9577f202dcdb1270bdb4fef3c6a42530ab8cdf151d150a8df8bb2398fc02a3cc",
+      "destination_sha256": "9577f202dcdb1270bdb4fef3c6a42530ab8cdf151d150a8df8bb2398fc02a3cc"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/usr/local/sbin/rock5t-firstboot",
+      "destination": "overlay-work/rootfs/usr/local/sbin/rock5t-firstboot",
+      "sha256": "e63fab368bd483c87a3f26658143e737a7fd02e5d256c830dd10d68051f5f8c2",
+      "bytes": 6215,
+      "match": "exact",
+      "source_sha256_at_freeze": "e63fab368bd483c87a3f26658143e737a7fd02e5d256c830dd10d68051f5f8c2",
+      "destination_sha256": "e63fab368bd483c87a3f26658143e737a7fd02e5d256c830dd10d68051f5f8c2"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/usr/local/sbin/rock5t-kernel",
+      "destination": "overlay-work/rootfs/usr/local/sbin/rock5t-kernel",
+      "sha256": "75cba00c24867239be584adf2e80b7aaaf6dbb3cc28aa131f436efe708b17725",
+      "bytes": 18051,
+      "match": "exact",
+      "source_sha256_at_freeze": "75cba00c24867239be584adf2e80b7aaaf6dbb3cc28aa131f436efe708b17725",
+      "destination_sha256": "75cba00c24867239be584adf2e80b7aaaf6dbb3cc28aa131f436efe708b17725"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/usr/local/sbin/rock5t-expand-firmware",
+      "destination": "overlay-work/rootfs/usr/local/sbin/rock5t-expand-firmware",
+      "sha256": "b1e9a57efaabb17d52196f2ef099469234b0112b475cad710b8a71667832f49c",
+      "bytes": 6696,
+      "match": "exact",
+      "source_sha256_at_freeze": "b1e9a57efaabb17d52196f2ef099469234b0112b475cad710b8a71667832f49c",
+      "destination_sha256": "b1e9a57efaabb17d52196f2ef099469234b0112b475cad710b8a71667832f49c"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/sudoers.d/10-rock5t-wheel",
+      "destination": "overlay-work/rootfs/etc/sudoers.d/10-rock5t-wheel",
+      "sha256": "48747ccfc19d8774116e08e3c24d74705801e6e9c5041bf6a62cab4ae70db700",
+      "bytes": 86,
+      "match": "exact",
+      "source_sha256_at_freeze": "48747ccfc19d8774116e08e3c24d74705801e6e9c5041bf6a62cab4ae70db700",
+      "destination_sha256": "48747ccfc19d8774116e08e3c24d74705801e6e9c5041bf6a62cab4ae70db700"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/rock5t/mkinitcpio.conf",
+      "destination": "overlay-work/rootfs/etc/rock5t/mkinitcpio.conf",
+      "sha256": "2c6b70d593d3908dbb033a73c31064d84bd690b76b86ced5315ac40c26b9359b",
+      "bytes": 209,
+      "match": "exact",
+      "source_sha256_at_freeze": "2c6b70d593d3908dbb033a73c31064d84bd690b76b86ced5315ac40c26b9359b",
+      "destination_sha256": "2c6b70d593d3908dbb033a73c31064d84bd690b76b86ced5315ac40c26b9359b"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/xdg/powerdevilrc",
+      "destination": "overlay-work/rootfs/etc/xdg/powerdevilrc",
+      "sha256": "a10a56df82ad121cf46c299e6e51f426e9fc746011e41469c5717045158ed93d",
+      "bytes": 260,
+      "match": "exact",
+      "source_sha256_at_freeze": "a10a56df82ad121cf46c299e6e51f426e9fc746011e41469c5717045158ed93d",
+      "destination_sha256": "a10a56df82ad121cf46c299e6e51f426e9fc746011e41469c5717045158ed93d"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/sysctl.d/90-rock5t-realtime-budget.conf",
+      "destination": "overlay-work/rootfs/etc/sysctl.d/90-rock5t-realtime-budget.conf",
+      "sha256": "ffb0629a8479fbb8c25932d43320f4924979bd6cb08f70454b4f6be593c6fb18",
+      "bytes": 149,
+      "match": "exact",
+      "source_sha256_at_freeze": "ffb0629a8479fbb8c25932d43320f4924979bd6cb08f70454b4f6be593c6fb18",
+      "destination_sha256": "ffb0629a8479fbb8c25932d43320f4924979bd6cb08f70454b4f6be593c6fb18"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/ssh/sshd_config.d/10-rock5t.conf",
+      "destination": "overlay-work/rootfs/etc/ssh/sshd_config.d/10-rock5t.conf",
+      "sha256": "b7cdfb1cc7179b0323afb19497849e8f32a48748fd92035295c3645efd3245dd",
+      "bytes": 158,
+      "match": "exact",
+      "source_sha256_at_freeze": "b7cdfb1cc7179b0323afb19497849e8f32a48748fd92035295c3645efd3245dd",
+      "destination_sha256": "b7cdfb1cc7179b0323afb19497849e8f32a48748fd92035295c3645efd3245dd"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/rock5t-provisioned.target",
+      "destination": "overlay-work/rootfs/etc/systemd/system/rock5t-provisioned.target",
+      "sha256": "cd1c24f03bb481daf7af471195246d6dbcc59577e3eeff99fe6a2a24b0793833",
+      "bytes": 189,
+      "match": "exact",
+      "source_sha256_at_freeze": "cd1c24f03bb481daf7af471195246d6dbcc59577e3eeff99fe6a2a24b0793833",
+      "destination_sha256": "cd1c24f03bb481daf7af471195246d6dbcc59577e3eeff99fe6a2a24b0793833"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/rock5t-firstboot@.service",
+      "destination": "overlay-work/rootfs/etc/systemd/system/rock5t-firstboot@.service",
+      "sha256": "86b9067d3c426a3416feaa0e02220f8073eb3bc2798ea50a7604eda2d201c6f0",
+      "bytes": 489,
+      "match": "exact",
+      "source_sha256_at_freeze": "86b9067d3c426a3416feaa0e02220f8073eb3bc2798ea50a7604eda2d201c6f0",
+      "destination_sha256": "86b9067d3c426a3416feaa0e02220f8073eb3bc2798ea50a7604eda2d201c6f0"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/plasmalogin.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/plasmalogin.service.d/10-rock5t-provisioning.conf",
+      "sha256": "111a302ac659bb3e182a83118f267ad47c9c3e450a7e5bf4eedef0d211638358",
+      "bytes": 122,
+      "match": "exact",
+      "source_sha256_at_freeze": "111a302ac659bb3e182a83118f267ad47c9c3e450a7e5bf4eedef0d211638358",
+      "destination_sha256": "111a302ac659bb3e182a83118f267ad47c9c3e450a7e5bf4eedef0d211638358"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/getty@tty1.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/getty@tty1.service.d/10-rock5t-provisioning.conf",
+      "sha256": "7783b94d9109c1228f3ef4676b66b31657b48d071eae21d6bbd16ddcdd2dad5b",
+      "bytes": 91,
+      "match": "exact",
+      "source_sha256_at_freeze": "7783b94d9109c1228f3ef4676b66b31657b48d071eae21d6bbd16ddcdd2dad5b",
+      "destination_sha256": "7783b94d9109c1228f3ef4676b66b31657b48d071eae21d6bbd16ddcdd2dad5b"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/serial-getty@ttyS2.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/serial-getty@ttyS2.service.d/10-rock5t-provisioning.conf",
+      "sha256": "ab4c196648b06ff731d536cd5187f794d9608e87655631ea82737ab699d37d11",
+      "bytes": 169,
+      "match": "exact",
+      "source_sha256_at_freeze": "ab4c196648b06ff731d536cd5187f794d9608e87655631ea82737ab699d37d11",
+      "destination_sha256": "ab4c196648b06ff731d536cd5187f794d9608e87655631ea82737ab699d37d11"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/getty@.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/getty@.service.d/10-rock5t-provisioning.conf",
+      "sha256": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536",
+      "bytes": 55,
+      "match": "exact",
+      "source_sha256_at_freeze": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536",
+      "destination_sha256": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/serial-getty@.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/serial-getty@.service.d/10-rock5t-provisioning.conf",
+      "sha256": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536",
+      "bytes": 55,
+      "match": "exact",
+      "source_sha256_at_freeze": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536",
+      "destination_sha256": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/sshd.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/sshd.service.d/10-rock5t-provisioning.conf",
+      "sha256": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536",
+      "bytes": 55,
+      "match": "exact",
+      "source_sha256_at_freeze": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536",
+      "destination_sha256": "2915713479a157049849194c241ca71e3310c5014e2d08013bffb55a931ee536"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/systemd/system/NetworkManager.service.d/10-rock5t-provisioning.conf",
+      "destination": "overlay-work/rootfs/etc/systemd/system/NetworkManager.service.d/10-rock5t-provisioning.conf",
+      "sha256": "de65d6973e7bbfc60f7336e49e2cd09e7ee298f7372ac310566409d94c832f5e",
+      "bytes": 103,
+      "match": "exact",
+      "source_sha256_at_freeze": "de65d6973e7bbfc60f7336e49e2cd09e7ee298f7372ac310566409d94c832f5e",
+      "destination_sha256": "de65d6973e7bbfc60f7336e49e2cd09e7ee298f7372ac310566409d94c832f5e"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/pacman.d/hooks/99-rock5t-kernel-activate.hook",
+      "destination": "overlay-work/rootfs/etc/pacman.d/hooks/99-rock5t-kernel-activate.hook",
+      "sha256": "64bfc6094b58b9f6b1fcdef5b5cb02effb5faa597e8185cd5cb63767c9043a12",
+      "bytes": 313,
+      "match": "exact",
+      "source_sha256_at_freeze": "64bfc6094b58b9f6b1fcdef5b5cb02effb5faa597e8185cd5cb63767c9043a12",
+      "destination_sha256": "64bfc6094b58b9f6b1fcdef5b5cb02effb5faa597e8185cd5cb63767c9043a12"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/pacman.d/hooks/10-rock5t-kernel-check.hook",
+      "destination": "overlay-work/rootfs/etc/pacman.d/hooks/10-rock5t-kernel-check.hook",
+      "sha256": "4c0ce8187434775b880c0fd63b4ae56106a2650b0054cc20a31ab12caf5e8fa9",
+      "bytes": 293,
+      "match": "exact",
+      "source_sha256_at_freeze": "4c0ce8187434775b880c0fd63b4ae56106a2650b0054cc20a31ab12caf5e8fa9",
+      "destination_sha256": "4c0ce8187434775b880c0fd63b4ae56106a2650b0054cc20a31ab12caf5e8fa9"
+    },
+    {
+      "group": "build",
+      "origin": "overlay-work/rootfs/etc/pacman.d/hooks/90-rock5t-firmware-expand.hook",
+      "destination": "overlay-work/rootfs/etc/pacman.d/hooks/90-rock5t-firmware-expand.hook",
+      "sha256": "eeea392e49a9333181326d98fb2e5769432bfca27e4c3a886caf1cf1babf6d5d",
+      "bytes": 335,
+      "match": "exact",
+      "source_sha256_at_freeze": "eeea392e49a9333181326d98fb2e5769432bfca27e4c3a886caf1cf1babf6d5d",
+      "destination_sha256": "eeea392e49a9333181326d98fb2e5769432bfca27e4c3a886caf1cf1babf6d5d"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/rock5t_image.py",
+      "destination": "packaging-work/rock5t_image.py",
+      "sha256": "b398f6dabcc9b2389a35d8d90c40671e2ce1205967086ea98fe9583a98e5c903",
+      "bytes": 26022,
+      "match": "exact",
+      "source_sha256_at_freeze": "b398f6dabcc9b2389a35d8d90c40671e2ce1205967086ea98fe9583a98e5c903",
+      "destination_sha256": "b398f6dabcc9b2389a35d8d90c40671e2ce1205967086ea98fe9583a98e5c903"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/test_rock5t_image.py",
+      "destination": "packaging-work/test_rock5t_image.py",
+      "sha256": "de23eacaf072cacbdcf56c71a39d669a89c6f71ee30580e4dd23a9dc7bda599f",
+      "bytes": 8702,
+      "match": "exact",
+      "source_sha256_at_freeze": "de23eacaf072cacbdcf56c71a39d669a89c6f71ee30580e4dd23a9dc7bda599f",
+      "destination_sha256": "de23eacaf072cacbdcf56c71a39d669a89c6f71ee30580e4dd23a9dc7bda599f"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/kde.ids.json",
+      "destination": "packaging-work/kde.ids.json",
+      "sha256": "4ead4340ddcb969ed0684bfc70660a2438df26a52b859335cb456d01789d586c",
+      "bytes": 228,
+      "match": "exact",
+      "source_sha256_at_freeze": "4ead4340ddcb969ed0684bfc70660a2438df26a52b859335cb456d01789d586c",
+      "destination_sha256": "4ead4340ddcb969ed0684bfc70660a2438df26a52b859335cb456d01789d586c"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/release_image.py",
+      "destination": "packaging-work/release_image.py",
+      "sha256": "658527bcd533cf196746ca7f59a97b55576604021045e8cfffdd285a46ad221b",
+      "bytes": 16330,
+      "match": "exact",
+      "source_sha256_at_freeze": "658527bcd533cf196746ca7f59a97b55576604021045e8cfffdd285a46ad221b",
+      "destination_sha256": "658527bcd533cf196746ca7f59a97b55576604021045e8cfffdd285a46ad221b"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/cli.ids.json",
+      "destination": "packaging-work/cli.ids.json",
+      "sha256": "6ebc09c12b24dce63ed36257f77316502d0ea44e686f8fe2557ca1dc77898f8a",
+      "bytes": 228,
+      "match": "exact",
+      "source_sha256_at_freeze": "6ebc09c12b24dce63ed36257f77316502d0ea44e686f8fe2557ca1dc77898f8a",
+      "destination_sha256": "6ebc09c12b24dce63ed36257f77316502d0ea44e686f8fe2557ca1dc77898f8a"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/README.md",
+      "destination": "packaging-work/README.md",
+      "sha256": "b01aa818e9ea9fde5d61b5af89ba35336d2ed472bfc5da17baba80b0e4213c08",
+      "bytes": 12102,
+      "match": "exact",
+      "source_sha256_at_freeze": "b01aa818e9ea9fde5d61b5af89ba35336d2ed472bfc5da17baba80b0e4213c08",
+      "destination_sha256": "b01aa818e9ea9fde5d61b5af89ba35336d2ed472bfc5da17baba80b0e4213c08"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/test_release_image.py",
+      "destination": "packaging-work/test_release_image.py",
+      "sha256": "b8200aab73ee7dcdc56e68d7c137369bbe1dac708c5e5a4f27232a0182fd7fe6",
+      "bytes": 18478,
+      "match": "exact",
+      "source_sha256_at_freeze": "b8200aab73ee7dcdc56e68d7c137369bbe1dac708c5e5a4f27232a0182fd7fe6",
+      "destination_sha256": "b8200aab73ee7dcdc56e68d7c137369bbe1dac708c5e5a4f27232a0182fd7fe6"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/releases/2026.10.08-landlock1/kde.ids.json",
+      "destination": "packaging-work/releases/2026.10.08-landlock1/kde.ids.json",
+      "sha256": "7a8c262746e765f24ea6e106315a46291d85cda15c5a3909e7888f4df07c7681",
+      "bytes": 238,
+      "match": "exact",
+      "source_sha256_at_freeze": "7a8c262746e765f24ea6e106315a46291d85cda15c5a3909e7888f4df07c7681",
+      "destination_sha256": "7a8c262746e765f24ea6e106315a46291d85cda15c5a3909e7888f4df07c7681"
+    },
+    {
+      "group": "build",
+      "origin": "packaging-work/releases/2026.10.08-landlock1/cli.ids.json",
+      "destination": "packaging-work/releases/2026.10.08-landlock1/cli.ids.json",
+      "sha256": "42678bdd94d1abddd3c8889a46f6ef0171addb6cfb66a185eb824c5939a47e42",
+      "bytes": 238,
+      "match": "exact",
+      "source_sha256_at_freeze": "42678bdd94d1abddd3c8889a46f6ef0171addb6cfb66a185eb824c5939a47e42",
+      "destination_sha256": "42678bdd94d1abddd3c8889a46f6ef0171addb6cfb66a185eb824c5939a47e42"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/\u5b89\u88c5\u4e0e\u6062\u590d.zh-CN.txt",
+      "destination": "next-version/delivery-tools/\u5b89\u88c5\u4e0e\u6062\u590d.zh-CN.txt",
+      "sha256": "bd39fca57114b6e467f97f7ea5a7304aa9233118aae285659f70b2b7784c2a21",
+      "bytes": 7537,
+      "match": "exact",
+      "source_sha256_at_freeze": "bd39fca57114b6e467f97f7ea5a7304aa9233118aae285659f70b2b7784c2a21",
+      "destination_sha256": "bd39fca57114b6e467f97f7ea5a7304aa9233118aae285659f70b2b7784c2a21"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/verify.ps1",
+      "destination": "next-version/delivery-tools/verify.ps1",
+      "sha256": "06d341d812938aec4fb68fe370561f3116d14c69b51b77c8a507f636b133142c",
+      "bytes": 1114,
+      "match": "exact",
+      "source_sha256_at_freeze": "06d341d812938aec4fb68fe370561f3116d14c69b51b77c8a507f636b133142c",
+      "destination_sha256": "06d341d812938aec4fb68fe370561f3116d14c69b51b77c8a507f636b133142c"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/README.md",
+      "destination": "next-version/delivery-tools/README.md",
+      "sha256": "0289dbdeecd16bf0ec78549869626d22eaf663411c36f7d12bd2358f17f89f78",
+      "bytes": 1868,
+      "match": "exact",
+      "source_sha256_at_freeze": "0289dbdeecd16bf0ec78549869626d22eaf663411c36f7d12bd2358f17f89f78",
+      "destination_sha256": "0289dbdeecd16bf0ec78549869626d22eaf663411c36f7d12bd2358f17f89f78"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/merge.ps1",
+      "destination": "next-version/delivery-tools/merge.ps1",
+      "sha256": "02f85561a8f28ef7d3aadc00422b4eda836125f2768b3b132b1d55b61faf9c88",
+      "bytes": 2663,
+      "match": "exact",
+      "source_sha256_at_freeze": "02f85561a8f28ef7d3aadc00422b4eda836125f2768b3b132b1d55b61faf9c88",
+      "destination_sha256": "02f85561a8f28ef7d3aadc00422b4eda836125f2768b3b132b1d55b61faf9c88"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/verify.sh",
+      "destination": "next-version/delivery-tools/verify.sh",
+      "sha256": "a8ff47e3e67b52e4c9fb218a34f56d53d666a50431412f34596fec0404e3ba95",
+      "bytes": 714,
+      "match": "exact",
+      "source_sha256_at_freeze": "a8ff47e3e67b52e4c9fb218a34f56d53d666a50431412f34596fec0404e3ba95",
+      "destination_sha256": "a8ff47e3e67b52e4c9fb218a34f56d53d666a50431412f34596fec0404e3ba95"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/merge.sh",
+      "destination": "next-version/delivery-tools/merge.sh",
+      "sha256": "0d2f43f09f342ce626048327e3d5a67a7c95b3e694cd8a8a3f563b21c7f3b82f",
+      "bytes": 1775,
+      "match": "exact",
+      "source_sha256_at_freeze": "0d2f43f09f342ce626048327e3d5a67a7c95b3e694cd8a8a3f563b21c7f3b82f",
+      "destination_sha256": "0d2f43f09f342ce626048327e3d5a67a7c95b3e694cd8a8a3f563b21c7f3b82f"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/delivery-tools/prepare_delivery.py",
+      "destination": "next-version/delivery-tools/prepare_delivery.py",
+      "sha256": "199a0826c45d278328896fb58bce6ec08fa03efbc909793e293cb7b1e0d5a02a",
+      "bytes": 6912,
+      "match": "exact",
+      "source_sha256_at_freeze": "199a0826c45d278328896fb58bce6ec08fa03efbc909793e293cb7b1e0d5a02a",
+      "destination_sha256": "199a0826c45d278328896fb58bce6ec08fa03efbc909793e293cb7b1e0d5a02a"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/AC-POWER-POLICY.md",
+      "destination": "next-version/AC-POWER-POLICY.md",
+      "sha256": "83cb27514115d24f90483613aea7e6cc4957406641b06a9e1246f2d3fa8de9b3",
+      "bytes": 4951,
+      "match": "exact",
+      "source_sha256_at_freeze": "83cb27514115d24f90483613aea7e6cc4957406641b06a9e1246f2d3fa8de9b3",
+      "destination_sha256": "83cb27514115d24f90483613aea7e6cc4957406641b06a9e1246f2d3fa8de9b3"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/rockchip-ddr-LICENSE.TXT",
+      "destination": "next-version/rockchip-ddr-LICENSE.TXT",
+      "sha256": "0b37e1522c36cf4579c45dfb138798c3cb5665fcf6302b95377179fbed38e35c",
+      "bytes": 6585,
+      "match": "exact",
+      "source_sha256_at_freeze": "0b37e1522c36cf4579c45dfb138798c3cb5665fcf6302b95377179fbed38e35c",
+      "destination_sha256": "0b37e1522c36cf4579c45dfb138798c3cb5665fcf6302b95377179fbed38e35c"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/firstboot-vm-test/run_firstboot.py",
+      "destination": "next-version/firstboot-vm-test/run_firstboot.py",
+      "sha256": "005e92de792b2ffe68cdba990dd1d72cd6988ff141e3f928fcd1bdbbf9b37536",
+      "bytes": 17166,
+      "match": "exact",
+      "source_sha256_at_freeze": "005e92de792b2ffe68cdba990dd1d72cd6988ff141e3f928fcd1bdbbf9b37536",
+      "destination_sha256": "005e92de792b2ffe68cdba990dd1d72cd6988ff141e3f928fcd1bdbbf9b37536"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/firstboot-vm-test/verify_guest.py",
+      "destination": "next-version/firstboot-vm-test/verify_guest.py",
+      "sha256": "b48d0958aaf2f8d85003a358cab8bd90c6591d53a2de00009ba7e45168e8ac50",
+      "bytes": 6650,
+      "match": "exact",
+      "source_sha256_at_freeze": "b48d0958aaf2f8d85003a358cab8bd90c6591d53a2de00009ba7e45168e8ac50",
+      "destination_sha256": "b48d0958aaf2f8d85003a358cab8bd90c6591d53a2de00009ba7e45168e8ac50"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/firstboot-vm-test/README.md",
+      "destination": "next-version/firstboot-vm-test/README.md",
+      "sha256": "8dd97dd0d86b21e0443768645f2e52be28ce3d09874f3e74cd2543d3d0007428",
+      "bytes": 3882,
+      "match": "documented_public_summary_edit",
+      "reason": "Replace absent/private runtime references with the public result summary or append the verified current audit status.",
+      "source_sha256_at_freeze": "8dd97dd0d86b21e0443768645f2e52be28ce3d09874f3e74cd2543d3d0007428",
+      "destination_sha256": "9d83815929556dc667abaac9653e2e66f9cc892d7db0ef9a22a66faf73801b30"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/firstboot-vm-test/RESULTS.md",
+      "destination": "next-version/firstboot-vm-test/RESULTS.md",
+      "sha256": "731b0598ca79ae771a3df185feb5d4cd99931546f663133add6b28b2c0dc2295",
+      "bytes": 3770,
+      "match": "documented_public_summary_edit",
+      "reason": "Replace absent/private runtime references with the public result summary or append the verified current audit status.",
+      "source_sha256_at_freeze": "731b0598ca79ae771a3df185feb5d4cd99931546f663133add6b28b2c0dc2295",
+      "destination_sha256": "00f6bb6f4df74d87b1aad0c68bc4daff1e8f5248c227677f31f7875f2e38add4"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/firstboot-vm-test/preflight.json",
+      "destination": "next-version/firstboot-vm-test/preflight.json",
+      "sha256": "796872d3c2a57b535e30e900775f66474c5cf252140fb2c5fc053e50b56b2609",
+      "bytes": 358,
+      "match": "exact",
+      "source_sha256_at_freeze": "796872d3c2a57b535e30e900775f66474c5cf252140fb2c5fc053e50b56b2609",
+      "destination_sha256": "796872d3c2a57b535e30e900775f66474c5cf252140fb2c5fc053e50b56b2609"
+    },
+    {
+      "group": "build",
+      "origin": "next-version/firstboot-vm-test/prompt-patterns.json",
+      "destination": "next-version/firstboot-vm-test/prompt-patterns.json",
+      "sha256": "d09fac02088a8399e00db5c40cc2784ec145434499f342dc04035381504a4214",
+      "bytes": 123,
+      "match": "exact",
+      "source_sha256_at_freeze": "d09fac02088a8399e00db5c40cc2784ec145434499f342dc04035381504a4214",
+      "destination_sha256": "d09fac02088a8399e00db5c40cc2784ec145434499f342dc04035381504a4214"
+    },
+    {
+      "group": "emmc",
+      "origin": "inspect_emmc_target.py",
+      "destination": "emmc-work/inspect_emmc_target.py",
+      "sha256": "30e9ff870641078ec8a60d1f3d1ad6df6a097aa7f6b1405c499bbaeef62c1821",
+      "bytes": 4259,
+      "match": "exact",
+      "source_sha256_at_freeze": "30e9ff870641078ec8a60d1f3d1ad6df6a097aa7f6b1405c499bbaeef62c1821",
+      "destination_sha256": "30e9ff870641078ec8a60d1f3d1ad6df6a097aa7f6b1405c499bbaeef62c1821"
+    },
+    {
+      "group": "emmc",
+      "origin": "check_emmc.py",
+      "destination": "emmc-work/check_emmc.py",
+      "sha256": "8769d26375dd62c7e7c7d3e0803c562f235fa9cc0cdaca4bca767e37ed74b09c",
+      "bytes": 4884,
+      "match": "exact",
+      "source_sha256_at_freeze": "8769d26375dd62c7e7c7d3e0803c562f235fa9cc0cdaca4bca767e37ed74b09c",
+      "destination_sha256": "8769d26375dd62c7e7c7d3e0803c562f235fa9cc0cdaca4bca767e37ed74b09c"
+    },
+    {
+      "group": "emmc",
+      "origin": "test_emmc.py",
+      "destination": "emmc-work/test_emmc.py",
+      "sha256": "1f1754c1d2b625b6eb17d299cd649311942123def5fb3c4419132fb387bebbf0",
+      "bytes": 3402,
+      "match": "exact",
+      "source_sha256_at_freeze": "1f1754c1d2b625b6eb17d299cd649311942123def5fb3c4419132fb387bebbf0",
+      "destination_sha256": "1f1754c1d2b625b6eb17d299cd649311942123def5fb3c4419132fb387bebbf0"
+    },
+    {
+      "group": "emmc",
+      "origin": "payload-emmc-audit.json",
+      "destination": "emmc-work/payload-emmc-audit.json",
+      "sha256": "1b3da4565d03453821b20498c4ebb4a3691c58a5f96058f782f58891882de803",
+      "bytes": 2000,
+      "match": "exact",
+      "source_sha256_at_freeze": "1b3da4565d03453821b20498c4ebb4a3691c58a5f96058f782f58891882de803",
+      "destination_sha256": "1b3da4565d03453821b20498c4ebb4a3691c58a5f96058f782f58891882de803"
+    },
+    {
+      "group": "emmc",
+      "origin": "README.zh-CN.md",
+      "destination": "emmc-work/README.zh-CN.md",
+      "sha256": "9ece31f47b6276e9dea7479c7bf500cb50e631d844484f0dc8d3896d3c618996",
+      "bytes": 10091,
+      "match": "documented_public_summary_edit",
+      "reason": "Replace absent/private runtime references with the public result summary or append the verified current audit status.",
+      "source_sha256_at_freeze": "9ece31f47b6276e9dea7479c7bf500cb50e631d844484f0dc8d3896d3c618996",
+      "destination_sha256": "187c5555569aa60114b8c752e5245643b959d75e3c12e7c6bd438d6d580608bc"
+    }
+  ]
+}

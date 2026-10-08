@@ -1,0 +1,4 @@
+[Unit]
+Description=Start normal services after ROCK5T local setup
+Wants=NetworkManager.service serial-getty@ttyS2.service
+After=rock5t-firstboot@tty1.service rock5t-firstboot@ttyS2.service
