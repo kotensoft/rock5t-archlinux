@@ -8,6 +8,9 @@ cleanup() { for p in run sys proc dev; do umount -R "$target/$p" || true; done; 
 trap cleanup EXIT
 systemd-analyze --root="$target" --man=no verify rock5t-firstboot@tty1.service rock5t-firstboot@ttyS2.service rock5t-provisioned.target plasmalogin.service > /mnt/host/vm/next/systemd-kde-verify-runtime.log 2>&1
 chroot "$target" pacman -Q >"/mnt/host/vm/next/packages-$variant-final.txt"
+python3 /mnt/host/scripts/package_contract.py --root "$target" --variant "$variant" \
+    --manifest "/mnt/host/vm/next/packages-$variant-final.txt" \
+    >"/mnt/host/vm/next/package-contract-$variant.json"
 chroot "$target" pacman -Qkk >"/mnt/host/vm/next/package-audit-$variant.log" 2>&1 || true
 chroot "$target" /usr/local/sbin/rock5t-kernel status --allow-unmounted-boot >"/mnt/host/vm/next/kernel-status-$variant.json"
 [[ -s "$target/usr/lib/firmware/arm/mali/arch10.8/mali_csffw.bin" ]]

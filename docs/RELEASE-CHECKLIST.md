@@ -14,7 +14,14 @@ Do not turn a pending check into a pass without its specific evidence.
 
 ## Binary image publication
 
-- [x] Install intended CLI/KDE packages and pass 28/34 root-policy checks.
+- [ ] Correct the package omission: both images must contain `rtkit`, `wireless-regdb`,
+      `iw`, the full CLI base and any KDE additions. The historical 28/34 checks
+      passed but did not establish these three requirements.
+- [ ] Run the common package contract on the finalized root and offline ext4;
+      retain package database, required-file and embedded-manifest evidence.
+- [ ] Rerun firstboot on both corrected images, including package queries, `iw`,
+      regulatory database payloads and RTKit D-Bus activation. Old 27/31 results
+      cannot satisfy these new checks.
 - [x] Complete CLI disk packaging/verification and actual firstboot snapshot test (27/27).
 - [x] Pass CLI/KDE board-initramfs and eMMC root-and-boot software preflight.
 - [x] Complete KDE disk packaging/compression verification and record final image checksums.

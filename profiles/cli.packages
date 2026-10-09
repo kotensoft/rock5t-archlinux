@@ -5,6 +5,10 @@ mkinitcpio
 kmod
 openssh
 networkmanager
+# Required in both images; these are not guaranteed transitive dependencies.
+rtkit
+wireless-regdb
+iw
 vim
 nano
 less

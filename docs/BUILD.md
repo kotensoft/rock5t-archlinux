@@ -66,7 +66,14 @@ for byte-identical artifacts. Byte-for-byte image reproducibility is not claimed
 
 ## CLI and KDE image assembly
 
-`profiles/cli.packages` and `profiles/kde.packages` list requested packages.
+`profiles/cli.packages` is the common base for both variants;
+`profiles/kde.packages` adds the desktop. `rtkit`, `wireless-regdb` and `iw` are
+explicit common requirements. The installer checks all requested package names
+with `pacman -Q`; `scripts/package_contract.py` checks finalized roots against
+both profiles, pacman local metadata, and required package files. The offline
+release preflight independently reads the embedded inventory and pacman database
+from ext4 and records the result in the release manifest. Package omission fails
+before packaging. Historical 2026.10.08 manifests are expected to fail this gate.
 The build flow uses the signed Arch Linux ARM rootfs, an isolated ARM64 QEMU
 builder, the next-version kernel package and an offline image packager.
 
@@ -108,6 +115,7 @@ and regression reference; the new image kernel is built from the pinned sources.
 These tests do not change host services or use physical disks:
 
 ```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_package_contract.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s overlay-work/tests -v
 PYTHONDONTWRITEBYTECODE=1 python3 next-version/test_kernel_package_gate.py
 (cd packaging-work && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_rock5t_image.UnitTests)

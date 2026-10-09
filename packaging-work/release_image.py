@@ -16,6 +16,8 @@ import rock5t_image as image
 VERSION = '2026.10.08-landlock1'
 KERNEL = '6.18.44-current-rockchip64-landlock1'
 BASE = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE / 'scripts'))
+from package_contract import validate_packages
 PAYLOAD = BASE / 'kernel-next/payload'
 KERNEL_SHA256 = 'b1a97163f264bbb06b470d98fa1e68b322da073f4b78316f03f613f9a8d561c7'
 DTB_SHA256 = 'faa65e7af08784e74276809fe320ef88e684e402bd37caa1fdb4a975b50e96af'
@@ -158,6 +160,18 @@ def read_ext4(rootfs, filename, tools):
     return result
 
 
+def validate_image_packages(rootfs, variant, tools):
+    def nonempty_file(filename):
+        value = tools.run('debugfs', '-R', 'stat ' + filename, rootfs)
+        size = re.search(r'\bSize:\s+(\d+)', value)
+        return bool(re.search(r'Type:\s+regular\b', value) and size and int(size.group(1)) > 0)
+    return validate_packages(
+        read_ext4(rootfs, '/usr/share/rock5t-build/packages.txt', tools),
+        variant, BASE / 'profiles',
+        lambda filename: read_ext4(rootfs, filename, tools), nonempty_file,
+    )
+
+
 def preflight(rootfs, boot, variant, version, payload, tools):
     ids_path, output = release_paths(variant, version)
     values = image.read_ids(ids_path)
@@ -209,10 +223,11 @@ def preflight(rootfs, boot, variant, version, payload, tools):
                   'Root kernel.json PARTUUID mismatch')
     image.require('rt_group_sched=0' in cmdline, 'Expected tested RT policy')
     image.require(read_ext4(rootfs, '/etc/rock5t/variant', tools).strip() == variant, 'Root variant marker mismatch')
+    packages = validate_image_packages(rootfs, variant, tools)
     return {'schema': 1, 'status': 'passed', 'version': version, 'variant': variant, 'kernel_release': KERNEL,
             'original_uboot_sha256': LOADER_SHA256, 'board_initramfs': board_initramfs,
             'payload_kernel_sha256': expected_hashes['Image'], 'payload_dtb_sha256': expected_hashes['board.dtb'],
-            'partition_ids': values, 'hardware_tested': False, 'output': str(output)}
+            'partition_ids': values, 'hardware_tested': False, 'output': str(output), 'package_contract': packages}
 
 
 def verify_compressed(compressed, raw_sha256):
@@ -230,6 +245,8 @@ def verify_release(variant, version, tools, rootfs=None):
     manifest = json.loads(Path(str(output) + '.manifest.json').read_text())
     image.require(manifest.get('release_preflight', {}).get('status') == 'passed', 'Missing release preflight evidence')
     evidence = manifest['release_preflight']
+    image.require(evidence.get('package_contract', {}).get('status') == 'passed',
+                  'Missing package completeness evidence; old image needs a corrected rebuild')
     image.require(evidence.get('version') == version and evidence.get('variant') == variant and
                   evidence.get('kernel_release') == KERNEL, 'Release evidence mismatch')
     image.require(manifest['partition_ids'] == expected_ids(variant, version), 'Release IDs mismatch')

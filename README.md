@@ -6,6 +6,13 @@ not an official Arch Linux, Arch Linux ARM, Armbian or Radxa image.
 
 ## Current status
 
+Package-completeness correction (2026-10-09): the 2026.10.08 images omitted
+`rtkit`, `wireless-regdb` and `iw`. The prior package/firstboot checks did not test
+this requirement. Source profiles and release gates are corrected here, but
+replacement images have not been built or published. Existing counts and VM
+results below describe the old artifacts only. See
+[the incident and rebuild requirements](docs/PACKAGE-COMPLETENESS-2026.10.09.md).
+
 - Source implementation, kernel build and the recorded automated checks passed.
 - Kernel: `6.18.44-current-rockchip64-landlock1`, with Landlock enabled while
   retaining the matched Armbian Rockchip patches and external drivers.

@@ -26,6 +26,17 @@ def main():
     assert read("/etc/hostname") == "rock5t-vm-test"
     assert run("findmnt", "-n", "-o", "SOURCE", "/")[1] == "/dev/vda2"
     checks = {}
+    for package in ('rtkit', 'wireless-regdb', 'iw'):
+        checks['required_package_' + package] = run('pacman', '-Q', package)[0] == 0
+    checks['iw_executable'] = run('iw', '--version')[0] == 0
+    checks['wireless_regdb_payload'] = all(
+        Path('/usr/lib/firmware/' + name).is_file()
+        and Path('/usr/lib/firmware/' + name).stat().st_size > 0
+        for name in ('regulatory.db', 'regulatory.db.p7s'))
+    checks['rtkit_dbus_activation'] = run(
+        'busctl', '--system', 'get-property', 'org.freedesktop.RealtimeKit1',
+        '/org/freedesktop/RealtimeKit1', 'org.freedesktop.RealtimeKit1',
+        'MaxRealtimePriority')[0] == 0
     details = {"uname": platform.release(), "hostname": read("/etc/hostname")}
     state = Path("/var/lib/rock5t")
     checks["provisioned_marker"] = (state / "provisioned").is_file()

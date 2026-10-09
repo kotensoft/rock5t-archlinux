@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import hashlib,json,os,pathlib,subprocess
+from package_contract import validate_root
 B=pathlib.Path('/mnt/host'); K='6.18.44-current-rockchip64-landlock1'; results={}
 def run(*args):return subprocess.run(args,check=True,text=True,capture_output=True).stdout.strip()
 def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -31,6 +32,8 @@ for variant in ('cli','kde'):
   check('source_matches_'+name,digest(p)==digest(B/'overlay-work/rootfs/usr/local/sbin'/name) and p.stat().st_uid==0 and p.stat().st_mode&0o777==0o755)
  caps=run('getcap',str(r/'usr/bin/newuidmap'),str(r/'usr/bin/newgidmap'))
  check('signed_rootfs_capabilities','newuidmap cap_setuid=ep' in caps and 'newgidmap cap_setgid=ep' in caps)
+ package_contract=validate_root(r,variant,B/'profiles',B/f'vm/next/packages-{variant}-final.txt')
+ check('all_direct_base_and_variant_packages',package_contract['status']=='passed')
  installed=set(l.split()[0] for l in (B/f'vm/next/packages-{variant}-final.txt').read_text().splitlines())
  check('no_generic_kernel_or_legacy_desktop',not {'linux-aarch64','sddm','sddm-kcm','firefox'}&installed)
  if variant=='kde':
@@ -41,5 +44,5 @@ for variant in ('cli','kde'):
   check('chromium_flags',(r/'etc/skel/.config/chromium-flags.conf').read_text()=='--enable-features=AcceleratedVideoDecoder\n')
   check('ac_no_idle_suspend',run('chroot',str(r),'env','HOME=/run/rock5t-qa-unused','XDG_CONFIG_HOME=/run/rock5t-qa-unused','XDG_CONFIG_DIRS=/etc/xdg','kreadconfig6','--file','powerdevilrc','--group','AC','--group','SuspendAndShutdown','--key','AutoSuspendAction')=='0')
   check('no_unrequested_gui_apps',not {'kate','kwrite','okular','gwenview','ark','vlc','libreoffice-fresh'}&installed)
- results[variant]={'checks':checks,'passed':len(checks),'package_count':len(installed)}
+ results[variant]={'checks':checks,'passed':len(checks),'package_count':len(installed),'package_contract':package_contract}
 print(json.dumps(results,indent=2))

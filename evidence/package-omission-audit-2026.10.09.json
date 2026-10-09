@@ -1,0 +1,85 @@
+{
+  "image_path": "archlinux-rock5t-kde-2026.10.08-landlock1.img",
+  "image_bytes": 9681502208,
+  "manifest_image_sha256": "fc05165c08764ef8000251d40dc99b2b7fd4cb8cbcdeb592314e2194bb34e195",
+  "manifest_root_sha256": "88c4f17dc2121a0c3a9e6babf14d190df85d78514a2ec7041c714188d9751e0c",
+  "root_partition": {
+    "type": "0fc63daf-8483-4772-8e79-3d69d8477de4",
+    "uuid": "443d9a15-1853-53ce-a0f8-9ff9723aacdb",
+    "offset": 1090519040,
+    "bytes": 8589934592,
+    "name": "ROOT"
+  },
+  "filesystem_uuid": "443d9a15-1853-53ce-a0f8-9ff9723aacdb",
+  "ext4_block_size": 4096,
+  "embedded_inventory_path": "/usr/share/rock5t-build/packages.txt",
+  "embedded_inventory_inode": 49,
+  "embedded_inventory_sha256": "4683da8c0ebebe224fc8c6c729ecb0d7617d725acac4b44ff264483031938dea",
+  "embedded_inventory_count": 748,
+  "pacman_db_package_count": 748,
+  "embedded_inventory_equals_final_source_snapshot": true,
+  "final_source_snapshot_path": "evidence/packages-kde-final.txt",
+  "embedded_inventory_names_equal_pacman_names": true,
+  "package_status": {
+    "rtkit": {
+      "in_embedded_inventory": false,
+      "in_pacman_local_database": false,
+      "prefix_directory_matches": []
+    },
+    "wireless-regdb": {
+      "in_embedded_inventory": false,
+      "in_pacman_local_database": false,
+      "prefix_directory_matches": []
+    },
+    "iw": {
+      "in_embedded_inventory": false,
+      "in_pacman_local_database": false,
+      "prefix_directory_matches": []
+    }
+  },
+  "relevant_installed_packages": [
+    {
+      "directory": "networkmanager-1.58.1-2",
+      "name": "networkmanager",
+      "version": "1.58.1-2"
+    },
+    {
+      "directory": "pipewire-1:1.6.9-1",
+      "name": "pipewire",
+      "version": "1:1.6.9-1"
+    },
+    {
+      "directory": "pipewire-audio-1:1.6.9-1",
+      "name": "pipewire-audio",
+      "version": "1:1.6.9-1"
+    },
+    {
+      "directory": "pipewire-pulse-1:1.6.9-1",
+      "name": "pipewire-pulse",
+      "version": "1:1.6.9-1"
+    },
+    {
+      "directory": "wireplumber-0.5.18-1",
+      "name": "wireplumber",
+      "version": "0.5.18-1"
+    },
+    {
+      "directory": "wpa_supplicant-2:2.12-1",
+      "name": "wpa_supplicant",
+      "version": "2:2.12-1"
+    }
+  ],
+  "method": "O_RDONLY pread of raw image, ext4 inode/extent/directory traversal; only embedded package inventory and pacman package descriptions read; no mount or extraction.",
+  "computed_image_sha256": "fc05165c08764ef8000251d40dc99b2b7fd4cb8cbcdeb592314e2194bb34e195",
+  "computed_image_sha256_equals_manifest": true,
+  "image_sha256_method": "sha256sum over complete original 9681502208-byte raw image; command exit 0",
+  "image_sha256_sidecar_matches": true,
+  "audit_date_utc": "2026-10-09",
+  "source_commit": "9276be1f2b87f69de39e2b9d04ca2376ea9fd2ec",
+  "corrected_gate_negative_control": {
+    "passed": true,
+    "error": "Missing required packages: iw, rtkit, wireless-regdb",
+    "basis": "Actual embedded manifest read directly from the original raw KDE image"
+  },
+  "cli_scope": "Original published package inventory checked; compressed CLI image not reinspected in this audit."
+}

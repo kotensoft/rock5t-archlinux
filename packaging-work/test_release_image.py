@@ -14,6 +14,7 @@ from unittest.mock import patch
 
 import rock5t_image as image
 import release_image as release
+from test_package_contract import fixture as package_fixture
 
 TOOLS = release.BASE / 'next-version/delivery-tools'
 spec = importlib.util.spec_from_file_location('delivery', TOOLS / 'prepare_delivery.py')
@@ -181,7 +182,9 @@ class ReleaseTests(unittest.TestCase):
             root = base / 'fixture.ext4'
             with root.open('wb') as f:
                 f.truncate(32 * image.MIB)
-            tools.run('mke2fs', '-t', 'ext4', '-F', '-U', ids['root_uuid'], root)
+            root_data = base / 'package-root'
+            package_fixture(root_data, 'cli', release.BASE / 'profiles')
+            tools.run('mke2fs', '-t', 'ext4', '-F', '-d', root_data, '-U', ids['root_uuid'], root)
             tools.run('debugfs', '-w', '-R', 'mkdir /etc', root)
             tools.run('debugfs', '-w', '-R', 'mkdir /etc/rock5t', root)
             for name, content in {
@@ -201,6 +204,26 @@ class ReleaseTests(unittest.TestCase):
             tools.run('debugfs', '-w', '-R', f'write {stale} /etc/fstab', root)
             with self.assertRaisesRegex(ValueError, 'fstab partition identity'):
                 release.preflight(root, boot, 'cli', release.VERSION, payload, tools)
+
+    def test_offline_package_gate_checks_database_and_payload(self):
+        tools = image.Tools(image.DEFAULT_TOOLS)
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            root_data = base / 'tree'
+            package_fixture(root_data, 'kde', release.BASE / 'profiles')
+            root = base / 'packages.ext4'
+            with root.open('wb') as target:
+                target.truncate(32 * image.MIB)
+            tools.run('mke2fs', '-t', 'ext4', '-F', '-d', root_data, root)
+            result = release.validate_image_packages(root, 'kde', tools)
+            self.assertEqual(result['status'], 'passed')
+            self.assertEqual(result['required_versions']['pipewire'], '1:1.6.9-1')
+            tools.run('debugfs', '-w', '-R', 'rm /usr/lib/firmware/regulatory.db', root)
+            with self.assertRaisesRegex(ValueError, 'payload missing or empty'):
+                release.validate_image_packages(root, 'kde', tools)
+            tools.run('debugfs', '-w', '-R', 'rm /var/lib/pacman/local/rtkit-1.0-1/desc', root)
+            with self.assertRaisesRegex(ValueError, 'Missing root filesystem file'):
+                release.validate_image_packages(root, 'kde', tools)
 
     def test_actual_old_initramfs_parsing_and_module_hashes(self):
         # Read-only regression against existing artifacts, no old-image changes.
