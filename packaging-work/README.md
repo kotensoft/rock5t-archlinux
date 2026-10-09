@@ -152,6 +152,13 @@ and checks fsck.fat plus mtools write/read behavior.
 
 ## 2026.10.08-landlock1 release (production entrypoint)
 
+Historical workflow note (2026-10-09): this section retains the preparation
+steps and limitations recorded at the time. The
+[2026.10.08-landlock1 prerelease](https://github.com/kotensoft/rock5t-archlinux/releases/tag/2026.10.08-landlock1)
+is now public. The 2026-10-09 corrected release is being prepared following
+the [package omission](../docs/PACKAGE-COMPLETENESS-2026.10.09.md); replacement
+images are not yet complete.
+
 The common raw GPT layout is the planned SD/eMMC compatibility approach. Both
 CLI and KDE root+boot inputs have passed the eMMC-oriented software audit, but
 eMMC whole-disk preparation and hardware acceptance have not been established.
@@ -174,10 +181,10 @@ The intended artifact paths are:
 - `output/2026.10.08-landlock1/archlinux-rock5t-kde-2026.10.08-landlock1.img(.xz)`
 
 No output/partial/sidecar is overwritten. Keep the full `.img.xz`; splitting never
-removes it. Current complete images are for private Library delivery. Public image
-publication remains blocked on incomplete userspace source materials; only the
-project-owned source is in the current public publication scope. No upload is
-performed here.
+removes it. During preparation, split-file private delivery was used while
+corresponding-source materials were still being collected. The original
+prerelease now offers complete images and source supplements at the public
+Release link above. These local packaging and delivery tools do not upload.
 
 After the parent build has made clean, offline roots and extracted their actual
 boot files, substitute the real paths (and repeat for KDE):
